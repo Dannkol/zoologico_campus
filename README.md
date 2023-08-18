@@ -1,26 +1,134 @@
 # Zoológico
 
-
-
 Un zoológico es una instalación diseñada para albergar y exhibir una variedad de especies animales, con el propósito de educar, conservar y entretener al público. Los zoológicos pueden tener diferentes enfoques, como la conservación de especies en peligro de extinción, la investigación científica, la educación ambiental y la recreación.
 
+Los parques zoológicos son instalaciones compuestas por recintos cercados en los que se exhiben animales a un público interesado. Más allá de cumplir una función de entretenimiento, hoy día, los zoos sirven sobre todo para el estudio de los animales y la conservación de especies en peligro de extinción.
 
+**Funcionamiento de los zoológicos:** (Los procesos y funciones de un zoológico pueden variar según su enfoque y tamaño)
 
-**Funcionamiento de los zoológicos:** Los procesos y funciones de un zoológico pueden variar según su enfoque y tamaño, pero aquí ha y7 aspectos clave que suelen estar involucrados:
+1. **Colección y Exhibición de Animales:** Los zoológicos seleccionan animales de diversas especies para exhibir en recintos diseñados para imitar su hábitat natural. Estos recintos combinan el ocio con la enseñanza, ya que suelen apuntar a entretener y, a la vez, educar a los visitantes.
 
-1. **Colección y Exhibición de Animales:** Los zoológicos seleccionan animales de diversas especies para exhibir en recintos diseñados para imitar su hábitat natural. Estos recintos deben proporcionar espacio adecuado, enriquecimiento ambiental y cuidados para el bienestar de los animales.
-2. **Conservación:** Muchos zoológicos participan en programas de conservación de especies en peligro de extinción. A través de la cría en cautividad y la reintroducción en la naturaleza, los zoológicos contribuyen a la supervivencia de especies amenazadas.
-3. **Investigación:** Los zoológicos pueden llevar a cabo investigaciones científicas para comprender mejor el comportamiento, la fisiología y la salud de los animales. Estos estudios pueden ayudar tanto a los animales en el zoológico como a sus contrapartes en la naturaleza.
-4. **Educación:** La educación ambiental es una parte fundamental de la misión de muchos zoológicos. Ofrecen programas educativos, visitas guiadas y charlas para enseñar al público sobre la biodiversidad, la conservación y la importancia de respetar y proteger la vida silvestre.
+2. **Conservación:** Las amenazas que enfrentan diferentes especies en su hábitat natural ha hecho necesario contar con estrategias alternativas para su conservación. 
+
+3. **Investigación:** La investigación en los Zoológicos se centra principalmente en temas como nutrición, enriquecimiento ambiental, fisiología, comportamiento, reproducción, biología de la conservación; los resultados de estas investigaciones se aplican al manejo de poblaciones silvestres, repoblación, reintroducción de individuos en sus hábitat naturales, entre otros.
+
+4. **Educación:** Para los Zoológicos, colegios y universidades son un sector muy importante del público visitante. Por esta razón, dedican grandes esfuerzos para elaborar estrategias conjuntas que permitan al Zoológico ser un pilar de apoyo a los docentes en su labor.
+
 5. **Bienestar Animal:** Los zoológicos deben priorizar el bienestar de los animales bajo su cuidado. Esto implica proporcionar una dieta adecuada, atención veterinaria regular, enriquecimiento ambiental (actividades que estimulan los comportamientos naturales) y atención especializada para las necesidades individuales de cada especie.
+
 6. **Diseño de Hábitats:** Los zoológicos modernos se esfuerzan por crear hábitats lo más naturales posible para los animales. Esto implica considerar factores como el espacio, la vegetación, los elementos acuáticos y otros elementos que ayuden a recrear el entorno natural de los animales.
+
 7. **Regulaciones y Ética:** Los zoológicos deben cumplir con regulaciones y normas éticas que se han desarrollado para garantizar el bienestar de los animales y la calidad de vida en cautividad. Estas regulaciones pueden variar según el país y la región.
 
 
+# Adquisición de animales
+
+Muchos zoologicos obtiene sus animales por medio de diversos medios como donaciones entre zoologicos, instituciones, paises, particulares y rescatres segun Manual de Procedimientos del Parque Zoológico “Benito Juárez”, estas adquisiones tienen que ser bajo la ley y cumplir con los siguientes requisitos.
+
+* Las instituciones asociadas, deberán contar y respetar el plan de especie conforme a los
+planes de colección y de manejo diseñados por ellos mismos y registrados ente la autoridad
+federal.
+
+* Solo es ético recibir animales para los cuales se cuenta con las instalaciones, recursos y
+personal adecuados para su mantenimiento.
+
+* Toda adquisición de ejemplares se debe llevar a cabo con instituciones que cuenten con las
+autorizaciones legales correspondientes y antecedentes claros, cuidando en todo momento
+cumplir con las condiciones adecuadas durante el traslado conforme a la normatividad vigente.
+
+
+y se realizan bajo el siguente flujograma
+
+### Adquisiciónes regulares
+
+Entiendase como la forma regular para adquirir nuevos animales
+
+<img src="docs/img/Flujograma-Adquisición.png" alt="flujograma-adquisicion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la Adquisiciónes regulares</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+### Adquisiciónes por decomiso
+
+A veces el zoologico recibe animales decomisados
+
+<img src="docs/img/Flujograma-AdquisiciónPorDecomiso.png" alt="flujograma-decomiso">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la Adquisiciónes por decomiso</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+
+# Baja de animales
+
+El zoologico tiene que seguir ciertas normativas con las bajas de los animales.
+
+* Los miembros que envíen animales a otra institución se asegurarán que ésta tenga las
+condiciones necesarias de alojamiento para los ejemplares que recibirá.
+
+* Todos los animales que sean trasladados irán acompañados de sus registros médicos, dieta
+actual, estatus reproductivo y características especiales de manejo médico y comportamiento.
+Si es necesario deberán estar acompañados de personal calificado para su manejo, durante
+toda la etapa de entrega-recepción.
+
+## Tipos de bajas y flujograma
+
+### Bajas por defuncion
+
+Se considera baja por defunción, cuando un ejemplar muere y debe ser excluido del inventario
+faunístico.
+
+<img src="docs/img/Flujograma-defuncion.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para las Baja por Defuncion</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+### Baja por Donación
+
+Se considera baja por donación, cuando un ejemplar es donado a otra UMA y debe ser excluido
+del inventario faunístico.
+
+<img src="docs/img/Flujograma-Donacion.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la Baja por Donación</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+### Baja por Intercambio
+
+El zoologico puede realizar intercambios de animales
+
+<img src="docs/img/Flujograma-Intercambio.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la Baja por Intercambio</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+### Baja por Fuga 
+
+Puede darse el caso de la fuja de un animal
+
+<img src="docs/img/Flujograma-Fuga.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la Baja por Fuga</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+### Baja por Robo 
+
+Puede darse el caso del robo de un animal
+
+<img src="docs/img/Flujograma-Robo.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la Baja por Robo</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+En el Manual de Procedimientos del Parque Zoológico “Benito Juárez” nos encontraremos demas guias y pasos a realizar para eventos que van desde los accidentes como Extracción de elefantes de Fosos hasta la atencion a colegios y visitantes.
 
 ## Análisis de Requerimientos: Gestión de un Zoológico
-
-
 
 El presente análisis tiene como objetivo comprender las necesidades y metas para la implementación de un sistema de gestión integral para un zoológico. Este sistema busca mejorar la administración de animales, exhibiciones, investigación, operaciones y ventas, garantizando una experiencia positiva tanto para visitantes como para el personal.
 
@@ -56,3 +164,15 @@ El presente análisis tiene como objetivo comprender las necesidades y metas par
 
 Este sistema de gestión integral ayudará a optimizar la operación del zoológico al proporcionar herramientas para administrar animales, visitantes, hábitats, personal e investigación de manera eficiente. La implementación de estos requisitos contribuirá a la mejora de la experiencia tanto para los visitantes como para el personal involucrado en la gestión del zoológico.
 
+
+# Bibliografias
+
+- [Node js Documentación.](https://nodejs.org/es/docs)
+- [Mongo Db Documentación.](https://www.mongodb.com/docs/)
+- Duran Pizarroso, C. P. Manual de administración de almacenes del Zoológico Municipal de la ciudad de La Paz en base al Sistema de Administración de Bienes y Servicios (Doctoral dissertation).
+- [Parque Zoológico Nacional, Oficina de Acceso a la Información Pública
+Manual de Procedimientos (Rep.Dom) Recuperado el 8 de agosto de 2023.](https://zoodom.gob.do/transparencia/phocadownload/OAI/2023/Manual-de-Procedimientos-OAI.pdf)
+- [MANUAL DE PROCEDIMIENTOS
+PARQUE ZOOLÓGICO
+“BENITO JUÁREZ](http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf)”
+- [¿Qué son los zoologicos? (ZOO Córdoba) Recuperado el 8 de agosto de 2023.](https://zoo-cordoba.com.ar/zoo/que-son-los-zoologicos.html)
