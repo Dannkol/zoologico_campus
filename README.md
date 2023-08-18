@@ -8,4 +8,4 @@ La metodolodogia se llevara acabo por springs y utilizaremos [notion](https://ww
 
 * mian : Rama principal del proyecto
 * Investigacion : Rama donde se subiran las investigacion y documentacion necesarias
-* Prueba : Rama donde se realizaran pruebas y se programara antes de publicar en la rama main
+* Desarrolo : Rama donde se realizaran pruebas y desarrollos antes de publicar en la rama main
