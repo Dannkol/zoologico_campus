@@ -1,4 +1,14 @@
-# Zoológico
+# zoologico_campus
+
+# Scrum
+
+La metodolodogia se llevara acabo por springs y utilizaremos [notion](https://www.notion.so)
+
+# Ramas
+
+* mian : Rama principal del proyecto
+* Investigacion : Rama donde se subiran las investigacion y documentacion necesarias
+* Prueba : Rama donde se realizaran pruebas y se programara antes de publicar en la rama main
 
 Un zoológico es una instalación diseñada para albergar y exhibir una variedad de especies animales, con el propósito de educar, conservar y entretener al público. Los zoológicos pueden tener diferentes enfoques, como la conservación de especies en peligro de extinción, la investigación científica, la educación ambiental y la recreación.
 
