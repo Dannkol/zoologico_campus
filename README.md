@@ -136,7 +136,32 @@ Puede darse el caso del robo de un animal
   <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
 </blockquote>
 
+### Alta de personal
+
+Se denomina alta al trabajador que es de nuevo ingreso al Parque Zoológico y que éste sea 
+registrado en la plantilla de trabajadores al servicio del Gobierno del Estado.
+
+<img src="docs\img\Alta_personal.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la alta de Personal</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+
 En el Manual de Procedimientos del Parque Zoológico “Benito Juárez” nos encontraremos demas guias y pasos a realizar para eventos que van desde los accidentes como Extracción de elefantes de Fosos hasta la atencion a colegios y visitantes.
+
+### Baja de personal
+
+Se denomina baja de personal al trabajador de la plantilla de trabajadores al servicio del 
+Gobierno del Estado que incide en las causas de renuncia, abandono, muerte o jubilación. 
+
+<img src="docs\img\Baja_personal.png" alt="flujograma-defuncion">
+<blockquote cite="http://publicadorlaip.michoacan.gob.mx/26/M%20P%20Zoologico%20REGISTRADO.pdf">
+  <p>Flujograma para la baja de personal</p>
+  <footer>- Manual de Procedimientos del Parque Zoológico “Benito Juárez”</footer>
+</blockquote>
+
+
 
 ## Análisis de Requerimientos: Gestión de un Zoológico
 
