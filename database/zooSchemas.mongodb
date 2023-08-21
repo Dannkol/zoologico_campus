@@ -226,50 +226,140 @@ db.createCollection('animales', {
           },
           detalles: {
             bsonType: 'object',
-            description: 'Detalles de la baja del animal',
+            description: 'Diferentes tipos  de la baja del animal',
             properties: {
-              lugar: {
-                bsonType: 'objectId',
-                description: 'ID del lugar de la baja'
-              },
-              estado: {
-                bsonType: 'int',
-                description: 'Estado del animal'
-              },
-              acta: {
-                bsonType: 'object',
-                description: 'Detalles del acta de la baja',
-                required: ['fecha', 'responsables', 'documentacion'],
-                properties: {
-                  fecha: {
-                    bsonType: 'date',
-                    description: 'Fecha del acta'
+              fuga:{
+                bsonType:'object',
+                description:'tipo de baja por fuga',
+                properties:{
+                  lugar: {
+                    bsonType: 'objectId',
+                    description: 'ID del lugar de la baja'
                   },
-                  responsables: {
-                    bsonType: 'array',
-                    description: 'ID de los responsables del acta',
-                    items: {
-                      bsonType: 'objectId'
-                    }
+                  estado: {
+                    bsonType: 'int',
+                    description: 'Estado del animal // 1 : encontrado , 0 : no encontrado, 2 : en busqueda'
                   },
-                  documentacion: {
+                  acta: {
                     bsonType: 'object',
-                    description: 'Documentación relacionada con el acta',
-                    required: ['doc_reporte_autoridades', 'doc_legal_zoo', 'informe_opinion_publica'],
+                    description: 'Detalles del acta de la baja',
+                    required: ['fecha', 'responsables', 'documentacion'],
                     properties: {
-                      doc_reporte_autoridades: {
-                        bsonType: 'string',
-                        description: 'URL del documento de reporte de autoridades'
+                      fecha: {
+                        bsonType: 'date',
+                        description: 'Fecha del acta'
                       },
-                      doc_legal_zoo: {
-                        bsonType: 'string',
-                        description: 'URL del documento legal del zoológico'
+                      responsables: {
+                        bsonType: 'array',
+                        description: 'ID de los responsables del acta',
+                        items: {
+                          bsonType: 'objectId'
+                        }
                       },
-                      informe_opinion_publica: {
-                        bsonType: 'string',
-                        description: 'URL del informe de opinión pública'
+                      documentacion: {
+                        bsonType: 'object',
+                        description: 'Documentación relacionada con el acta',
+                        required: ['doc_reporte_autoridades', 'doc_legal_zoo', 'informe_opinion_publica'],
+                        properties: {
+                          doc_reporte_autoridades: {
+                            bsonType: 'string',
+                            description: 'URL del documento de reporte de autoridades'
+                          },
+                          doc_legal_zoo: {
+                            bsonType: 'string',
+                            description: 'URL del documento legal del zoológico'
+                          },
+                          informe_opinion_publica: {
+                            bsonType: 'string',
+                            description: 'URL del informe de opinión pública'
+                          }
+                        }
+                      },
+                      observaciones: {
+                        bsonType: 'array',
+                        description: 'Observaciones asociadas al acta',
+                        items: {
+                          bsonType: 'object',
+                          properties: {
+                            id_testimonio: {
+                              bsonType: 'objectId',
+                              description: 'ID del testimonio'
+                            },
+                            observacion: {
+                              bsonType: 'string',
+                              description: 'Observación'
+                            },
+                            fecha: {
+                              bsonType: 'date',
+                              description: 'Fecha de la observación'
+                            }
+                          }
+                        }
                       }
                     }
+                  }
+                }
+              },
+              donacion:{
+                bsonType:'object',
+                description:'tipo de baja por fuga',
+                properties:{
+                  carta : {
+                    bsonType:'string',
+                    description:'carta de regalo'
+                  }, 
+                  acta : {
+                    bsonType: 'object',
+                    description: 'Detalles del acta de la baja',
+                    properties:{
+                      fecha: {
+                        bsonType: 'date',
+                        description: 'Fecha del acta'
+                      },
+                      origen : {
+                        bsonType:'string',
+                        description:'lugar de origen del animal'
+                      },
+                      destino : {
+                        bsonType:'string',
+                        description:'lugar de destino del animal'
+                      }, 
+                      observaciones : {
+                        bsonType:'string',
+                        description:'observaciones a tener en cuenta'
+                      }, 
+                      documentacion : {
+                        bsonType: 'object',
+                        description: 'Documentación relacionada con el acta',
+                        properties: {
+                          act_del_estado: {
+                              bsonType: 'string',
+                              description: 'URL del documento del estado'
+                          },
+                          doc_legal_origen: {
+                              bsonType: 'string',
+                              description: 'URL del documento que permite la salida'
+                          },
+                          doc_legal_destino: {
+                              bsonType: 'string',
+                              description: 'URL del documento que permite la entrada'
+                          },
+                          docs_responsables: {
+                              bsonType: 'array',
+                              description: 'URL del documento del estado',
+                              items: { bsonType: 'string' }
+                          }
+                        }                       
+                      } 
+                    }         
+                  }, 
+                  fecha_translado : {
+                    bsonType: 'date',
+                    description: 'Fecha de translado'
+                  }, 
+                  estado : { 
+                    bsonType: 'int', 
+                    description:'1 : Finalizado, 0 : Canselado, 2 : En espera a translado, 3 : Cambio de fecha' 
                   },
                   observaciones: {
                     bsonType: 'array',
@@ -277,24 +367,41 @@ db.createCollection('animales', {
                     items: {
                       bsonType: 'object',
                       properties: {
-                        id_testimonio: {
-                          bsonType: 'objectId',
-                          description: 'ID del testimonio'
-                        },
-                        observacion: {
-                          bsonType: 'string',
-                          description: 'Observación'
-                        },
                         fecha: {
                           bsonType: 'date',
                           description: 'Fecha de la observación'
+                        },
+                        detalle: {
+                          bsonType: 'string',
+                          description: 'Observación'
                         }
+                       
                       }
                     }
-                  }
+                  } 
+                  
                 }
-              }
+                
+              },
+              defuncion:{
+                bsonType:'object',
+                description:'detalles de la denfuncion',
+                properties:{
+                    analisis:{
+                      bsonType: 'array',
+                      description: 'id de los anilisis de la causa de la muerte',
+                      items: {
+                        bsonType: 'objectId'                    
+                      }
+                    },
+                    fecha_inhumacion:{
+                      bsonType:'date',
+                      description:'fecha de la inhumacion'
+                    }
+                }
+              }              
             }
+            
           }
         }
       }
@@ -307,16 +414,42 @@ db.createCollection('animales', {
       $jsonSchema:{
         bsonType:'object',
         title:'object historial',
-        required:['fecha', 'idMovimiento'],
+        required:['fecha', 'responsables', 'detalles'],
         properties:{
           fecha:{
             bsonType: 'date',
             description:'fecha en la que ocurrio el movimiento'
           },
-          idMovimiento:{
-            bsonType:'objectId',
-            description:'id del movimiento ya se adquisicion, translado o baja'
+          responsables:{   
+            bsonType: 'array',
+            description: 'id de los responsables',
+            items: {
+              bsonType: 'objectId'                    
+            }       
+          },
+          detalles:{
+            bsonType:'object',
+            properties:{
+              idMovimiento:{
+                bsonType:'objectId',
+                description:'id del movimiento ya se adquisicion, translado o baja'
+              },
+              habitat:{
+                bsonType:'object',
+                properties:{
+                  origen:{
+                    bsonType:'string',
+                    description:'habitat origen'
+                  },
+                  destino:{
+                    bsonType:'string',
+                    description:'habitat destino'
+                  }
+                }
+              }
+            }
           }
+          
         }
       }
     }
@@ -445,6 +578,113 @@ db.createCollection('personal', {
         }
       }
     })
+
+    use('db_zoo_campus')
+    db.createCollection('areas_investigacion', {
+      validator: {
+        $jsonSchema: {
+          bsonType: 'object',
+          title: 'areas_investigacion object validation',
+          required: ['area', 'responsables', 'fecha_creacion', 'investigaciones', 'descripcion'],
+          properties: {
+            area: {
+              bsonType: 'string',
+              description: 'Área de investigación (Cuarentena, morgue, radiología, etc.)'
+            },
+            responsables: {
+              bsonType: 'array',
+              description: 'Responsables del área',
+              items: {
+                bsonType: 'objectId'
+              }
+            },
+            fecha_creacion: {
+              bsonType: 'date',
+              description: 'Fecha de creación del área'
+            },
+            investigaciones: {
+              bsonType: 'array',
+              description: 'Lista de investigaciones en curso',
+              items: {
+                bsonType: 'object',
+                properties: {
+                  id_investigacion: {
+                    bsonType: 'objectId',
+                    description: 'ID de la investigación'
+                  },
+                  responsables: {
+                    bsonType: 'array',
+                    description: 'Responsables de la investigación',
+                    items: {
+                      bsonType: 'object'
+                    }
+                  },
+                  id_animal: {
+                    bsonType: 'array',
+                    description: 'IDs de animales que participaron en la investigación',
+                    items: {
+                      bsonType: 'objectId'
+                    }
+                  },
+                  nombre: {
+                    bsonType: 'string',
+                    description: 'Nombre de la investigación'
+                  },
+                  fecha_inicio: {
+                    bsonType: 'date',
+                    description: 'Fecha de inicio de la investigación'
+                  },
+                  fecha_fin: {
+                    bsonType: 'date',
+                    description: 'Fecha de fin de la investigación'
+                  },
+                  doc: {
+                    bsonType: 'array',
+                    description: 'Artículos o documentos publicados por el área de investigación',
+                    items: {
+                      bsonType: 'object',
+                      properties: {
+                        fecha: {
+                          bsonType: 'date',
+                          description: 'Fecha de publicación del artículo'
+                        },
+                        responsables: {
+                          bsonType: 'array',
+                          description: 'IDs de los responsables del artículo',
+                          items: {
+                            bsonType: 'objectId'
+                          }
+                        },
+                        id_animal: {
+                          bsonType: 'array',
+                          description: 'IDs de animales relacionados al artículo',
+                          items: {
+                            bsonType: 'objectId'
+                          }
+                        },
+                        url: {
+                          bsonType: 'string',
+                          description: 'URL del artículo'
+                        },
+                        resumen: {
+                          bsonType: 'string',
+                          description: 'Resumen del artículo'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            descripcion: {
+              bsonType: 'string',
+              description: 'Descripción del área de investigación'
+            }
+          }
+        }
+      }
+    });
+    
 
 
     use('db_zoo_campus')
@@ -675,41 +915,38 @@ db.createCollection('personal', {
     use('db_zoo_campus')
     db.bajas.insertMany([
       {
-        tipo_baja: "Traslado",
+        tipo_baja: "Fuga",
         fecha_baja: ISODate("2023-08-10"),
         detalles: {
-          lugar: ObjectId("6122427c8b7d571850c3b2c3"),
-          estado: 2,
-          acta: {
-            fecha: ISODate("2023-08-10"),
-            responsables: [empleado3],
-            documentacion: {
-              doc_reporte_autoridades: "url_reporte_autoridades",
-              doc_legal_zoo: "url_doc_legal",
-              informe_opinion_publica: "url_informe_opinion"
-            },
-            observaciones: []
-          }
+          fuga:{
+            lugar: ObjectId("6122427c8b7d571850c3b2c3"),
+            estado: 2,
+            acta: {
+              fecha: ISODate("2023-08-10"),
+              responsables: [empleado3],
+              documentacion: {
+                doc_reporte_autoridades: "url_reporte_autoridades",
+                doc_legal_zoo: "url_doc_legal",
+                informe_opinion_publica: "url_informe_opinion"
+              },
+              observaciones: []
+            }
+          }         
         }
       },
       {
-        tipo_baja: "Muerte",
+        tipo_baja: "defuncion",
         fecha_baja: ISODate("2023-08-05"),
         detalles: {
-          lugar: ObjectId("6122427c8b7d571850c3b2c5"),
-          estado: 3,
-          acta: {
-            fecha: ISODate("2023-08-05"),
-            responsables: [empleado4],
-            documentacion: {
-              doc_reporte_autoridades: "url_reporte_autoridades",
-              doc_legal_zoo: "url_doc_legal",
-              informe_opinion_publica: "url_informe_opinion"
-            },
-            observaciones: []
+          defuncion:{
+            analisis:[empleado3, empleado3],
+            fecha_inhumacion:ISODate("2023-08-12")
+            
+            
           }
         }
       }
+      
     ]);
 
     use('db_zoo_campus')
@@ -721,11 +958,21 @@ db.createCollection('personal', {
     db.historial.insertMany([
       {
         fecha: ISODate("2023-08-01"),
-        idMovimiento: movimiento1
+        responsables:[ObjectId('64e3e51bff926af1f3968ea9')],
+        detalles:{
+          idMovimiento: ObjectId('64e3e52e853ae4a8ce688548')
+        }
+        
       },
       {
-        fecha: ISODate("2023-07-25"),
-        idMovimiento: movimiento2
+        fecha: ISODate("2023-08-01"),
+        responsables:[ObjectId('64e3e51bff926af1f3968ea9')],
+        detalles:{
+          habitat:{
+            origen:'selva',
+            destino:'sabana'
+          }
+        }
       }
     ]);
     
@@ -789,4 +1036,58 @@ db.createCollection('personal', {
       }
     ]);
     
+   
+    use('db_zoo_campus')
+    db.areas_investigacion.insertMany([
+      {
+        area: "Cuarentena",
+        responsables: [ObjectId("64d1b044068a2499b7107060"), ObjectId("64d1b044068a2499b7107061")],
+        fecha_creacion: new Date(),
+        investigaciones: [
+          {
+            id_investigacion: ObjectId("64d1b044068a2499b7107062"),
+            responsables: [{ nombre: "Investigador1" }, { nombre: "Investigador2" }],
+            id_animal: [ObjectId("64d1b044068a2499b7107063")],
+            nombre: "Investigación sobre enfermedades",
+            fecha_inicio: new Date(),
+            fecha_fin: new Date(),
+            doc: [
+              {
+                fecha: new Date(),
+                responsables: [ObjectId("64d1b044068a2499b7107064")],
+                id_animal: [ObjectId("64d1b044068a2499b7107063")],
+                url: "url_articulo1",
+                resumen: "Resumen del artículo 1"
+              }
+            ]
+          }
+        ],
+        descripcion: "Área de cuarentena para investigación médica"
+      },
+      {
+        area: "Botánica",
+        responsables: [ObjectId("64d1b044068a2499b7107065"), ObjectId("64d1b044068a2499b7107066")],
+        fecha_creacion: new Date(),
+        investigaciones: [
+          {
+            id_investigacion: ObjectId("64d1b044068a2499b7107067"),
+            responsables: [{ nombre: "Investigador3" }, { nombre: "Investigador4" }],
+            id_animal: [],
+            nombre: "Estudio de plantas nativas",
+            fecha_inicio: new Date(),
+            fecha_fin: new Date(),
+            doc: [
+              {
+                fecha: new Date(),
+                responsables: [ObjectId("64d1b044068a2499b7107068")],
+                id_animal: [],
+                url: "url_articulo2",
+                resumen: "Resumen del artículo 2"
+              }
+            ]
+          }
+        ],
+        descripcion: "Área de investigación botánica"
+      }
+    ]);
     
