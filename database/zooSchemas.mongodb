@@ -1,0 +1,792 @@
+
+
+use('db_zoo_campus')
+    db.createCollection('habitat', {
+      validator: {
+        $jsonSchema: {
+          bsonType: 'object',
+          title: 'habitats object validation',
+          required: ['nombre', 'tipo_habitat', 'descripcion_ambiente', 'dimensiones', 'alimentacion', 'enriquecimiento', 'caracteristicas_ambientales', 'refugio_descanso', 'instalaciones_equipos', 'seguridad_barreras'],
+          properties: {
+            nombre: { bsonType: 'string', description: 'Nombre del hábitat' },
+            tipo_habitat: { bsonType: 'string', description: 'Tipo de hábitat' },
+            descripcion_ambiente: { bsonType: 'string', description: 'Descripción del hábitat y su ambiente' },
+            dimensiones: {
+              bsonType: 'object',
+              description: 'Dimensiones del hábitat',
+              properties: {
+                area: { bsonType: 'number', description: 'Área del hábitat (metros cuadrados)' },
+                volumen: { bsonType: 'number', description: 'Volumen del hábitat (si es acuático o tiene dimensiones verticales)' }
+              }
+            },
+            alimentacion: {
+              bsonType: 'object',
+              description: 'Información de alimentación en el hábitat',
+              properties: {
+                tipo: { bsonType: 'string', description: 'Tipo de alimentación proporcionada en el hábitat' },
+                descripcion: { bsonType: 'string', description: 'Descripción de la dieta y posibles horarios de alimentación' }
+              }
+            },
+            enriquecimiento: { bsonType: 'string', description: 'Descripción de actividades de enriquecimiento proporcionadas en el hábitat' },
+            caracteristicas_ambientales: {
+              bsonType: 'object',
+              description: 'Características ambientales del hábitat',
+              properties: {
+                temperatura_promedio: { bsonType: 'number', description: 'Temperatura promedio' },
+                humedad_relativa: { bsonType: 'number', description: 'Humedad relativa' },
+                tipo_sustrato: { bsonType: 'string', description: 'Tipo de sustrato (tierra, arena, agua)' },
+                vegetacion: { bsonType: 'string', description: 'Vegetación y tipos de plantas' }
+              }
+            },
+            refugio_descanso: { bsonType: 'string', description: 'Descripción de refugios o áreas de descanso proporcionadas en el hábitat' },
+            instalaciones_equipos: {
+              bsonType: 'object',
+              description: 'Instalaciones y equipos en el hábitat',
+              properties: {
+                elementos: { bsonType: 'array', description: 'Lista de elementos en el hábitat', items: { bsonType: 'string' } },
+                equipos: { bsonType: 'string', description: 'Descripción de cualquier equipo especial necesario' }
+              }
+            },
+            seguridad_barreras: { bsonType: 'string', description: 'Descripción de las barreras físicas o mecánicas para mantener a los animales y visitantes seguros' },
+            notas_observaciones: { bsonType: 'string', description: 'Cualquier otra información relevante sobre el hábitat' }
+          }
+        }
+      }
+    })
+
+
+
+use('db_zoo_campus')
+db.createCollection('animales', {
+    validator: {
+      $jsonSchema: {
+        bsonType: 'object',
+        title: 'bodegas object validation',
+        required: ['tipo_adquisicion', 'fecha_adquisicion', 'detalles'],
+        properties: {
+          tipo_adquisicion: {
+            bsonType: 'string',
+            description: 'Tipo de adquisición, debe ser obligatorio y de tipo string'
+          },
+          fecha_adquisicion: {
+            bsonType: 'date',
+            description: 'Fecha de adquisición, debe ser obligatorio y de tipo date'
+          },
+          detalles: {
+            bsonType: 'object',
+            description: 'Detalles de la adquisición del animal',         
+            properties: {
+              descripcion:{
+                bsonType:'string',
+                description:'Descripcion adicional de la adquisicion'
+              },
+              animal: {
+                bsonType: 'object',
+                description: 'Detalles del animal adquirido',
+                required:['nombre', 'edad', 'historial_medico', 'historial_animal', 'estado'],
+                properties: {
+                  nombre: {
+                    bsonType: 'string',
+                    description: 'Nombre del animal'
+                  },
+                  especie: {
+                    bsonType: 'string',
+                    description: 'Especie del animal'
+                  },
+                  familia: {
+                    bsonType: 'string',
+                    description: 'Familia del animal'
+                  },
+                  genero: {
+                    bsonType: 'string',
+                    description: 'Género del animal'
+                  },
+                  edad: {
+                    bsonType: 'int',
+                    description: 'Edad del animal'
+                  },
+                  dimensiones: {
+                    bsonType: 'object',
+                    description: 'Dimensiones del animal',
+                    required:['altura', 'peso'],
+                    properties: {
+                      altura: {
+                        bsonType: 'object',
+                        description: 'Altura del animal',
+                        properties: {
+                          fecha: {
+                            bsonType: 'date',
+                            description: 'Fecha de medición de altura'
+                          },
+                          valor: {
+                            bsonType: 'int',
+                            description: 'Valor de la altura'
+                          }
+                        }
+                      },
+                      peso: {
+                        bsonType: 'object',
+                        description: 'Peso del animal',
+                        properties: {
+                          fecha: {
+                            bsonType: 'date',
+                            description: 'Fecha de medición de peso'
+                          },
+                          valor: {
+                            bsonType: 'int',
+                            description: 'Valor del peso'
+                          }
+                        }
+                      }
+                    }
+                  },
+                  historial_medico: {
+                    bsonType: 'array',
+                    description: 'Historial médico del animal',
+                    items: {
+                      bsonType: 'object',
+                      properties: {
+                        id_responsable: {
+                          bsonType: 'objectId',
+                          description: 'ID del responsable médico'
+                        },
+                        fecha: {
+                          bsonType: 'date',
+                          description: 'Fecha del registro médico'
+                        },
+                        observacion: {
+                          bsonType: 'string',
+                          description: 'Observación médica'
+                        },
+                        id_investigacion: {
+                          bsonType: 'objectId',
+                          description: 'ID de investigación asociado'
+                        }
+                      }
+                    }
+                  },
+                  historial_animal: {
+                    bsonType: 'array',
+                    description: 'Historial del animal',
+                    items: {
+                      bsonType: 'object',
+                      properties: {
+                        id_responsable: {
+                          bsonType: 'objectId',
+                          description: 'ID del responsable del registro'
+                        },
+                        fecha: {
+                          bsonType: 'date',
+                          description: 'Fecha del registro'
+                        },
+                        observacion: {
+                          bsonType: 'string',
+                          description: 'Observación del registro'
+                        }
+                      }
+                    }
+                  },
+                  origen: {
+                    bsonType: 'string',
+                    description: 'Origen del animal'
+                  },
+                  estado: {
+                    bsonType: 'int',
+                    description: 'Estado del animal activo o de baja en el zoologico '
+                  }
+                }
+              },
+              id_habitad:{
+                bsonType:'objectId',
+                description:'id que hace referencia al habitat'  
+               }
+            }
+          }
+        }
+      }
+    }
+  });
+
+
+  use('db_zoo_campus')
+  db.createCollection('bajas', {
+    validator: {
+      $jsonSchema: {
+        bsonType: 'object',
+        title: 'bajas object validation',
+        required: ['tipo_baja', 'fecha_baja', 'detalles'],
+        properties: {
+          tipo_baja: {
+            bsonType: 'string',
+            description: 'Tipo de baja, debe ser obligatorio y de tipo string'
+          },
+          fecha_baja: {
+            bsonType: 'date',
+            description: 'Fecha de baja, debe ser obligatorio y de tipo date'
+          },
+          detalles: {
+            bsonType: 'object',
+            description: 'Detalles de la baja del animal',
+            properties: {
+              lugar: {
+                bsonType: 'objectId',
+                description: 'ID del lugar de la baja'
+              },
+              estado: {
+                bsonType: 'int',
+                description: 'Estado del animal'
+              },
+              acta: {
+                bsonType: 'object',
+                description: 'Detalles del acta de la baja',
+                required: ['fecha', 'responsables', 'documentacion'],
+                properties: {
+                  fecha: {
+                    bsonType: 'date',
+                    description: 'Fecha del acta'
+                  },
+                  responsables: {
+                    bsonType: 'array',
+                    description: 'ID de los responsables del acta',
+                    items: {
+                      bsonType: 'objectId'
+                    }
+                  },
+                  documentacion: {
+                    bsonType: 'object',
+                    description: 'Documentación relacionada con el acta',
+                    required: ['doc_reporte_autoridades', 'doc_legal_zoo', 'informe_opinion_publica'],
+                    properties: {
+                      doc_reporte_autoridades: {
+                        bsonType: 'string',
+                        description: 'URL del documento de reporte de autoridades'
+                      },
+                      doc_legal_zoo: {
+                        bsonType: 'string',
+                        description: 'URL del documento legal del zoológico'
+                      },
+                      informe_opinion_publica: {
+                        bsonType: 'string',
+                        description: 'URL del informe de opinión pública'
+                      }
+                    }
+                  },
+                  observaciones: {
+                    bsonType: 'array',
+                    description: 'Observaciones asociadas al acta',
+                    items: {
+                      bsonType: 'object',
+                      properties: {
+                        id_testimonio: {
+                          bsonType: 'objectId',
+                          description: 'ID del testimonio'
+                        },
+                        observacion: {
+                          bsonType: 'string',
+                          description: 'Observación'
+                        },
+                        fecha: {
+                          bsonType: 'date',
+                          description: 'Fecha de la observación'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  use('db_zoo_campus')
+  db.createCollection('historial', {
+    validator:{
+      $jsonSchema:{
+        bsonType:'object',
+        title:'object historial',
+        required:['fecha', 'idMovimiento'],
+        properties:{
+          fecha:{
+            bsonType: 'date',
+            description:'fecha en la que ocurrio el movimiento'
+          },
+          idMovimiento:{
+            bsonType:'objectId',
+            description:'id del movimiento ya se adquisicion, translado o baja'
+          }
+        }
+      }
+    }
+  })
+    
+use('db_zoo_campus')
+db.createCollection('personal', {
+      validator: {
+        $jsonSchema: {
+          bsonType: 'object',
+          title: 'empleados object validation',
+          required: ['nombre', 'puesto', 'doc_id', 'experiencia', 'habilidades', 'estado'],
+          properties: {
+            nombre: {
+              bsonType: 'string',
+              description: 'Nombre del empleado'
+            },
+            puesto: {
+              bsonType: 'string',
+              description: 'Puesto del empleado'
+            },
+            doc_id: {
+              bsonType: 'string',
+              description: 'Documento de identidad del empleado (URL)'
+            },
+            experiencia: {
+              bsonType: 'object',
+              description: 'Experiencia del empleado',
+              required: ['years', 'descripcion'],
+              properties: {
+                years: {
+                  bsonType: 'int',
+                  description: 'Años de experiencia'
+                },
+                descripcion: {
+                  bsonType: 'string',
+                  description: 'Descripción de la experiencia'
+                }
+              }
+            },
+            habilidades: {
+              bsonType: 'array',
+              description: 'Habilidades del empleado',
+              items: {
+                bsonType: 'string'
+              }
+            },
+            arl: {
+              bsonType: 'array',
+              description: 'Información de afiliación a ARL',
+              items: {
+                bsonType: 'object',
+                properties: {
+                  eps: {
+                    bsonType: 'string',
+                    description: 'Certificación de afiliación a EPS (URL)'
+                  },
+                  pensiones: {
+                    bsonType: 'string',
+                    description: 'Certificación de afiliación a Fondo de Pensiones (URL)'
+                  },
+                  caja_de_compensacion_familiar: {
+                    bsonType: 'string',
+                    description: 'Certificación de afiliación a Caja de Compensación Familiar (URL)'
+                  },
+                  contrato: {
+                    bsonType: 'string',
+                    description: 'Contrato laboral (URL)'
+                  },
+                  doc_id: {
+                    bsonType: 'string',
+                    description: 'Copia de documento de identidad (URL)'
+                  }
+                }
+              }
+            },
+            contrato: {
+              bsonType: 'object',
+              description: 'Información del contrato del empleado',
+              required: ['fecha', 'url', 'sueldo'],
+              properties: {
+                fecha: {
+                  bsonType: 'date',
+                  description: 'Fecha firma del contrato'
+                },
+                url: {
+                  bsonType: 'string',
+                  description: 'Documento del contrato (URL)'
+                },
+                sueldo: {
+                  bsonType: 'number',
+                  description: 'Sueldo del trabajador'
+                }
+              }
+            },
+            observaciones: {
+              bsonType: 'array',
+              description: 'Observaciones sobre el empleado',
+              items: {
+                bsonType: 'object',
+                properties: {
+                  id_responsable: {
+                    bsonType: 'objectId',
+                    description: 'ID del responsable de la observación'
+                  },
+                  fecha: {
+                    bsonType: 'date',
+                    description: 'Fecha de la observación'
+                  },
+                  observacion: {
+                    bsonType: 'string',
+                    description: 'Observación'
+                  },
+                  tipo: {
+                    bsonType: 'int',
+                    description: 'Tipo de observación (0: positiva, 1: comentario a mejorar, 2: queja, 3: disciplinaria, 4: suspensión)'
+                  }
+                }
+              }
+            },
+            estado: {
+              bsonType: 'int',
+              description: 'Estado del proceso de contratación'
+            }
+          }
+        }
+      }
+    })
+
+
+    use('db_zoo_campus')
+    db.createCollection('visitantes', {
+      validator: {
+        $jsonSchema: {
+          bsonType: 'object',
+          title: 'registro object validation',
+          required: ['informacion_personal', 'fecha_inicio', 'fecha_fin', 'tipo_entrada', 'numero_boleto', 'tipo_boleto', 'precio_boleto'],
+          properties: {
+            informacion_personal: {
+              bsonType: 'object',
+              description: 'Información personal del visitante',
+              properties: {
+                identificacion:{ bsonType: 'string' },
+                nombre: { bsonType: 'string' },
+                apellido: { bsonType: 'string' },
+                edad: { bsonType: 'int' },
+                genero: { bsonType: 'string' },
+                direccion: { bsonType: 'string' },
+                numero_telefono: { bsonType: 'string' },
+                correo_electronico: { bsonType: 'string' }
+              }
+            },
+            fecha_inicio: { bsonType: 'date', description: 'Fecha de inicio de la visita' },
+            fecha_fin: { bsonType: 'date', description: 'Fecha de fin de la visita' },
+            tipo_entrada: { bsonType: 'string', enum: ['Adulto', 'Niño', 'Estudiante', 'Tercera Edad'] },
+            numero_boleto: { bsonType: 'string', description: 'Número de boleto o pase' },
+            tipo_boleto: { bsonType: 'string', description: 'Tipo de boleto' },
+            precio_boleto: { bsonType: 'number', description: 'Precio del boleto' },
+            grupos: {
+              bsonType: 'object',
+              description: 'Información sobre el grupo',
+              properties: {
+                numero_personas: { bsonType: 'int', description: 'Número de personas en el grupo' },
+                relacion_miembros: { bsonType: 'string', description: 'Relación entre los miembros del grupo' }
+              }
+            },
+            exhibiciones_actividades: {
+              bsonType: 'array',
+              description: 'Exhibiciones y actividades visitadas',
+              items: { bsonType: 'string' }
+            },
+            contacto_emergencia: {
+              bsonType: 'object',
+              description: 'Información de contacto de emergencia',
+              properties: {
+                nombre_contacto: { bsonType: 'string', description: 'Nombre de contacto de emergencia' },
+                numero_telefono_contacto: { bsonType: 'string', description: 'Número de teléfono de contacto de emergencia' }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    use('db_zoo_campus')
+    db.habitat.insertMany([
+      {
+        nombre: "Habitat de Leones",
+        tipo_habitat: "Safari",
+        descripcion_ambiente: "Amplio espacio abierto para leones",
+        dimensiones: { area: 500, volumen: 210 },
+        alimentacion: { tipo: "Carnívora", descripcion: "Alimentación dos veces al día" },
+        enriquecimiento: "Juguetes y actividades de caza simulada",
+        caracteristicas_ambientales: {
+          temperatura_promedio: 28,
+          humedad_relativa: 60,
+          tipo_sustrato: "Tierra",
+          vegetacion: "Pasto y árboles"
+        },
+        refugio_descanso: "Cuevas y sombra de árboles",
+        instalaciones_equipos: {
+          elementos: ["Piscina", "Rocas", "Plataformas"],
+          equipos: "Cámaras de vigilancia"
+        },
+        seguridad_barreras: "Fosas y cercas electrificadas",
+        notas_observaciones: "Los leones son alimentados con carne magra"
+      },
+      {
+        nombre: "Habitat de Osos Polares",
+        tipo_habitat: "Ártico",
+        descripcion_ambiente: "Recinto con piscina para osos polares",
+        dimensiones: { area: 800, volumen: 200 },
+        alimentacion: { tipo: "Piscívoros", descripcion: "Alimentación variada de pescados" },
+        enriquecimiento: "Hielo artificial y objetos flotantes",
+        caracteristicas_ambientales: {
+          temperatura_promedio: -5,
+          humedad_relativa: 85,
+          tipo_sustrato: "Agua",
+          vegetacion: "Simulación de tundra ártica"
+        },
+        refugio_descanso: "Cuevas con aire acondicionado",
+        instalaciones_equipos: {
+          elementos: ["Piscina", "Cuevas", "Plataformas"],
+          equipos: "Calefactores y enfriadores"
+        },
+        seguridad_barreras: "Vidrio reforzado y fosas",
+        notas_observaciones: "Los osos polares son monitoreados para evitar el estrés térmico"
+      }
+    ]);
+
+    use('db_zoo_campus')
+    db.personal.insertMany([
+      {
+        nombre: "Ana Lopez",
+        puesto: "Cuidador de animales",
+        doc_id: "url_documento_identidad",
+        experiencia: { years: 3, descripcion: "Experiencia en manejo de felinos" },
+        habilidades: ["Cuidado animal", "Alimentación", "Seguridad"],
+        arl: [
+          {
+            eps: "SURA",
+            pensiones: "url_pensiones",
+            caja_de_compensacion_familiar: "url_caja_compensacion",
+            contrato: "Indefinido",
+            doc_id: "url_documento_identidad" // Reemplaza con la URL válida
+          }
+        ],
+        contrato: {
+          fecha: ISODate("2023-08-01"),
+          url: "url_contrato",
+          sueldo: 1500
+        },
+        observaciones: [],
+        estado: 1
+      },
+      {
+        nombre: "Carlos Ramirez",
+        puesto: "Veterinario",
+        doc_id: "url_documento_identidad",
+        experiencia: { years: 8, descripcion: "Especializado en fauna exótica" },
+        habilidades: ["Diagnóstico médico", "Cirugía", "Tratamientos"],
+        arl: [],
+        contrato: {
+          fecha: ISODate("2023-07-15"),
+          url: "url_contrato",
+          sueldo: 2500
+        },
+        observaciones: [],
+        estado: 1
+      }
+    ]);
+
+    use('db_zoo_campus')
+    const empleado1=db.personal.findOne({nombre:'Ana Lopez'})._id
+    const empleado2=db.personal.findOne({nombre:'Carlos Ramirez'})._id
+
+
+
+
+    use('db_zoo_campus')
+    const idHabitaOso=db.habitat.findOne({nombre:'Habitat de Osos Polares'})._id
+    const idHabitaLeon=db.habitat.findOne({nombre:'Habitat de Leones'})._id
+    
+
+
+
+
+    use('db_zoo_campus')
+    db.animales.insertMany([
+      {
+        tipo_adquisicion: "Compra",
+        fecha_adquisicion: ISODate("2023-08-20"),
+        detalles: {
+          descripcion: "Adquisición de un león",
+          animal: {
+            nombre: "Simba",
+            especie: "León",
+            familia: "Felidae",
+            genero: "Panthera",
+            edad: 3,
+            dimensiones: {
+              altura: { fecha: ISODate("2023-08-20"), valor: 120 },
+              peso: { fecha: ISODate("2023-08-20"), valor: 180 }
+            },
+            historial_medico: [
+              {
+                id_responsable: empleado2,
+                fecha: new Date(),
+                observacion: "Examen médico inicial",
+              },
+            ],
+            historial_animal: [
+              {
+                id_responsable:empleado1,
+                fecha: new Date(),
+                observacion: "Registro de llegada al zoológico",
+              },
+            ],
+            origen: "Cautiverio",
+            estado: 1
+          },
+          id_habitad: idHabitaLeon
+        }
+      },
+      {
+        tipo_adquisicion: "Donación",
+        fecha_adquisicion: ISODate("2023-08-15"),
+        detalles: {
+          descripcion: "Donación de un oso polar",
+          animal: {
+            nombre: "Nanook",
+            especie: "Oso polar",
+            familia: "Ursidae",
+            genero: "Ursus",
+            edad: 5,
+            dimensiones: {
+              altura: { fecha: ISODate("2023-08-15"), valor: 160 },
+              peso: { fecha: ISODate("2023-08-15"), valor: 350 }
+            },
+            historial_medico: [],
+            historial_animal: [],
+            origen: "Rescate",
+            estado: 1
+          },
+          id_habitad: idHabitaOso
+        }
+      }
+    ]);
+
+
+    
+    
+    use('db_zoo_campus')
+    const empleado3=db.personal.findOne({nombre:'Ana Lopez'})._id
+    const empleado4=db.personal.findOne({nombre:'Carlos Ramirez'})._id
+    use('db_zoo_campus')
+    db.bajas.insertMany([
+      {
+        tipo_baja: "Traslado",
+        fecha_baja: ISODate("2023-08-10"),
+        detalles: {
+          lugar: ObjectId("6122427c8b7d571850c3b2c3"),
+          estado: 2,
+          acta: {
+            fecha: ISODate("2023-08-10"),
+            responsables: [empleado3],
+            documentacion: {
+              doc_reporte_autoridades: "url_reporte_autoridades",
+              doc_legal_zoo: "url_doc_legal",
+              informe_opinion_publica: "url_informe_opinion"
+            },
+            observaciones: []
+          }
+        }
+      },
+      {
+        tipo_baja: "Muerte",
+        fecha_baja: ISODate("2023-08-05"),
+        detalles: {
+          lugar: ObjectId("6122427c8b7d571850c3b2c5"),
+          estado: 3,
+          acta: {
+            fecha: ISODate("2023-08-05"),
+            responsables: [empleado4],
+            documentacion: {
+              doc_reporte_autoridades: "url_reporte_autoridades",
+              doc_legal_zoo: "url_doc_legal",
+              informe_opinion_publica: "url_informe_opinion"
+            },
+            observaciones: []
+          }
+        }
+      }
+    ]);
+
+    use('db_zoo_campus')
+    const movimiento1=db.bajas.findOne({fecha_baja:ISODate("2023-08-10")})._id
+    const movimiento2=db.bajas.findOne({fecha_baja:ISODate("2023-08-05")})._id
+
+    
+    use('db_zoo_campus')
+    db.historial.insertMany([
+      {
+        fecha: ISODate("2023-08-01"),
+        idMovimiento: movimiento1
+      },
+      {
+        fecha: ISODate("2023-07-25"),
+        idMovimiento: movimiento2
+      }
+    ]);
+    
+    
+    
+    use('db_zoo_campus')
+    db.visitantes.insertMany([
+      {
+        informacion_personal: {
+          identificacion: "123456789",
+          nombre: "María",
+          apellido: "González",
+          edad: 30,
+          genero: "Femenino",
+          direccion: "Calle 123",
+          numero_telefono: "987654321",
+          correo_electronico: "maria@example.com"
+        },
+        fecha_inicio: ISODate("2023-08-10"),
+        fecha_fin: ISODate("2023-08-11"),
+        tipo_entrada: "Adulto",
+        numero_boleto: "T12345",
+        tipo_boleto: "Entrada general",
+        precio_boleto: 20.5,
+        grupos: {
+          numero_personas: 11,
+          relacion_miembros: "Evento Universitario"
+        },
+        exhibiciones_actividades: ["Leones", "Pinguinos"],
+        contacto_emergencia: {
+          nombre_contacto: "Juan Pérez",
+          numero_telefono_contacto: "876543210"
+        }
+      },
+      {
+        informacion_personal: {
+          identificacion: "987654321",
+          nombre: "Pedro",
+          apellido: "Sánchez",
+          edad: 12,
+          genero: "Masculino",
+          direccion: "Avenida 456",
+          numero_telefono: "123456789",
+          correo_electronico: "pedro@example.com"
+        },
+        fecha_inicio: ISODate("2023-08-12"),
+        fecha_fin: ISODate("2023-08-12"),
+        tipo_entrada: "Niño",
+        numero_boleto: "N54321",
+        tipo_boleto: "Entrada para niños",
+        precio_boleto: 10.0,
+        grupos: {
+          numero_personas: 4,
+          relacion_miembros: "Familia"
+        },
+        exhibiciones_actividades: ["Osos polares", "Aves exóticas"],
+        contacto_emergencia: {
+          nombre_contacto: "Ana Rodríguez",
+          numero_telefono_contacto: "567890123"
+        }
+      }
+    ]);
+    
+    
