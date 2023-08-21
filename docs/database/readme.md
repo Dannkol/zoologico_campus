@@ -22,8 +22,8 @@ La collecion de animal refiere a la forma como se guarda al animal en la base de
 | `edad`   | `String` | **Opcional**. Edad del animal |
 | `altura` | `Array` | **Required**. Altura del animal en cm |
 | `peso` | `Array` | **Required**. peso del animal en kg |
-| `historial_medico` | `Array` | **Required**. historial medico del animal|
-| `historial_animal` | `Array` | **Required**. historial del animal |
+| `historial_medico` | `Array` | **Opcional**. historial medico del animal|
+| `historial_animal` | `Array` | **Opcional**. historial del animal |
 | `origen` | `String` | **Opcional**. Origen del animal |
 | `estado` | `Number` | **Required**. Estado del animal |
 
@@ -104,19 +104,16 @@ La collecion de animal refiere a la forma como se guarda al animal en la base de
     | Parametro | Type     |Descripción            |
     | :--------: | :-------: | :------------------------- |
     | `nombre` | `String` | **Opcional**. Nombre del origen del animal  |
+    | `descripcion` | `String` | **Opcional**. descripcion del origen del animal  |
+
 
 * Animal
 
     * En este campo se usara [animal](#animal) explicado anterior mente
 
-* Habitat
+* Habitas : Id referente al habitat
 
-    | Parametro | Type     |Descripción            |
-    | :--------: | :-------: | :------------------------- |
-    | `id_habitat` | `ObjectId` | **Required**. identificador del habitat  | 
-    | `nombre` | `String` | **Required**. Nombre del habitat |
-    | `descripcion` | `String` | **Opcional**. descripcion del habitat |
-    | `intalaciones` | `Array` | **Opcional**. lista de obejos nombre del item y descripcion |
+
 
 
 ### Esquema en documento
@@ -126,16 +123,17 @@ La collecion de animal refiere a la forma como se guarda al animal en la base de
     "animal_id" : ObjectId("64d1b044068a2499b7107060"), 
   "tipo_adquision": "donacion",
   "fecha_adquision": ISODate("2003-10-10T00:00:00") ,
-  "detalles": [
-    {
+  "detalles": {
+    "origen": {
       "nombre" : "Gobierno de china",
       "descripcion" : "..."
     },
-    {
+    "animal" : {
         // este campo se usara como colección del animal
     }, 
+    "habitat" : ObjectId("64d1b044068a2499b7107060"),
     {
-        "id_habitat" : ObjectId("64d1b044068a2499b7107060"), 
+        "id_habitat" :  
         "nombre": "Savana",
         "descripcion": "Amplia area con pastizales...",
         "instalaciones": [
@@ -144,9 +142,8 @@ La collecion de animal refiere a la forma como se guarda al animal en la base de
                 "descripcion" : "le faltal las cuerdas"
             }
         ] 
-
     } 
-  ]
+  }
 }
 ```
 
@@ -155,15 +152,17 @@ La collecion de animal refiere a la forma como se guarda al animal en la base de
 
 ```jS
 {
-    "animal_id" : ObjectId("64d1b044068a2499b7107060") , 
-  "tipo_adquision": "donacion",
-  "fecha_adquision": ISODate("2003-10-10T00:00:00") ,
-  "detalles": [
-    {
-      "nombre" : "Gobierno de china",
-      "descripcion" : "..."
-    },
-    {
+    "_id" : ObjectId("64d1b044068a2499b7107060") , 
+    "tipo_adquision": "donacion",
+    "fecha_adquision": ISODate("2003-10-10T00:00:00") ,
+    "detalles": {
+        "origen":{
+            "nombre" : "Gobierno de china",
+            "descripcion" : "..."
+        },
+    }
+
+      {
         "nombre" : "...",
         "especie" : "Felino",
         "familia" : "Felix",
@@ -198,20 +197,18 @@ La collecion de animal refiere a la forma como se guarda al animal en la base de
         ],
         "origen" : "africa",
         "estado" : 1 
-    }, 
-    {
+      }, 
+      {
         "id_habitat" :  ObjectId("64d1b044068a2499b7107060"), 
         "nombre": "Savana",
-        "descripcion": "Amplia area con pastizales...",
-        "instalaciones": [
-            {
-                "nombre" : "columpio",
-                "descripcion" : "le faltal las cuerdas"
-            }
+        "descripcion": "Amplia area con pastizales...","instalaciones": [
+          {
+              "nombre" : "columpio",
+              "descripcion" : "le faltal las cuerdas"
+          }
         ] 
-
-    } 
-  ]
+      } 
+    ]
 }
 ```
 
@@ -276,11 +273,13 @@ Este es la representacion de una baja en la base de datos, dependiendo del tipo 
             "tipo_baja": "defuncion", 
             "fecha_baja": ISODate("2023-08-18"),
             "detalles":  {
-                "analisis" : [
-                    ObjectId("64d1b044068a2499b7107060"),
-                    ObjectId("66d1b0444335a299b7107060")
-                ] , 
-                "fecha_inhumacion" : ISODate("2003-10-10T00:00:00") 
+                "defuncion" : {
+                    "analisis" : [
+                        ObjectId("64d1b044068a2499b7107060"),
+                        ObjectId("66d1b0444335a299b7107060")
+                    ], 
+                    "fecha_inhumacion" : ISODate("2003-10-10T00:00:00")
+                }
             }  
         }
         ```
@@ -308,10 +307,10 @@ Este es la representacion de una baja en la base de datos, dependiendo del tipo 
             // 2 : En espera a translado
             // 3 : Cambio de fecha
             "observaciones" : [
-            {
-                "fecha" : ISODate(),
-                "detalle" : "..."
-            }
+                {
+                    "fecha" : ISODate(),
+                    "detalle" : "..."
+                }
             ] // lista de observaciones sobre el proceso de translado
         }
         ```
@@ -492,8 +491,7 @@ para cambio de habitat se registrara el habitat anterio y el habitat nuevo
     | `origen` | `Array` | **Required**. habitat de origen |
     | `destino` | `Array` | **Required**. habitat de destino |
 
-    * Esquema en documento para cambio de habitat
-
+    * Esquema en documento para cambio de habitat Opcional
         ```js
         {
             "habitat": {
@@ -507,17 +505,23 @@ para cambio de habitat se registrara el habitat anterio y el habitat nuevo
 ```js
 "fecha" = Date(), // Fecha del movimiento
 "responsables"  = [... ObjectId()], // Lista de ID de los responsables
-"detalles" = [
-    {
+"detalles" = {
 
-      // En caso de adquisicion, trasladado , baja
-      // Se copia todo el documento aqui
+    "movimiento" : ObjectId()
 
-      // Para cambio de habitat solo se crea un objeto habitat
-      // con los cambios origen y destino
+    // En caso de adquisicion, trasladado , baja
+    // Se copia todo el documento aqui
 
-    } // Detalles del tipo de movimiento
-] 
+    // Para cambio de habitat solo se crea un objeto habitat
+    // con los cambios origen y destino
+
+    
+    // Detalles del tipo de movimiento
+    "habitat": {
+        "origen": "...",
+        "destino": "..."
+    } 
+} 
 ```
 
 
@@ -634,83 +638,172 @@ dependiendo del area esta puede tener varias investigaciones las areas son
 }
 ```
 
+# COLECCION PERSONAL
 
 
-  area : "Cuarentena", // Area de investigacion Cuarentena, morgue, radiologia, quirofano, microbiologia, botanica, palentologia ,investigacion_general
-  responsables : [...ObjectId()], // Responsables del area
-  fecha_creacion : ISODate(), // Fecha de creacion del area
-  investigaciones : [
+Hace referencia a la visualizacion de la coleccion personal en la base de datos
+
+
+## Tabla general
+
+* Esquema en tablas basica
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `nombre` | `String` | **Required**. nombre empleado | 
+    | `puesto` | `String` | **Required**. puesto del empleado |
+    | `doc_id` | `String` | **Required**. url del archivo  |
+    | `experiencia` | `Object` | **Opcional**. |
+    | `habilidades` | `Array` | **Opcional**. lista de habilidades |
+    | `responsable` | `Array` | **Opcional**. lista de id refentes a las ares que es responsable, no aplica a puestos administrativos |
+    | `arl` | `Array` | **Required**. lista de historial de documentacion para la arl |
+    | `contrato` | `Object` | **Required**. Informacion del contrato |
+    | `observaciones` | `Array` | **Opcional**. lista de observaciones realizadas al empleado |
+    | `estado` | `number` | **Required**. estado |
+
+
+### arl
+
+* Esquema en tablas arl
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `eps` | `String` | **Required**. url Certificación de afiliación a la EPS como cotizante | 
+    | `pensiones` | `String` | **Required**. url Certificación de afiliación a Fondo de Pensiones. |
+    | `caja_de_compensación_familiar` | `String` | **Required**. url Certificación de afiliación a Caja de Compensación Familiar. Con nombre del empleador actual.  |
+    | `contrato` | `String` | **Required**. url del contrato |
+    | `doc_id` | `String` | **Required**. url del documento de identidad de la persona |
+
+* Esquema en documento arl
+
+    ```js
     {
-      id_investigacion : ObjectId(), //ID de la investigacion
-      responsables : [...Object()], // Responsables de la inventario
-      id_animal : [...Object()], // Id refentes a animales que participaron en la investigacion
-      nombre : "...", // Nombre de la INVENSTIGACION
-      fecha_inico : ISODate() , // Fecha de inicio de la investigacion
-      fecha_fin : ISODate() , // Fecha de fin de la INVENSTIGACION
-      doc : [
-        {
-          fecha : ISODate() , // Fecha de publicacion del articulo
-          responsables : [... ObjectId()] , // Ide de los responsables del articulo
-          id_animal : [... ObjectId()] , // id_refetente a los animales que participaron en la investigacion
-          url : url , // URL del articulo
-          resumen : "..." // resumen del articulo
-        }
-      ] // articulo o documentos publicados por el area de investigacion
+        eps: url , // Certificación de afiliación a la EPS como cotizante
+        pensiones: url , // Certificación de afiliación a Fondo de Pensiones.
+        caja_de_compensacion_familiar: url , // Certificación de afiliación a Caja de Compensación Familiar. Con nombre del empleador actual.
+        contrato: url , // Contratolaboral
+        doc_id: url , // Copia de documento de identidad
     }
-  ],
-  descripcion : "...", // descripcion del area
+    ```
+### contrato 
 
+* Esquema en tablas contrato
 
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `fecha` | `Date` | **Required**.  Fecha firma del contrato | 
+    | `url` | `String` | **Required**. url documento del contrato |
+    | `sueldo` | `Number` | **Required**. sueldo del trabajador |
 
+* Esquema en documento contrato
 
-COLECCION PERSONAL
-
-  nombre: "Jane Smith",
-  puesto: "Cuidador",
-  doc_id: url , // documento de identidad
-  experiencia: {
-    years : 4,
-    descripcion : "cuidador de felinos"
-  },
-  habilidades: ["Cuidado de felinos", "Primeros auxilios"],
-  responsable : [... ObjectId()] , // id refentes a las ares que es responsable, no aplica a puestos administrativos
-  arl : [
+    ```js
     {
-      eps : url , // Certificación de afiliación a la EPS como cotizante
-      pensiones : url , // Certificación de afiliación a Fondo de Pensiones.
-      caja_de_compensación_familiar : url , // Certificación de afiliación a Caja de Compensación Familiar. Con nombre del empleador actual.
-      contrato : url , // Contratolaboral
-      doc_id : url , // Copia de documento de identidad
+        fecha: ISODate(), // Fecha firma del contrato
+        url: url , // documento del contrato
+        sueldo: 3000000, // sueldo del trabajador
     }
-  ],
-  contrato : {
-    fecha : ISODate(), // Fecha firma del contrato
-    url : url , // documento del contrato
-    sueldo : 3000000, // sueldo del trabajador
-  },
-  observaciones : [
+    ```
+
+### observaciones
+
+* Esquema en tablas contrato
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `id_responsable` | `ObjectId` | **Required**. id Referencia responsable de la observacion | 
+    | `fecha` | `Date` | **Required**. fecha de la observacion |
+    | `observacion` | `String` | **Required**. observacion |
+    | `tipo` | `Number` | **Required**. tipo de la observacion 0 : positiva , 1 : comentario a mejorar, 2 : queja , 3 : diciplinaria , 4 : suspension |
+
+* Esquema en documento contrato
+
+    ```js
     {
-      id_responsable : ObjectId() , // id Referencia responsable de la observacion
-      fecha : ISODate(), // fecha de la observacion
-      observacion : "...", // observacion
-      tipo : 0 // tipo de la observacion 0 : positiva , 1 : comentario a mejorar, 2 : queja , 3 : diciplinaria , 4 : suspension
+        id_responsable: ObjectId() , // id Referencia responsable de la observacion
+        fecha: ISODate(), // fecha de la observacion
+        observacion: "...", // observacion
+        tipo: 0 // tipo de la observacion 0 : positiva , 1 : comentario a mejorar, 2 : queja , 3 : diciplinaria , 4 : suspension
     }
-  ]
-  estado: 0 // Estado del proceso de contratacion
+    ```
+
+#### Esquema en documento COLECCION PERSONAL
+
+```js
+{
+    nombre: "Jane Smith",
+    puesto: "Cuidador",
+    doc_id: url , // documento de identidad
+    experiencia: {
+      years: 4,
+      descripcion: "cuidador de felinos"
+    },
+    habilidades: ["Cuidado de felinos", "Primeros auxilios"],
+    responsable: [... ObjectId()] , // id refentes a las ares que es responsable, no aplica a puestos administrativos
+    arl: [
+      {
+        eps: url , // Certificación de afiliación a la EPS como cotizante
+        pensiones: url , // Certificación de afiliación a Fondo de Pensiones.
+        caja_de_compensacion_familiar: url , // Certificación de afiliación a Caja de Compensación Familiar. Con nombre del empleador actual.
+        contrato: url , // Contratolaboral
+        doc_id: url , // Copia de documento de identidad
+      }
+    ],
+    contrato: {
+      fecha: ISODate(), // Fecha firma del contrato
+      url: url , // documento del contrato
+      sueldo: 3000000, // sueldo del trabajador
+    },
+    observaciones: [
+      {
+        id_responsable: ObjectId() , // id Referencia responsable de la observacion
+        fecha: ISODate(), // fecha de la observacion
+        observacion: "...", // observacion
+        tipo: 0 // tipo de la observacion 0 : positiva , 1 : comentario a mejorar, 2 : queja , 3 : diciplinaria , 4 : suspension
+      }
+    ]
+    estado: 0 // Estado del proceso de contratacion
+}
+
+```
+
+# Gestion de visistantes 
+
+* Esquema en tablas basica
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `tipo` | `Number` | **Required**.  tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido guiado , 5 : evento especial , 6 : general, 7 : investigacion_particular | 
+    | `nombre_evento` | `String` | **Required**. razon de la visista |
+    | `descripcion` | `String` | **Opcional**. razon de la visista  |
+    | `data` | `Object` | **Required**. informacion de la visita  |
 
 
-// Gestion de visistantes 
+## data
 
-  tipo : 0 , // tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido guiado , 5 : evento especial , 6 : general, 7 : investigacion_particular
+*  Esquema en tablas basica para data
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `institucion` | `Number` | **Opcional**.  nombre de la institucion que viene a la visista, si no aplica dejar null | 
+    | `responsables` | `Array` | **Required**.  responsables de la visita |
+    | `fecha_fin` | `Date` | **Opcional**. fecha fin del evento  |
+    | `fecha_inicio` | `Date` | **Required**. fecha inicio del evento  |
+
+
+* Esquema en documento para data
+
+
+  tipo : 0 , // tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido_guiado , 5 : planes, 6 : general, 7 : investigacion_particular
 
   // dependiendo del tipo cambia la gestion
 
   // guion de gestion
 
-  {
+  detalle: {
     institucion : "...", // nombre de la institucion que viene a la visista, si no aplica dejar null
     responsables : [... ObjectId()], // responsables de la visita
-    fecha_fin : ISODate(),
+    fecha_inicio : ISODate(),
     fecha_fin : ISODate(),
     areas : [... ObjectId()], // areas de la visita
     observaciones : [
@@ -728,8 +821,13 @@ COLECCION PERSONAL
       },
       doc_visitantes : [
         {
+            nonbre : ".." // 
           edad : 12 , // edad del visistantes
-          doc_id : url // documento de identidad
+          doc_id : url, // documento de identidad
+            boleta: {
+                tipo : "", // general, vip, escolar, universitaria o investigacion
+                precio_boleta: 7758, // Precio por visitante
+            }
           // si es menor de edad debe traer documento de identidad de los padres y carta de permisos
           padres : [
             doc_padres : [..url],
@@ -744,16 +842,24 @@ COLECCION PERSONAL
     investigaciones : [
       {
         area : ObjectId() , // id_refetente al area de inventario
-        id_investigacion : ObjectId() , // id_refetente a la investigacion de la visita
+        id_investigacion : [...ObjectId() ], // id_refetente a la investigacion de la visita
         descripcion : "...", // razon de la visista
       }
     ], // lista de las investigacion en el recorrido
 
     // en caso de evento
-    nombre_evento : "...", // razon de la visista
+    planes : {
+        nombre_evento: "...",
+        id_animales: "..."
+        actividades:[
+            {
+
+            }
+        ],
+    }"...", // razon de la visista
 
     // en caso de guia_escolar o guia_universitaria
-
+    precio_total : 32423
     descripcion : "...", // razon de la visista
   }
 
