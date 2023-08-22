@@ -6,7 +6,7 @@ use('db_zoo_campus')
         $jsonSchema: {
           bsonType: 'object',
           title: 'habitats object validation',
-          required: ['nombre', 'tipo_habitat', 'descripcion_ambiente', 'dimensiones', 'alimentacion', 'enriquecimiento', 'caracteristicas_ambientales', 'refugio_descanso', 'instalaciones_equipos', 'seguridad_barreras'],
+          required: ['nombre', 'tipo_habitat', 'dimensiones', 'caracteristicas_ambientales', 'instalaciones_equipos', 'seguridad_barreras'],
           properties: {
             nombre: { bsonType: 'string', description: 'Nombre del hábitat' },
             tipo_habitat: { bsonType: 'string', description: 'Tipo de hábitat' },
@@ -18,16 +18,7 @@ use('db_zoo_campus')
                 area: { bsonType: 'number', description: 'Área del hábitat (metros cuadrados)' },
                 volumen: { bsonType: 'number', description: 'Volumen del hábitat (si es acuático o tiene dimensiones verticales)' }
               }
-            },
-            alimentacion: {
-              bsonType: 'object',
-              description: 'Información de alimentación en el hábitat',
-              properties: {
-                tipo: { bsonType: 'string', description: 'Tipo de alimentación proporcionada en el hábitat' },
-                descripcion: { bsonType: 'string', description: 'Descripción de la dieta y posibles horarios de alimentación' }
-              }
-            },
-            enriquecimiento: { bsonType: 'string', description: 'Descripción de actividades de enriquecimiento proporcionadas en el hábitat' },
+            },   
             caracteristicas_ambientales: {
               bsonType: 'object',
               description: 'Características ambientales del hábitat',
@@ -76,14 +67,25 @@ db.createCollection('animales', {
             bsonType: 'object',
             description: 'Detalles de la adquisición del animal',         
             properties: {
-              descripcion:{
-                bsonType:'string',
-                description:'Descripcion adicional de la adquisicion'
+              origen:{
+                bsonType:'object',
+                description:'Descripcion adicional de la adquisicion',
+                properties:{
+                  nombre:{
+                    bsonType:'string',
+                    description:'nombre desde donde viene'
+                  },
+                  descripcion:{
+                    bsonType:'string',
+                    description:'detalles extras'
+                  }
+                }
+
               },
               animal: {
                 bsonType: 'object',
                 description: 'Detalles del animal adquirido',
-                required:['nombre', 'edad', 'historial_medico', 'historial_animal', 'estado'],
+                required:['nombre', 'edad', 'dimensiones', 'estado'],
                 properties: {
                   nombre: {
                     bsonType: 'string',
@@ -231,6 +233,7 @@ db.createCollection('animales', {
               fuga:{
                 bsonType:'object',
                 description:'tipo de baja por fuga',
+                requerid:['lugar', 'acta', 'estado'],
                 properties:{
                   lugar: {
                     bsonType: 'objectId',
@@ -238,6 +241,7 @@ db.createCollection('animales', {
                   },
                   estado: {
                     bsonType: 'int',
+                    enum:[0,1,2],
                     description: 'Estado del animal // 1 : encontrado , 0 : no encontrado, 2 : en busqueda'
                   },
                   acta: {
@@ -303,6 +307,7 @@ db.createCollection('animales', {
               donacion:{
                 bsonType:'object',
                 description:'tipo de baja por fuga',
+                requerid:['carta', 'acta', 'fecha_translado', 'estado'],
                 properties:{
                   carta : {
                     bsonType:'string',
@@ -359,6 +364,7 @@ db.createCollection('animales', {
                   }, 
                   estado : { 
                     bsonType: 'int', 
+                    enum:[0,1,2,3],
                     description:'1 : Finalizado, 0 : Canselado, 2 : En espera a translado, 3 : Cambio de fecha' 
                   },
                   observaciones: {
@@ -386,6 +392,7 @@ db.createCollection('animales', {
               defuncion:{
                 bsonType:'object',
                 description:'detalles de la denfuncion',
+                required:['analisis', 'fecha_inhumacion'],
                 properties:{
                     analisis:{
                       bsonType: 'array',
@@ -436,6 +443,7 @@ db.createCollection('animales', {
               },
               habitat:{
                 bsonType:'object',
+                required:['origen', 'destino'],
                 properties:{
                   origen:{
                     bsonType:'string',
@@ -461,7 +469,7 @@ db.createCollection('personal', {
         $jsonSchema: {
           bsonType: 'object',
           title: 'empleados object validation',
-          required: ['nombre', 'puesto', 'doc_id', 'experiencia', 'habilidades', 'estado'],
+          required: ['nombre', 'puesto', 'doc_id', 'Required', 'contrato', 'estado'],
           properties: {
             nombre: {
               bsonType: 'string',
@@ -502,6 +510,7 @@ db.createCollection('personal', {
               description: 'Información de afiliación a ARL',
               items: {
                 bsonType: 'object',
+                required:['eps', 'pensiones', 'caja_de_compensacion_familiar', 'contrato', 'doc_id'],
                 properties: {
                   eps: {
                     bsonType: 'string',
@@ -589,7 +598,8 @@ db.createCollection('personal', {
           properties: {
             area: {
               bsonType: 'string',
-              description: 'Área de investigación (Cuarentena, morgue, radiología, etc.)'
+              enum:['Cuarentena', 'Morgue', 'Radiologia', 'Quirofano', 'Microbiologia', 'Botanica', 'Investigacion general'],
+              description: 'Área de investigación'
             },
             responsables: {
               bsonType: 'array',
@@ -607,6 +617,7 @@ db.createCollection('personal', {
               description: 'Lista de investigaciones en curso',
               items: {
                 bsonType: 'object',
+                required:['id_investigacion', 'responsables', 'id_animal', 'fecha_inicio'],
                 properties: {
                   id_investigacion: {
                     bsonType: 'objectId',
@@ -685,6 +696,151 @@ db.createCollection('personal', {
       }
     });
     
+
+    use('db_zoo_campus')
+    db.createCollection('visitantes', {
+      validator:{
+        $jsonSchema:{
+          bsonType: 'object',
+          title: 'registro visitantes object validation',
+          required:['tipo', 'nombre_evento', 'detalle', 'precio_total'],
+          properties:{
+            tipo:{
+              bsonType:'int',
+              enum:[0,1,2,3,4,5,6,7],
+              description:'0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido_guiado , 5 : planes, 6 : general, 7 : investigacion_particular'
+            },
+            detalle:{
+              bsonType:'object',
+              required:['responsables', 'fecha_inicio', 'documentos'],
+              properties:{
+                institucion:{
+                  bsonType:'string',
+                  description:'nombre de la institucion que realiza la visita'
+                },
+                responsables:{
+                  bsonType:'array',
+                  description:'id de los responsables a cargo de la visita',
+                  items:{
+                    bsonType:'objectId'
+                  }
+                },
+                fecha_inicio: { bsonType: 'date', description: 'Fecha de inicio de la visita' },
+                fecha_fin: { bsonType: 'date', description: 'Fecha de fin de la visita' },
+                areas:{
+                  bsonType:'array',
+                  description:'id de las areas visitadas',
+                  items:{
+                    bsonType:'objectId'
+                },
+                observaciones:{
+                  bsonType:'array',
+                  description:'observaciones presentadas en la visita',
+                  items:{
+                    bsonType:'object',
+                    properties:{
+                      responsable:{
+                        bsonType:'objectId',
+                        description:'id del guia'
+                      },
+                      observacion:{
+                        bsonType:'string',
+                        description:'descripcion de la observacion',
+
+                      },
+                      fecha:{
+                        bsonType: 'date', description: 'Fecha de la observacion'
+                      }
+                    }
+                  }
+                },
+                documentos:{
+                  acta:{
+                    bsonType:'object',
+                    properties:{
+                      fecha:{
+                        bsonType: 'date', description: 'Fecha del acta'
+                      },
+                      url:{
+                        bsonType:'string',
+                        description:'url del acta',
+                      },
+                      doc_legal_institucion:{
+                        bsonType:'string',
+                        description:'url que permite la visita',
+                      }
+                    }
+                  },
+                  doc_visitantes:{
+                    bsonType:'array',
+                    description:'informacion de cada uno de los visitantes',
+                    items:{
+                      bsonType:'object',
+                      properties:{
+                        nombre:{
+                          bsonType:'string',
+                          description:'nombre',
+                        }, 
+                        edad:{
+                          bsonType:'number',
+                          description:'edad del visitante'
+                        },
+                        doc_id:{
+                          bsonType:'string',
+                          description:'ruta de la fotocopia del documento',
+                        },
+                        boleta:{
+                          bsonType:'object',
+                          properties:{
+                            tipo:{
+                              bsonType:'string',
+                              enum:['general', 'vip', 'escolar', 'universitaria', 'investigacion'],
+                              description:'tipo de visita'
+                            },
+                            precio_boleta:{
+                              bsonType:'number',
+                              description:'valor de la boleta'
+                            }
+                          }
+                        },
+                        padres:{
+                          bsonType:'object',
+                          properties:{
+                            doc_padres:{
+                              bsonType:'array',
+                              items:{
+                                bsonType:'string',
+                              }
+                            },
+                            permiso:{
+                              bsonType:'string',
+                              description:'ruta de los permisos firmados por los padres',
+                            }
+                          }
+                        },
+                        permisos:{
+                          bsonType:'array',
+                          description:'ruta de los permisos firmado autorizando la visita por el usuario',
+                          items:{
+                            bsonType:'string',
+                          } 
+                        }
+                      }
+                    }
+                    
+                  }
+                  
+                }
+                
+              }
+            },
+            investigaciones:{
+            }
+        }
+      }
+      }
+    }
+  })
 
 
     use('db_zoo_campus')
