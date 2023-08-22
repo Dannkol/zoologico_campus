@@ -776,10 +776,48 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
     | `tipo` | `Number` | **Required**.  tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido guiado , 5 : evento especial , 6 : general, 7 : investigacion_particular | 
     | `nombre_evento` | `String` | **Required**. razon de la visista |
     | `descripcion` | `String` | **Opcional**. razon de la visista  |
-    | `data` | `Object` | **Required**. informacion de la visita  |
+    | `detalle` | `Object` | **Required**. informacion de la visita  |
+    | `investigaciones` | `Array` | **Opcional**. lista de investigaciones  |
+    | `plan` | `Object` | **Opcional**. Detalles del plan  |
+    | `precio_total` | `Number` | **Required**. precio total de la visista  |
+    | `descripcion` | `String` | **Opcional**. Documentos del visitante  |
 
+* Esquema en documento para basica
 
-## data
+    ```javascript
+    
+    {
+        tipo: 0 , // tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido_guiado , 5 : planes, 6 : general, 7 : investigacion_particular
+        detalle : {
+            // informacion de la visita
+        }
+        investigaciones: [
+            {
+                area: ObjectId() , // id_refetente al area de inventario
+                id_investigacion: [...ObjectId() ], // id_refetente a la investigacion de la visita
+                descripcion: "...", // razon de la visista
+            }
+        ], // lista de las investigacion en el recorrido
+
+        // en caso de evento
+        plan: {
+            nombre_evento: "...",
+            id_animales: "..."
+            actividades:[
+                {
+
+                }
+            ],
+        }"...", // razon de la visista
+
+        // en caso de guia_escolar o guia_universitaria
+        precio_total: 32423
+        descripcion: "...", // razon de la visista
+    }
+
+    ```
+
+## detalle
 
 *  Esquema en tablas basica para data
 
@@ -789,80 +827,55 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
     | `responsables` | `Array` | **Required**.  responsables de la visita |
     | `fecha_fin` | `Date` | **Opcional**. fecha fin del evento  |
     | `fecha_inicio` | `Date` | **Required**. fecha inicio del evento  |
+    | `areas` | `Array` | **Required**. lista de ObjectId  |
+    | `observaciones` | `Array` | **Opcional**. lista de observaciones  |
+    | `documentos` | `Object` | **Required**. Documentos del o los visitante/s  |
+
 
 
 * Esquema en documento para data
 
-
-  tipo : 0 , // tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido_guiado , 5 : planes, 6 : general, 7 : investigacion_particular
-
-  // dependiendo del tipo cambia la gestion
-
-  // guion de gestion
-
-  detalle: {
-    institucion : "...", // nombre de la institucion que viene a la visista, si no aplica dejar null
-    responsables : [... ObjectId()], // responsables de la visita
-    fecha_inicio : ISODate(),
-    fecha_fin : ISODate(),
-    areas : [... ObjectId()], // areas de la visita
-    observaciones : [
-      {
-        responsable : ObjectId(), //responsable de la observacion
-        observacion : "...", //observacion
-        fecha : ISODate()
-      }
-    ],
-    documentos : {
-      act : {
-        fecha : ISODate(),
-        url : url,
-        doc_legal_institucion : url // o es requerida para general, evento especial o particulares
-      },
-      doc_visitantes : [
-        {
-            nonbre : ".." // 
-          edad : 12 , // edad del visistantes
-          doc_id : url, // documento de identidad
-            boleta: {
-                tipo : "", // general, vip, escolar, universitaria o investigacion
-                precio_boleta: 7758, // Precio por visitante
-            }
-          // si es menor de edad debe traer documento de identidad de los padres y carta de permisos
-          padres : [
-            doc_padres : [..url],
-            permiso : url
-          ]
-          // de lo contrario solo firmar los permisos
-          permisos : [..url]
-        }
-      ] // lista de los visitantes en esta visita con sus documentos
-    },
-    // en caso investigacion_escolar o investigacion_universitaria
-    investigaciones : [
-      {
-        area : ObjectId() , // id_refetente al area de inventario
-        id_investigacion : [...ObjectId() ], // id_refetente a la investigacion de la visita
-        descripcion : "...", // razon de la visista
-      }
-    ], // lista de las investigacion en el recorrido
-
-    // en caso de evento
-    planes : {
-        nombre_evento: "...",
-        id_animales: "..."
-        actividades:[
-            {
-
-            }
+    ```javascript
+    {
+        institucion: "...", // nombre de la institucion que viene a la visista, si no aplica dejar null
+        responsables: [... ObjectId()], // responsables de la visita
+        fecha_inicio: ISODate(),
+        fecha_fin: ISODate(),
+        areas: [... ObjectId()], // areas de la visita
+        observaciones: [
+          {
+            responsable: ObjectId(), //responsable de la observacion
+            observacion: "...", //observacion
+            fecha: ISODate()
+          }
         ],
-    }"...", // razon de la visista
-
-    // en caso de guia_escolar o guia_universitaria
-    precio_total : 32423
-    descripcion : "...", // razon de la visista
-  }
-
+        documentos: {
+          act: {
+            fecha: ISODate(),
+            url: url,
+            doc_legal_institucion: url // no es requerida para general, evento especial o particulares
+          },
+          doc_visitantes: [
+            {
+                nonbre: ".." // del visitante
+              edad: 12 , // edad del visistantes
+              doc_id: url, // documento de identidad
+                boleta: {
+                    tipo: "", // general, vip, escolar, universitaria o investigacion
+                    precio_boleta: 7758, // Precio por visitante
+                }
+              // si es menor de edad debe traer documento de identidad de los padres y carta de permisos
+              padres: [
+                doc_padres: [..url],
+                permiso: url
+              ]
+              // de lo contrario solo firmar los permisos
+              permisos: [..url]
+            }
+          ] // lista de los visitantes en esta visita con sus documentos
+        }
+    }
+    ```
   
 
 
