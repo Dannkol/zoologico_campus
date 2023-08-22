@@ -785,7 +785,6 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
 * Esquema en documento para basica
 
     ```javascript
-    
     {
         tipo: 0 , // tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido_guiado , 5 : planes, 6 : general, 7 : investigacion_particular
         detalle : {
@@ -814,12 +813,11 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
         precio_total: 32423
         descripcion: "...", // razon de la visista
     }
-
     ```
 
 ## detalle
 
-*  Esquema en tablas basica para data
+*  Esquema en tablas basica para detalle
 
     | Parametro | Type     |Descripción            |
     | :--------: | :-------: | :------------------------- |
@@ -831,9 +829,7 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
     | `observaciones` | `Array` | **Opcional**. lista de observaciones  |
     | `documentos` | `Object` | **Required**. Documentos del o los visitante/s  |
 
-
-
-* Esquema en documento para data
+* Esquema en documento para detalle
 
     ```javascript
     {
@@ -876,9 +872,200 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
         }
     }
     ```
-  
+
+* Esquema en documento completo para Gestion de visistantes
+
+```js
+{
+    tipo: 0 , // tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido_guiado , 5 : planes, 6 : general, 7 : investigacion_particular
+    detalle: {
+        institucion: "...", // nombre de la institucion que viene a la visista, si no aplica dejar null
+        responsables: [... ObjectId()], // responsables de la visita
+        fecha_inicio: ISODate(),
+        fecha_fin: ISODate(),
+        areas: [... ObjectId()], // areas de la visita
+        observaciones: [
+          {
+            responsable: ObjectId(), //responsable de la observacion
+            observacion: "...", //observacion
+            fecha: ISODate()
+          }
+        ],
+        documentos: {
+          act: {
+            fecha: ISODate(),
+            url: url,
+            doc_legal_institucion: url // no es requerida para general, evento especial o particulares
+          },
+          doc_visitantes: [
+            {
+                nonbre: ".." // del visitante
+              edad: 12 , // edad del visistantes
+              doc_id: url, // documento de identidad
+                boleta: {
+                    tipo: "", // general, vip, escolar, universitaria o investigacion
+                    precio_boleta: 7758, // Precio por visitante
+                }
+              // si es menor de edad debe traer documento de identidad de los padres y carta de permisos
+              padres: [
+                doc_padres: [..url],
+                permiso: url
+              ]
+              // de lo contrario solo firmar los permisos
+              permisos: [..url]
+            }
+          ] // lista de los visitantes en esta visita con sus documentos
+        }
+    }
+    investigaciones: [
+        {
+            area: ObjectId() , // id_refetente al area de inventario
+            id_investigacion: [...ObjectId() ], // id_refetente a la investigacion de la visita
+            descripcion: "...", // razon de la visista
+        }
+    ], // lista de las investigacion en el recorrido
+    // en caso de evento
+    plan: {
+        nombre_evento: "...",
+        id_animales: "..."
+        actividades:[
+            {
+            }
+        ],
+    }"...", // razon de la visista
+    // en caso de guia_escolar o guia_universitaria
+    precio_total: 32423
+    descripcion: "...", // razon de la visista
+}
+```
 
 
+# Gestion de habitat
+
+* Esquema en tablas basica
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `nombre` | `String` | **Required**. Nombre del habitat | 
+    | `tipo_habitat` | `String` | **Required**. tipo de habitat(Selva, Sabana, Acuatico) |
+    | `descripcion_ambiente` | `String` | **Required**. Descripcion y su ambiente |
+    | `dimensiones` | `Object` | **Opcional**. tipo de habitat(Selva, Sabana, Acuatico) |
+    | `enriquecimiento` | `String` | **Opcional**. Decirpción del area y cosas de más |
+    | `caracteristicas_ambientales` | `Object` | **Required**. Caracteristicas |
+    | `instalaciones_equipos` | `Object` | **Required**. Items en el habitat |
+    | `notas_observaciones` | `String` | **Opcional**. observaciones |
+
+
+* Esquema en documento para data
+
+```js
+{
+    nombre: "Selva Tropical", //Nombre del habitat*
+
+    tipo_habitat: "selva", //tipo de habitat(Selva, Sabana, Acuatico)*
+
+    descripcion_ambiente: "Hábitat caracterizado por su densa vegetación y alta humedad.", //Descripcion y su ambiente*
+
+    dimensiones: {
+        area: 1000, //Área del hábitat (metros cuadrados)*
+        volumen: 500 //Volumen del hábitat (si es acuático o tiene dimensiones verticales)*
+    },
+
+    enriquecimiento: "Actividades de enriquecimiento incluyen escondites y juegos de búsqueda de alimento.", //Descripción de actividades de enriquecimiento proporcionadas en el hábitat para estimular el comportamiento natural de los animales*
+
+    caracteristicas_ambientales: {
+        
+        // Caracteristicas del ambiente
+
+    },
+
+    instalaciones_equipos: {
+        // items del equipo
+    },
+
+    notas_observaciones: "Se deben mantener condiciones ambientales controladas para asegurar el bienestar de los animales."
+}
+```
+
+### caracteristicas_ambientales
+
+* Esquema en tablas caracteristicas_ambientales
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `temperatura_promedio` | `Number` | **Required**. Temperatura en tiempo real del ambiente | 
+    | `humedad_relativa` | `Number` | **Required**. Humedad en tiempo real del ambiente |
+    | `tipo_sustrato` | `String` | **Required**. Tipo de sustrato (tierra, arena, agua) |
+    | `vegetacion` | `String` | **Required**. Vegetación y tipos de plantas |
+
+* Esquema en documento para caracteristicas_ambientales
+
+```js
+{
+    temperatura_promedio: 25,
+    humedad_relativa: 80,
+    tipo_sustrato: "tierra",*//Tipo de sustrato (tierra, arena, agua)*
+    vegetacion: "Diversas especies de árboles y plantas tropicales."*//Vegetación y tipos de plantas*
+}
+```
+
+### instalaciones_equipos
+
+* Esquema en tablas instalaciones_equipos
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `elementos` | `Array` | **Required**. Lista de items | 
+    | `equipos` | `String` | **Required**. Descripción de cualquier equipo especial necesario (calentadores, iluminación, sistemas de filtración, etc.) |
+
+* Esquema en documento para instalaciones_equipos
+
+```js
+{
+    elementos: ["Árboles", "Rocas", "Estanques"],
+    equipos: "Sistemas de riego y calefacción."*//Descripción de cualquier equipo especial necesario (calentadores, iluminación, sistemas de filtración, etc.)*
+}
+```
+
+#### Esquema en documento completo para Gestion de habitat
+
+
+```js
+{
+    nombre: "Selva Tropical", *//Nombre del habitat*
+
+    tipo_habitat: "selva", *//tipo de habitat(Selva, Sabana, Acuatico)*
+
+    descripcion_ambiente: "Hábitat caracterizado por su densa vegetación y alta humedad.",*//Descripcion y su ambiente*
+
+    dimensiones: {
+        area: 1000, *//Área del hábitat (metros cuadrados)*
+        volumen: 500 *//Volumen del hábitat (si es acuático o tiene dimensiones verticales)*
+    },
+
+    enriquecimiento: "Actividades de enriquecimiento incluyen escondites y juegos de búsqueda de alimento.",*//Descripción de actividades de enriquecimiento proporcionadas en el hábitat para estimular el comportamiento natural de los animales*
+
+    caracteristicas_ambientales: {
+        temperatura_promedio: 25,
+        humedad_relativa: 80,
+
+        tipo_sustrato: "tierra",*//Tipo de sustrato (tierra, arena, agua)*
+        vegetacion: "Diversas especies de árboles y plantas tropicales."*//Vegetación y tipos de plantas*
+    },
+
+    instalaciones_equipos: {
+
+        elementos: ["Árboles", "Rocas", "Estanques"],
+
+        equipos: "Sistemas de riego y calefacción."*//Descripción de cualquier equipo especial necesario (calentadores, iluminación, sistemas de filtración, etc.)*
+
+    },
+
+
+    notas_observaciones: "Se deben mantener condiciones ambientales controladas para asegurar el bienestar de los animales."
+
+}  
+```
 
 DOCUMENTACION
 
