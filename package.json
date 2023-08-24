@@ -1,6 +1,21 @@
 {
+  "name": "zoologico_campus",
+  "description": "# Scrum",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1",
+    "standard": "17.1.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
@@ -12,5 +27,8 @@
     "jsonwebtoken": "9.0.1",
     "mongodb": "5.8.1",
     "reflect-metadata": "0.1.13"
+  },
+  "eslintConfig": {
+    "extends":"standard"
   }
 }
