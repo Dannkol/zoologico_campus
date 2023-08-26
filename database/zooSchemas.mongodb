@@ -260,8 +260,12 @@ db.createCollection("bajas", {
     $jsonSchema: {
       bsonType: "object",
       title: "bajas object validation",
-      required: ["tipo_baja", "fecha_baja", "detalles"],
+      required: ["id_animal","tipo_baja", "fecha_baja", "detalles"],
       properties: {
+        id_animal: {
+          bsonType: "objectId",
+          descripcion: "animal es requerido"
+        },
         tipo_baja: {
           bsonType: "string",
           description: "Tipo de baja, debe ser obligatorio y de tipo string",
@@ -485,6 +489,7 @@ db.createCollection("historial", {
         },
         detalles: {
           bsonType: "object",
+          required : ["idMovimiento"],
           properties: {
             idMovimiento: {
               bsonType: "objectId",
@@ -522,7 +527,7 @@ db.createCollection("personal", {
         "nombre",
         "puesto",
         "doc_id",
-        "Required",
+        "experiencia",
         "contrato",
         "estado",
       ],
@@ -1162,9 +1167,12 @@ db.animales.insertMany([
 use("db_zoo_campus");
 const empleado3 = db.personal.findOne({ nombre: "Ana Lopez" })._id;
 const empleado4 = db.personal.findOne({ nombre: "Carlos Ramirez" })._id;
+const animal = db.animales.findOne({ _id: ObjectId("64e977165c79c2c2a0792952") })._id;
+
 use("db_zoo_campus");
 db.bajas.insertMany([
   {
+    id_animal : animal,
     tipo_baja: "Fuga",
     fecha_baja: ISODate("2023-08-10"),
     detalles: {
@@ -1183,36 +1191,29 @@ db.bajas.insertMany([
         },
       },
     },
-  },
-  {
-    tipo_baja: "defuncion",
-    fecha_baja: ISODate("2023-08-05"),
-    detalles: {
-      defuncion: {
-        analisis: [empleado3, empleado3],
-        fecha_inhumacion: ISODate("2023-08-12"),
-      },
-    },
-  },
+  }
 ]);
 
 use("db_zoo_campus");
 const movimiento1 = db.bajas.findOne({ fecha_baja: ISODate("2023-08-10") })._id;
-const movimiento2 = db.bajas.findOne({ fecha_baja: ISODate("2023-08-05") })._id;
+const movimiento2 = db.animales.findOne({ _id: ObjectId('64e977165c79c2c2a0792953') })._id;
 
+empleado3 = db.personal.findOne({ nombre: "Ana Lopez" })._id;
+empleado4 = db.personal.findOne({ nombre: "Carlos Ramirez" })._id;
 use("db_zoo_campus");
 db.historial.insertMany([
   {
     fecha: ISODate("2023-08-01"),
-    responsables: [ObjectId("64e3e51bff926af1f3968ea9")],
+    responsables: [empleado3],
     detalles: {
-      idMovimiento: ObjectId("64e3e52e853ae4a8ce688548"),
+      idMovimiento: movimiento1,
     },
   },
   {
     fecha: ISODate("2023-08-01"),
-    responsables: [ObjectId("64e3e51bff926af1f3968ea9")],
+    responsables: [empleado4],
     detalles: {
+      idMovimiento : movimiento2,
       habitat: {
         origen: "selva",
         destino: "sabana",
