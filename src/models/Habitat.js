@@ -33,4 +33,15 @@ export class Habitat {
       await this.clints.close()
     }
   }
+
+  static async createHabitat ({ habitat }) {
+    await this.initialize(db.ATLAS_DATABASE, 'habitat')
+    try {
+      const { insertedId } = await this.collection.insertOne(habitat)
+      return insertedId
+    } catch (error) {
+      // console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].details[0].propertiesNotSatisfied[0].details)
+      throw Error('error al crear el habitat' + error.message)
+    }
+  }
 }
