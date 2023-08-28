@@ -1,4 +1,5 @@
 import { Habitat } from '../models/Habitat.js'
+import { validationResult } from 'express-validator'
 
 export class HabitatController {
   static async getAllHabitats (req, res) {
@@ -13,6 +14,9 @@ export class HabitatController {
 
   static async createHabitat (req, res) {
     try {
+      const errors = validationResult(req)
+      console.log(errors.errors)
+      if (!errors.isEmpty()) return res.status(400).json(errors)
       const data = req.body
       const result = await Habitat.createHabitat({ habitat: data })
       res.status(200).json({ id: result, message: 'se registro correctamente' })
