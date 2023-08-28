@@ -194,9 +194,8 @@ export class AnimalController extends Animal {
           },
         };
         console.log(data);
-        /* const result = await Animal.bajaAnimal(data); */
-
-        return res.json(data);
+        const result = await Animal.bajaAnimal(data); 
+        return res.json(result);
       }
       res.send({ errors: result.array()[0].msg });
     } catch (error) {
