@@ -4,6 +4,8 @@ import { mongoConn, getDB } from "../config/connection.js";
 
 import { ObjectId } from "mongodb";
 
+import { MongoClient } from "mongodb";
+
 dotenv.config();
 
 const db = JSON.parse(process.env.DB);
@@ -24,25 +26,25 @@ export class Animal {
     try {
       const projection = {
         projection: {
-            "_id": 0,
+          "_id": 0,
           id_animal: "$_id",
-          descripcion : {
-            nombre : "$detalles.animal.nombre",
-            especie : "$detalles.animal.especie",
-            femilia : "$detalles.animal.femilia",
-            genero : "$detalles.animal.genero",
-            edad : "$detalles.animal.edad",
+          descripcion: {
+            nombre: "$detalles.animal.nombre",
+            especie: "$detalles.animal.especie",
+            femilia: "$detalles.animal.femilia",
+            genero: "$detalles.animal.genero",
+            edad: "$detalles.animal.edad",
           },
-          morfologia : {
-            altura : "$detalles.animal.dimensiones.altura.valor",
-            peso : "$detalles.animal.dimensiones.peso.valor",
+          morfologia: {
+            altura: "$detalles.animal.dimensiones.altura.valor",
+            peso: "$detalles.animal.dimensiones.peso.valor",
           },
-          origen : "$detalles.animal.origen"
+          origen: "$detalles.animal.origen"
         },
       };
       const filter = { "detalles.animal.estado": 1 };
       const query = await this.collection
-        .find(filter,projection)
+        .find(filter, projection)
         .toArray();
       return query;
     } catch (error) {
@@ -58,36 +60,36 @@ export class Animal {
       const projection = {
 
         $project: {
-            "_id": 0,
+          "_id": 0,
           id_animal: "$_id",
-          descripcion : {
-            nombre : "$detalles.animal.nombre",
-            especie : "$detalles.animal.especie",
-            femilia : "$detalles.animal.femilia",
-            genero : "$detalles.animal.genero",
-            edad : "$detalles.animal.edad",
+          descripcion: {
+            nombre: "$detalles.animal.nombre",
+            especie: "$detalles.animal.especie",
+            femilia: "$detalles.animal.femilia",
+            genero: "$detalles.animal.genero",
+            edad: "$detalles.animal.edad",
           },
-          morfologia : {
-            altura : "$detalles.animal.dimensiones.altura",
-            peso : "$detalles.animal.dimensiones.peso",
+          morfologia: {
+            altura: "$detalles.animal.dimensiones.altura",
+            peso: "$detalles.animal.dimensiones.peso",
           },
-          origen : "$detalles.animal.origen",
-          historial_medico : 1,
-          historial_animal : 1,
-          habitad_info : 1
+          origen: "$detalles.animal.origen",
+          historial_medico: 1,
+          historial_animal: 1,
+          habitad_info: 1
         },
       };
-      const filter = { $match :{ "detalles.animal.estado": 1} };
+      const filter = { $match: { "detalles.animal.estado": 1 } };
       const lookup = {
         $lookup: {
-            from: "habitat", 
-            localField: "detalles.id_habitad",
-            foreignField: "_id",
-            as: "habitad_info"
+          from: "habitat",
+          localField: "detalles.id_habitad",
+          foreignField: "_id",
+          as: "habitad_info"
         }
-    }
+      }
       const query = await this.collection
-        .aggregate([filter,lookup,projection])
+        .aggregate([filter, lookup, projection])
         .toArray();
       return query;
     } catch (error) {
@@ -97,16 +99,33 @@ export class Animal {
     }
   }
 
-  static async createAnimal(data){
+  static async createAnimal(data) {
     await this.initialize(db.ATLAS_DATABASE, "animales");
     try {
-        const query = await this.collection.insertOne(data);
-        console.log(query);
-        return `Se insertro exitosamente`
+      const query = await this.collection.insertOne(data);
+      console.log(query);
+      return `Se insertro exitosamente`
     } catch (error) {
-        console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].details[0].propertiesNotSatisfied[0].details);
-    }finally{
-        await this.clints.close();
+      console.error(error.errInfo.details.schemaRulesNotSatisfied[0]);
+    } finally {
+      await this.clints.close();
+    }
+  }
+
+  static async bajaAnimal(data) {
+    await this.initialize(db.ATLAS_DATABASE, "bajas");
+    try {
+      const query_baja = await this.collection.insertOne(data);
+      const query_animal = await this.collection.updateOne({ id: data.animal_id }, { $set: { "detalles.animal.estado": 0 } })
+      console.log(query_baja);
+      console.log(query_animal);
+      return {
+        message : `Se creo la baja exitosamente`
+      }
+    } catch (error) {
+      console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0]);
+    } finally {
+      await this.clints.close();
     }
   }
 }
