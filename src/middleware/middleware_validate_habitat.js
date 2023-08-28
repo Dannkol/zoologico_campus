@@ -14,8 +14,6 @@ export const createHabitat = [
     .withMessage('El tipo de hábitat debe ser una cadena de texto'),
 
   body('descripcion_ambiente')
-    .notEmpty()
-    .withMessage('La descripción del ambiente es obligatoria')
     .isString()
     .withMessage('La descripción del ambiente debe ser una cadena de texto'),
 
@@ -30,23 +28,6 @@ export const createHabitat = [
     .withMessage('El volumen de dimensiones es obligatorio')
     .isNumeric()
     .withMessage('El volumen debe ser un número'),
-
-  body('alimentacion.tipo')
-    .notEmpty()
-    .withMessage('El tipo de alimentación es obligatorio')
-    .isString()
-    .withMessage('El tipo de alimentación debe ser una cadena de texto'),
-
-  body('alimentacion.descripcion')
-    .notEmpty()
-    .withMessage('La descripción de la alimentación es obligatoria')
-    .isString()
-    .withMessage('La descripción de la alimentación debe ser una cadena de texto'),
-  body('enriquecimiento')
-    .notEmpty()
-    .withMessage('El enriquecimiento es obligatorio')
-    .isString()
-    .withMessage('El enriquecimiento debe ser una cadena de texto'),
 
   body('caracteristicas_ambientales.temperatura_promedio')
     .notEmpty()
@@ -73,8 +54,6 @@ export const createHabitat = [
     .withMessage('La vegetación debe ser una cadena de texto'),
 
   body('refugio_descanso')
-    .notEmpty()
-    .withMessage('El refugio de descanso es obligatorio')
     .isString()
     .withMessage('El refugio de descanso debe ser una cadena de texto'),
 
@@ -97,8 +76,6 @@ export const createHabitat = [
     .withMessage('La seguridad y las barreras deben ser una cadena de texto'),
 
   body('notas_observaciones')
-    .notEmpty()
-    .withMessage('Las notas y observaciones son obligatorias')
     .isString()
     .withMessage('Las notas y observaciones deben ser una cadena de texto')
 ]
