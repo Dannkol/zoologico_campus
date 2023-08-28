@@ -31,4 +31,17 @@ export class Personal {
       await this.clints.close()
     }
   }
+
+  static async createPersonal ({ personal }) {
+    await this.initialize(db.ATLAS_DATABASE, 'personal')
+    try {
+      const { insertedId } = await this.collection.insertOne(personal)
+      return insertedId
+    } catch (error) {
+      console.error('error al crear el nuevo  personal' + error.message)
+      throw Error('error al crear al personal')
+    } finally {
+      await this.clints.close()
+    }
+  }
 }
