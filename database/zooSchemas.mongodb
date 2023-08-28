@@ -260,15 +260,16 @@ db.createCollection("bajas", {
     $jsonSchema: {
       bsonType: "object",
       title: "bajas object validation",
-      required: ["id_animal","tipo_baja", "fecha_baja", "detalles"],
+      required: ["id_animal", "tipo_baja", "fecha_baja", "detalles"],
       properties: {
         id_animal: {
           bsonType: "objectId",
-          descripcion: "animal es requerido"
+          description: "animal es requerido"
         },
         tipo_baja: {
-          bsonType: "string",
-          description: "Tipo de baja, debe ser obligatorio y de tipo string",
+          bsonType: "number",
+          enum: [0, 1, 2],
+          description: "Tipo de baja, debe ser obligatorio y de tipo number y es 0: fuga , 1: donacion , 2: defuncion",
         },
         fecha_baja: {
           bsonType: "date",
@@ -489,7 +490,7 @@ db.createCollection("historial", {
         },
         detalles: {
           bsonType: "object",
-          required : ["idMovimiento"],
+          required: ["idMovimiento"],
           properties: {
             idMovimiento: {
               bsonType: "objectId",
@@ -1172,8 +1173,8 @@ const animal = db.animales.findOne({ _id: ObjectId("64e977165c79c2c2a0792952") }
 use("db_zoo_campus");
 db.bajas.insertMany([
   {
-    id_animal : animal,
-    tipo_baja: "Fuga",
+    id_animal: animal,
+    tipo_baja: 0,
     fecha_baja: ISODate("2023-08-10"),
     detalles: {
       fuga: {
@@ -1189,6 +1190,37 @@ db.bajas.insertMany([
           },
           observaciones: [],
         },
+      },
+    },
+  },
+  {
+    id_animal: animal,
+    tipo_baja: 1,
+    fecha_baja: ISODate("2023-08-10"),
+    detalles: {
+      donacion: {
+        carta: "url_carta",
+        estado: 2,
+        acta: {
+          fecha: ISODate("2023-08-10"),
+          origen: "universidad nacional",
+          destino: "zoologico de new york",
+          observaciones: "fasfsas",
+          documentacion: {
+            act_del_estado: "URL del documento del estado",
+            doc_legal_origen: "URL del documento que permite la salida",
+            doc_legal_destino: "URL del documento que permite la entrada",
+            docs_responsables: ["URL del documento del estado"],
+          },
+        },
+        fecha_translado: ISODate("2023-08-10"),
+        estado: 1,
+        observaciones: [
+          {
+            fecha: ISODate("2023-08-12"),
+            detalle: "dsdsad",
+          }
+        ]
       },
     },
   }
@@ -1213,7 +1245,7 @@ db.historial.insertMany([
     fecha: ISODate("2023-08-01"),
     responsables: [empleado4],
     detalles: {
-      idMovimiento : movimiento2,
+      idMovimiento: movimiento2,
       habitat: {
         origen: "selva",
         destino: "sabana",
