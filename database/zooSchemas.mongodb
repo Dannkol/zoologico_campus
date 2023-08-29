@@ -258,17 +258,18 @@ use('db_zoo_campus')
 db.createCollection('bajas', {
   validator: {
     $jsonSchema: {
-      bsonType: 'object',
-      title: 'bajas object validation',
-      required: ['id_animal', 'tipo_baja', 'fecha_baja', 'detalles'],
+      bsonType: "object",
+      title: "bajas object validation",
+      required: ["id_animal", "tipo_baja", "fecha_baja", "detalles"],
       properties: {
         id_animal: {
-          bsonType: 'objectId',
-          descripcion: 'animal es requerido'
+          bsonType: "objectId",
+          description: "animal es requerido"
         },
         tipo_baja: {
-          bsonType: 'string',
-          description: 'Tipo de baja, debe ser obligatorio y de tipo string'
+          bsonType: "number",
+          enum: [0, 1, 2],
+          description: "Tipo de baja, debe ser obligatorio y de tipo number y es 0: fuga , 1: donacion , 2: defuncion",
         },
         fecha_baja: {
           bsonType: 'date',
@@ -1251,8 +1252,8 @@ use('db_zoo_campus')
 db.bajas.insertMany([
   {
     id_animal: animal,
-    tipo_baja: 'Fuga',
-    fecha_baja: ISODate('2023-08-10'),
+    tipo_baja: 0,
+    fecha_baja: ISODate("2023-08-10"),
     detalles: {
       fuga: {
         lugar: ObjectId('6122427c8b7d571850c3b2c3'),
@@ -1265,10 +1266,40 @@ db.bajas.insertMany([
             doc_legal_zoo: 'url_doc_legal',
             informe_opinion_publica: 'url_informe_opinion'
           },
-          observaciones: []
-        }
-      }
-    }
+          observaciones: [],
+        },
+      },
+    },
+  },
+  {
+    id_animal: animal,
+    tipo_baja: 1,
+    fecha_baja: ISODate("2023-08-10"),
+    detalles: {
+      donacion: {
+        carta: "url_carta",
+        acta: {
+          fecha: ISODate("2023-08-10"),
+          origen: "universidad nacional",
+          destino: "zoologico de new york",
+          observaciones: "fasfsas",
+          documentacion: {
+            act_del_estado: "URL del documento del estado",
+            doc_legal_origen: "URL del documento que permite la salida",
+            doc_legal_destino: "URL del documento que permite la entrada",
+            docs_responsables: ["URL del documento del estado"],
+          },
+        },
+        fecha_translado: ISODate("2023-08-10"),
+        estado: 1,
+        observaciones: [
+          {
+            fecha: ISODate("2023-08-12"),
+            detalle: "dsdsad",
+          }
+        ]
+      },
+    },
   }
 ])
 
