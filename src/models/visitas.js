@@ -28,11 +28,15 @@ export class Visitas {
         }   
     }
 
-    static async create(data) {
+    static async createVisitaInvestigacion(data) {
         await this.initialize(db.ATLAS_DATABASE, "visitantes");
         try {
             const result = await this.collection.insertOne(data);
-            return result;
+            return {
+                status: 200,
+                message: "Visita de investigacion creada correctamente",
+                data: result.insertedId
+            };
         } catch (error) {
             console.error(error);
         } finally {

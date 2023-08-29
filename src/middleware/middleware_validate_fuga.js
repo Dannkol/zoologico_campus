@@ -62,7 +62,6 @@ const fugaAnimal = [
         .isString()
         .withMessage("El lugar debe ser un string")
         .custom(async (value) => {
-            console.log(value);
             const result = await findOne(value, "habitat");
             if (!result) {
                 throw new Error("Lugar no encontrado");

@@ -6,7 +6,8 @@ import { ObjectId } from "mongodb";
 
 /**
  * 
- * {
+ * 
+ {
     "tipo": 0,
     "nombre_evento": "Visita escolar",
     "detalle": {
@@ -81,14 +82,38 @@ import { ObjectId } from "mongodb";
 
 
 export class VisitaController extends Visitas {
-    static async getEventos(req , res) {
-      try {
-        const eventos = await Visitas.getEventos();
-        res.status(200).json(eventos);
-      } catch (error) {
-        res.status(500).json({
-          message: error.message
+  static async getEventos(req, res) {
+    try {
+      const eventos = await Visitas.getEventos();
+      res.status(200).json(eventos);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message
+      });
+    } finally {
+      res.end();
+    }
+  }
+
+  static async visitaInvestigacion(req, res) {
+    try {
+      const result = validationResult(req);
+      if (result.isEmpty()) {
+        console.log(req.body.investigaciones);
+        const visita = await Visitas.createVisitaInvestigacion(req.body);
+        return res.status(200).json(visita);
+      }
+      else {
+        res.status(400).json({
+          message: result.array()
         });
       }
+    } catch (error) {
+      res.status(500).json({
+        message: error.message
+      });
+    } finally {
+      res.end();
     }
+  }
 }
