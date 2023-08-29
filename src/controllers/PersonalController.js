@@ -16,7 +16,6 @@ export class PersonalController {
   static async contratarPersonal (req, res) {
     try {
       const errors = validationResult(req)
-      console.log(errors.errors)
       if (!errors.isEmpty()) return res.status(400).json(errors)
       const data = req.body
       if (data.areas_investigacion && Array.isArray(data.areas_investigacion)) {
@@ -32,6 +31,20 @@ export class PersonalController {
     } catch (error) {
       console.log('error en el controlador: ' + error.message)
       res.status(500).json({ error: 'Error al crear la habitat' })
+    }
+  }
+
+  static async bajaPersonal (req, res) {
+    try {
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json(errors)
+      const data = req.body
+      data.personal_id = new ObjectId(data.personal_id)
+      const result = await Personal.bajaPersonal({ info: data })
+      res.status(200).json({ id: result, message: 'proceso de baja del empleado fue hecho correctamente' })
+    } catch (error) {
+      console.log('error en el controlador: ' + error.message)
+      res.status(500).json({ error: 'Error al dar de baja al empleado' })
     }
   }
 }
