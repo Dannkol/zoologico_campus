@@ -1,4 +1,32 @@
 import { body } from 'express-validator'
+import { mongoConn, getDB } from '../config/connection.js'
+import { ObjectId } from 'mongodb'
+
+const checkIfExits = async (ids, collectionName) => {
+  const client = await mongoConn()
+  try {
+    const db = getDB('db_zoo_campus')
+    const collection = db.collection(collectionName)
+
+    // Se crea un nuevo array con las respuesta de cada findOne
+    const idExistenceChecks = ids.map(async (id) => {
+      const existingId = await collection.findOne({ _id: new ObjectId(id) })
+      // Si el existingId no es null, significa que el ID existe en la colección, es decir es true de lo contrario false
+      return existingId !== null
+    })
+
+    // usamos Promise.all para esperar que se completen todas las verificaciones
+    const results = await Promise.all(idExistenceChecks)
+
+    // despues de esperar verificamos que todos los id sean true si no false
+    return results.every(result => result === true)
+  } catch (error) {
+    console.error(error)
+    return false
+  } finally {
+    await client.close()
+  }
+}
 
 export const validarPersonal = [
   body('nombre')
@@ -126,13 +154,22 @@ export const validarPersonal = [
   body('areas_investigacion')
     .isArray()
     .optional()
-    .custom(values => values.every(value => typeof value === 'string'))
-    .withMessage('Cada id debe ser una cadena de texto'),
+    .custom(async (value) => {
+      const valid = await checkIfExits(value, 'areas_investigacion')
+      if (!valid) {
+        throw Error('Algunos IDs en areas_investigacion no son válidos')
+      }
+    }),
   body('habitats_a_cargo')
     .isArray()
     .optional()
-    .custom(values => values.every(value => typeof value === 'string'))
-    .withMessage('Cada id debe ser una cadena de texto'),
+    .custom(async (value) => {
+      const valid = await checkIfExits(value, 'habitat')
+
+      if (!valid) {
+        throw Error('Algunos IDs en habitats_a_cargo no son válidos')
+      }
+    }),
   body('estado')
     .notEmpty()
     .withMessage('El estado de contratacion de obligatorio')
