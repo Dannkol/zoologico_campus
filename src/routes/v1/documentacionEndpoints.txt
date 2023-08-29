@@ -1,0 +1,55 @@
+============================================================================================================
+                                         GESTION PERSONAL
+============================================================================================================
+
+TRAER PERSONAL= GET http://localhost:1234/personal/
+
+============================================================================================================
+
+CREAR PERSONAL= POST http://localhost:1234/personal/contratarPersonal
+
+DATOS DE ENTRADA: 
+{
+    "nombre": "Ana Lopez",
+    "puesto": 0,
+    "doc_id": "url_documento_identidad",
+    "experiencia": { "years": 3, "descripcion": "Experiencia en manejo de felinos" },
+    "habilidades": ["Cuidado animal", "Alimentación", "Seguridad"],
+    "arl": [
+      {
+        "eps": "SURA",
+        "pensiones": "url_pensiones",
+        "caja_de_compensacion_familiar": "url_caja_compensacion",
+        "contrato": "Indefinido",
+        "doc_id": "url_documento_identidad" 
+      }
+    ],
+    "contrato": {
+      "fecha": "2023-08-01",
+      "url": "url_contrato",
+      "sueldo": 1500
+    },
+    "habitats_a_cargo":["64e977165c79c2c2a0792952", "64e977165c79c2c2a0792952"],
+    "estado": 1
+}
+
+
+============================================================================================================
+
+DAR BAJA PERSONAL => POST  http://localhost:1234/personal/darBajaPersonal
+
+DATOS DE ENTRADA:
+{
+   "personal_id": "64ed2efe52d469bcd005ee81",
+    "motivo": "Fallecimiento",
+    "fecha": "2023-08-25",
+    "tipo": "muerte",
+    "documentacion": [
+      "url_documento_3",
+      "url_documento_4"
+    ]
+}
+
+============================================================================================================
+                                    GESTION AREAS_INVESTIGACION
+============================================================================================================
