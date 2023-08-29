@@ -42,11 +42,11 @@ const fugaAnimal = [
         }),
     body("tipo")
         .notEmpty()
-        .withMessage("El tipo de aquisicion es baja es obligatorio")
+        .withMessage("El tipo de baja es obligatorio")
         .isNumeric()
         .withMessage("tipo debe ser un number del 1 al 2")
         .custom(value => {
-            if (!(value >= 0 && value < 3)) {
+            if (!(value == 0)) {
                 throw new Error("Tipo de aquisicion no valido");
             }
             return true;
@@ -88,7 +88,8 @@ const fugaAnimal = [
                 throw new Error("Estado de la fuga no valido");
             }
             return true;
-        }),
+        })
+        .customSanitizer(value => parseInt(value)),
     body("detalles.fuga.acta.fecha")
         .notEmpty()
         .withMessage("la fecha del acta es obligatorio")
@@ -105,7 +106,7 @@ const fugaAnimal = [
                 const promises = [];
                 for (let i = 0; i < value.length; i++) {
                     promises.push(
-                        findOne(value[i], "usuarios")
+                        findOne(value[i], "personal")
                     );
                 }
                 const results = await Promise.all(promises);
@@ -143,6 +144,6 @@ const fugaAnimal = [
         .optional()
         .isArray()
         .withMessage("observaciones es un array"),
-]   
+]
 
 export { fugaAnimal };

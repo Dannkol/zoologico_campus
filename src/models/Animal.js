@@ -123,7 +123,7 @@ export class Animal {
         message : `Se creo la baja exitosamente`
       }
     } catch (error) {
-      console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0]);
+      console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0]);
     } finally {
       await this.clints.close();
     }

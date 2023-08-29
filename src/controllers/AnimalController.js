@@ -6,17 +6,17 @@ import { ObjectId } from "mongodb";
 
 
 function convertIdsAndDates(obj) {
-    if (typeof obj === 'object' && obj !== null) {
-        for (const key in obj) {
-            if (key.split('_')[0] === 'id') {
-                obj[key] = new ObjectId(obj[key]);
-            } else if (key === 'fecha' && typeof obj[key] === 'string') {
-                obj[key] = new Date(obj[key]);
-            } else if (typeof obj[key] === 'object') {
-                convertIdsAndDates(obj[key]);
-            }
-        }
+  if (typeof obj === 'object' && obj !== null) {
+    for (const key in obj) {
+      if (key.split('_')[0] === 'id') {
+        obj[key] = new ObjectId(obj[key]);
+      } else if (key === 'fecha' && typeof obj[key] === 'string') {
+        obj[key] = new Date(obj[key]);
+      } else if (typeof obj[key] === 'object') {
+        convertIdsAndDates(obj[key]);
+      }
     }
+  }
 }
 
 export class AnimalController extends Animal {
@@ -27,7 +27,7 @@ export class AnimalController extends Animal {
         message: "Animales al publico",
         data: result,
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 
   static async getAllAdminAnimal(req, res) {
@@ -37,7 +37,7 @@ export class AnimalController extends Animal {
         message: "Animales para administration,m,m",
         data: result,
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 
   //   {
@@ -101,8 +101,8 @@ export class AnimalController extends Animal {
                 altura: {
                   fecha: req.body.detalles.animal.dimensiones.altura.fecha
                     ? new Date(
-                        req.body.detalles.animal.dimensiones.altura.fecha
-                      )
+                      req.body.detalles.animal.dimensiones.altura.fecha
+                    )
                     : "",
                   valor: req.body.detalles.animal.dimensiones.altura.valor
                     ? req.body.detalles.animal.dimensiones.altura.valor
@@ -118,17 +118,17 @@ export class AnimalController extends Animal {
                 }
               },
               historial_medico: req.body.detalles.animal.historial_medico
-              ? req.body.detalles.animal.historial_medico
-              : [],
+                ? req.body.detalles.animal.historial_medico
+                : [],
               historial_animal: req.body.detalles.animal.historial_animal
-              ? req.body.detalles.animal.historial_animal
-              : [],
+                ? req.body.detalles.animal.historial_animal
+                : [],
               origen: req.body.detalles.animal.origen
-              ? req.body.detalles.animal.origen
-              : "",
+                ? req.body.detalles.animal.origen
+                : "",
               estado: req.body.detalles.animal.estado
-              ? req.body.detalles.animal.estado
-              : ""
+                ? req.body.detalles.animal.estado
+                : ""
             },
             id_habitad: req.body.detalles.id_habitad
           },
@@ -145,35 +145,35 @@ export class AnimalController extends Animal {
     }
   }
 
-/*   
-  {
-    id_animal : animal,
-    tipo_baja: "Fuga",
-    fecha_baja: ISODate("2023-08-10"),
-    detalles: {
-      fuga: {
-        lugar: ObjectId("6122427c8b7d571850c3b2c3"),
-        estado: 2,
-        acta: {
-          fecha: ISODate("2023-08-10"),
-          responsables: [empleado3],
-          documentacion: {
-            doc_reporte_autoridades: "url_reporte_autoridades",
-            doc_legal_zoo: "url_doc_legal",
-            informe_opinion_publica: "url_informe_opinion",
+  /*   
+    {
+      id_animal : animal,
+      tipo_baja: "Fuga",
+      fecha_baja: ISODate("2023-08-10"),
+      detalles: {
+        fuga: {
+          lugar: ObjectId("6122427c8b7d571850c3b2c3"),
+          estado: 2,
+          acta: {
+            fecha: ISODate("2023-08-10"),
+            responsables: [empleado3],
+            documentacion: {
+              doc_reporte_autoridades: "url_reporte_autoridades",
+              doc_legal_zoo: "url_doc_legal",
+              informe_opinion_publica: "url_informe_opinion",
+            },
+            observaciones: [],
           },
-          observaciones: [],
         },
       },
-    },
-  }
-*/
+    }
+  */
   static async PostBajaAnimalFuga(req, res) {
     try {
       const result = validationResult(req);
       if (result.isEmpty()) {
         const data = {
-          id_animal : req.body.animal,
+          id_animal: req.body.animal,
           tipo_baja: req.body.tipo,
           fecha_baja: req.body.fecha,
           detalles: {
@@ -189,12 +189,20 @@ export class AnimalController extends Animal {
                   informe_opinion_publica: req.body.detalles.fuga.acta.documentacion.doc_reporte_autoridades,
                 },
                 observaciones: req.body.detalles.fuga.acta.observaciones
+                .filter(data => data.fecha) 
+                .map((data) => {
+                  try {
+                    return { fecha: new Date(data.fecha), detalle: data.detalle }
+                  } catch (error) {
+                    return { fecha: new Date(), detalle: data.detalle }
+                  }
+                })
               }
             },
           },
         };
-        console.log(data);
-        const result = await Animal.bajaAnimal(data); 
+        console.log(data.detalles.fuga.acta);
+        const result = await Animal.bajaAnimal(data);
         return res.json(result);
       }
       res.send({ errors: result.array()[0].msg });
