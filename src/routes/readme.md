@@ -214,8 +214,74 @@ Request
 }
 ```
 
-#### Post baja Animal donacion o traslado
+#### Post baja Animal donacion
 
 ```http
-  POST /animal/admin/baja/fuga
+  POST /animal/admin/baja/donacion
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+| `animal` | `ObjectId` | **Required**. identificador del animal  | 
+| `tipo` | `String` | **Required**. defuncion, Donación, Intercambio, Fuga, Robo |
+| `fecha` | `Date` | **Opcional**. Fecha de la baja |
+| `detalles` | `Object` | **Required**. Detalla la baja |
+
+* Baja por donacion o intercambio
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `carta` | `String` | **Required**. Carta del organismo pidiendo la donacion o intercambio| 
+    | `acta` | `Object` | **Required**. Acta legal de la donacion o intercambio |
+    | `fecha_translado` | `Date` | **Required**. Fecha translado |
+    | `estado`  | `Number` | **Required**. Estado del translado, puede darse el caso que el translado cambie de fecha y el animal siga en el zoo , 1 : Finalizado, 0 : Canselado, 2 : En espera a translado, 3 : Cambio de fecha |
+    | `observaciones` | `Array` | **Opcional** Observaciones en el proceso de translado  |
+
+   * tabla de acta
+
+        | Parametro | Type     |Descripción            |
+        | :--------: | :-------: | :------------------------- |
+        | `fecha` | `Date` | **Required**. Fecha del acta | 
+        | `origen` | `String` | **Required**. nombre del donante o origen |
+        | `destino` | `String` | **Required**. nombre del donatario , si el donatario es el mismo zoo entonces es una donacion |
+        | `observaciones`  | `String` | **Opcional**. observaciones a tener en cuenta |
+        | `documentacion` | `Array` | **Required** urls de los documentacion anexados al acta  |
+        | `act_del_estado` | `String` | **Required** |
+        | `doc_legal_origen`  | `String` | **Required** |
+        | `doc_legal_destino`   | `String` | **Required** |
+        | `docs_responsables` | `String` | **Required** |
+
+Request 
+
+```json
+{
+  "animal": "64e9c4b2986703ce048da465",
+  "tipo": 2,
+  "fecha": "2023-08-18",
+  "detalles": {
+    "donacion": {
+      "carta": "req.detalles.donacion.carta",
+      "acta": {
+        "fecha": "2023-08-12",
+        "origen": "req.detalles.donacion.act.origen",
+        "destino": "req.detalles.donacion.act.destino",
+        "observaciones": "dasdas",
+        "documentacion": {
+          "act_del_estado": "req.detalles.donacion.act.documentacion.act_del_estado",
+          "doc_legal_origen": "req.detalles.donacion.act.documentacion.doc_legal_origen",
+          "doc_legal_destino": "req.detalles.donacion.act.documentacion.doc_legal_destino",
+          "docs_responsables": ["req.detalles.donacion.act.documentacion.docs_responsables"]
+        }
+      },
+      "fecha_translado": "2023-08-12",
+      "estado": "2",
+      "observaciones": [
+          {
+            "fecha": "2023-08-12",
+            "detalle": "dsdsad"
+          }
+        ]
+    }
+  }
+}
 ```
