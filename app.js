@@ -6,11 +6,8 @@ import { routes as routes_habitat_js } from './src/routes/v1/habitat.routes.js'
 import { routes as routes_personal_js } from './src/routes/v1/personal.routes.js'
 
 
-import routesVersioning from "express-routes-versioning";
-
-import configureApp from "./src/config/configExpress.js";
-
 import { routes as routes_animal_v1 } from "./src/routes/v1/animal.routes.js";
+import { routes as routes_visitas_v1 } from './src/routes/v1/visitas.routes.js'
 
 // Rutas version 1
 
@@ -41,6 +38,13 @@ version({
       "1.0.0": routes_animal_v1,
     })
 );
+
+app.use('/visitas',
+version({
+      "1.0.0": routes_visitas_v1,
+    })
+);
+
 
 // Definir puertos de escuhca
 

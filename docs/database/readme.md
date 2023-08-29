@@ -807,7 +807,7 @@ Hace referencia a la visualizacion de la coleccion personal en la base de datos
 
                 }
             ],
-        }"...", // razon de la visista
+        }, // razon de la visista
 
         // en caso de guia_escolar o guia_universitaria
         precio_total: 32423

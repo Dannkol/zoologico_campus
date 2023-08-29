@@ -1052,6 +1052,61 @@ db.createCollection('visitantes', {
   }
 })
 
+use('db_zoo_compus')
+
+db.createCollection('evento', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      title: 'registro visitantes object validation',
+      required: ['titulo', 'description', 'fecha', 'precio'],
+      properties: {
+        titulo: {
+          bsonType: 'string',
+          description:
+            'Titulo del evento'
+        },
+        descripcion: {
+          bsonType: 'string',
+          description: 'Descripcion del evento'
+        },
+        fecha: {
+          bsonType: 'date',
+          description: 'Fecha del evento'
+        },
+        precio: {
+          bsonType: 'double',
+          description: 'Precio del evento'
+        }
+      }
+    }
+  }
+});
+
+
+use('db_zoo_campus')
+db.evento.insertMany([
+  {
+    "titulo": "Concierto de Rock",
+    "descripcion": "Un emocionante concierto de rock con bandas locales.",
+    "fecha": ISODate("2023-09-15T20:00:00Z"),
+    "precio": 25.99
+  },
+  {
+    "titulo": "Taller de Arte",
+    "descripcion": "Un taller de arte interactivo para niños y adultos.",
+    "fecha": ISODate("2023-09-20T15:30:00Z"),
+    "precio": 10.5
+  },
+  {
+    "titulo": "Feria de Comida",
+    "descripcion": "Una feria gastronómica con los mejores platillos de la región.",
+    "fecha": ISODate("2023-10-05T18:00:00Z"),
+    "precio": 5.75
+  }
+]);
+
+
 use('db_zoo_campus')
 db.habitat.insertMany([
   {

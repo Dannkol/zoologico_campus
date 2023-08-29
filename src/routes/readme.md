@@ -285,3 +285,145 @@ Request
   }
 }
 ```
+
+# API Reference Visitas
+
+
+#### Post nueva visita
+
+```http
+  POST /visitas/
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+| `tipo` | `Number` | **Required**.  tipo de visita , 0 : guia_escolar , 1 : investigacion_escolar , 2 :guia_universitaria , 3 : investigacion_universitaria , 4 : recorrido guiado , 5 : evento especial , 6 : general, 7 : investigacion_particular | 
+| `nombre_evento` | `String` | **Opcional**. razon de la visista |
+| `descripcion` | `String` | **Opcional**. razon de la visista  |
+| `detalle` | `Object` | **Required**. informacion de la visita  |
+| `investigaciones` | `Array` | **Opcional**. lista de investigaciones  |
+| `plan` | `Object` | **Opcional**. Detalles del plan  |
+| `precio_total` | `Number` | **Required**. precio total de la visista  |
+| `descripcion` | `String` | **Opcional**. Documentos del visitante  |
+
+*  Esquema en tablas basica para detalle
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `institucion` | `Number` | **Opcional**.  nombre de la institucion que viene a la visista, si no aplica dejar null | 
+    | `responsables` | `Array` | **Required**.  responsables de la visita |
+    | `fecha_fin` | `Date` | **Opcional**. fecha fin del evento  |
+    | `fecha_inicio` | `Date` | **Required**. fecha inicio del evento  |
+    | `areas` | `Array` | **Opcional**. lista de ObjectId  |
+    | `observaciones` | `Array` | **Opcional**. lista de observaciones  |
+    | `documentos` | `Object` | **Required**. Documentos del o los visitante/s  |
+
+Request para visita de investigacion
+
+```JSON
+{
+  "tipo": 0,
+  "nombre_evento": "Visita escolar",
+  "detalle": {
+    "institucion": "Escuela Primaria ABC",
+    "responsables": [
+      "64e976e27813506a7af9f705",
+      "64e976e27813506a7af9f705"
+    ],
+    "fecha_inicio": "2023-08-01",
+    "fecha_fin": "2023-08-02",
+    "areas": [
+      "64e9749fabecf5d8f35f2086",
+      "64e9749fabecf5d8f35f2086"
+    ],
+    "observaciones": [
+      {
+        "responsable": "64e976e27813506a7af9f705",
+        "observacion": "Los estudiantes mostraron mucho interés en los animales",
+        "fecha": "2023-08-01T10:00:00Z"
+      }
+    ],
+    "documentos": {
+      "acta": {
+        "fecha": "2023-08-01T00:00:00Z",
+        "url": "https://ejemplo.com/acta",
+        "doc_legal_institucion": "https://ejemplo.com/doc_legal"
+      },
+      "doc_visitantes": [
+        {
+          "nombre": "Estudiante 1",
+          "edad": 12,
+          "doc_id": "https://ejemplo.com/doc_estudiante1",
+          "boleta": {
+            "tipo": "escolar",
+            "precio_boleta": 10
+          },
+          "padres": {
+            "doc_padres": [
+              "https://ejemplo.com/doc_padre1"
+            ],
+            "permiso": "https://ejemplo.com/permiso_estudiante1"
+          },
+          "permisos": [
+            "https://ejemplo.com/permiso_estudiante1"
+          ]
+        }
+      ]
+    }
+  },
+  "investigaciones": [
+    {
+      "area": "64ed512750945d36d8b17caf",
+      "id_investigacion": [
+        "64d1b044068a2499b7107062"
+      ],
+      "descripcion": "Investigación sobre hábitos alimenticios"
+    }
+  ],
+  "plan": {
+    "nombre": "Plan escolar",
+    "actividades": [
+      "Charla sobre animales",
+      "Recorrido por el zoológico"
+    ]
+  },
+  "precio_total": 100,
+  "description": "Visita guiada para estudiantes de primaria"
+}
+```
+
+Request para visita no investigativa
+
+```JSON
+{
+  "tipo": 6,
+  "nombre_evento": "Visita general",
+  "detalle": {
+    "responsables": ["64e976e27813506a7af9f705"],
+    "fecha_inicio": "2023-09-15",
+    "documentos": {
+      "acta": {
+        "fecha": "2023-09-15",
+        "url": "https://ejemplo.com/acta2",
+        "doc_legal_institucion": "https://ejemplo.com/doc_legal2"
+      },
+      "doc_visitantes": []
+    }
+  },
+  "investigaciones": [],
+  "plan": {},
+  "precio_total": 5,
+  "description": "Visita abierta al público general"
+}
+```
+
+#### Get all eventos
+
+```http
+  POST /visitas/eventos
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `/` | `/` | **/**. |
