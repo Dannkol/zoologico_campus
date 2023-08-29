@@ -44,4 +44,17 @@ export class Personal {
       await this.clints.close()
     }
   }
+
+  static async bajaPersonal ({ info }) {
+    await this.initialize(db.ATLAS_DATABASE, 'baja_personal')
+    try {
+      const { insertedId } = await this.collection.insertOne(info)
+      return insertedId
+    } catch (error) {
+      console.error('error al dar de baja al empleado' + error.message)
+      throw Error('error al dar de baja al personal')
+    } finally {
+      await this.clints.close()
+    }
+  }
 }
