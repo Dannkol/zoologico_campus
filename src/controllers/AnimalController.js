@@ -205,11 +205,134 @@ export class AnimalController extends Animal {
         const result = await Animal.bajaAnimal(data);
         return res.json(result);
       }
-      res.send({ errors: result.array()[0].msg });
+      res.send({ errors: result.array() });
     } catch (error) {
       console.error(error);
     } finally {
       res.end();
     }
   }
+
+/*   
+  {
+    "animal_id": ObjectId("..."), 
+    "tipo_baja": "defuncion", 
+    "fecha_baja": ISODate("2023-08-18"),
+    "detalles":  {
+        "defuncion" : {
+            "analisis" : [
+                ObjectId("64d1b044068a2499b7107060"),
+                ObjectId("66d1b0444335a299b7107060")
+            ], 
+            "fecha_inhumacion" : ISODate("2003-10-10T00:00:00")
+        }
+    }  
+  } 
+*/
+
+
+  static async PostBajaAnimalDefuncion(req, res) {
+    try {
+      const result = validationResult(req);
+      if (result.isEmpty()) {
+
+        const data = {
+          "id_animal": req.body.animal,
+          "tipo_baja": req.body.tipo,
+          "fecha_baja": req.body.fecha,
+          "detalles": {
+            "defuncion": {
+              "analisis": req.body.detalles.defuncion.analisis,
+              "fecha_inhumacion": req.body.detalles.defuncion.fecha_inhumacion
+            }
+          }
+        }
+        console.log(req.body.detalles);
+        const query = await Animal.bajaAnimalDefeuncion(data)
+        console.log(query);
+        return res.status(200).json(query)
+      }
+      res.send({ errors: result.array()});
+    } catch (error) {
+      console.error(error);
+    } finally {
+      res.end()
+    }
+  }
+
+/* 
+  {
+    id_animal: animal,
+    tipo_baja: 1,
+    fecha_baja: ISODate("2023-08-10"),
+    detalles: {
+      donacion: {
+        carta: "url_carta",
+        estado: 2,
+        acta: {
+          fecha: ISODate("2023-08-10"),
+          origen: "universidad nacional",
+          destino: "zoologico de new york",
+          observaciones: "fasfsas",
+          documentacion: {
+            act_del_estado: "URL del documento del estado",
+            doc_legal_origen: "URL del documento que permite la salida",
+            doc_legal_destino: "URL del documento que permite la entrada",
+            docs_responsables: ["URL del documento del estado"],
+          },
+        },
+        fecha_translado: ISODate("2023-08-10"),
+        estado: 1,
+        observaciones: [
+          {
+            fecha: ISODate("2023-08-12"),
+            detalle: "dsdsad",
+          }
+        ]
+      },
+    },
+  } 
+  */
+
+  static async PostBajaAnimalDonacion(req , res){
+    try {
+      const result = validationResult(req);
+      if (result.isEmpty()) {
+        const data = {
+          id_animal: req.body.animal,
+          tipo_baja: req.body.tipo,
+          fecha_baja: req.body.fecha,
+          detalles: {
+            donacion: {
+              carta: req.detalles.donacion.carta,
+              estado: req.detalles.donacion.estado,
+              acta: {
+                fecha: req.detalles.donacion.act.fecha,
+                origen: req.detalles.donacion.act.origen,
+                destino: req.detalles.donacion.act.destino,
+                observaciones: req.detalles.donacion.act.observaciones,
+                documentacion: {
+                  act_del_estado: req.detalles.donacion.act.documentacion.act_del_estado,
+                  doc_legal_origen: req.detalles.donacion.act.documentacion.doc_legal_origen,
+                  doc_legal_destino: req.detalles.donacion.act.documentacion.doc_legal_destino,
+                  docs_responsables: req.detalles.donacion.act.documentacion.docs_responsables,
+                },
+              },
+              fecha_translado: req.detalles.donacion.fecha_translado,
+              estado: req.detalles.donacion.estado,
+              observaciones: req.detalles.donacion.observaciones
+            },
+          },
+        }
+
+        return res.status(200).json(data)
+      }
+      res.send({ errors: result.array()});
+    } catch (error) {
+      console.error(error);
+    } finally {
+      res.end()
+    }
+  }
 }
+

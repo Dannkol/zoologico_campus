@@ -123,7 +123,28 @@ export class Animal {
         message : `Se creo la baja exitosamente`
       }
     } catch (error) {
-      console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0]);
+      console.error(error.errInfo.details);
+    } finally {
+      await this.clints.close();
+    }
+  }
+
+  static async bajaAnimalDefeuncion(data) {
+    await this.initialize(db.ATLAS_DATABASE, "bajas");
+    try {
+
+      const query_baja = await this.collection.insertOne(data);
+      const query_animal = await this.collection.updateOne({ id: data.animal_id }, { $set: { "detalles.animal.estado": 0 } })
+      console.log(query_baja);
+      console.log(query_animal);
+      return {
+        message : `Se creo la baja exitosamente`
+      }
+    } catch (error) {
+      console.error(error.errInfo.details.schemaRulesNotSatisfied[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0].details[0].propertiesNotSatisfied[0]);
+      return {
+        message : "error"
+      }
     } finally {
       await this.clints.close();
     }
