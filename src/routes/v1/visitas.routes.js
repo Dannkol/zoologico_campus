@@ -7,7 +7,7 @@ import { validarVisita } from '../../middleware/middleware_validate_visita.js'
 const routes = Router()
 
 routes.get('/eventos', VisitaController.getEventos)
-routes.post('/eventos',validarVisita , VisitaController.visitaInvestigacion)
+routes.post('/vistas',validarVisita , VisitaController.visitaInvestigacion)
 
 
 
