@@ -304,28 +304,39 @@ export class AnimalController extends Animal {
           fecha_baja: req.body.fecha,
           detalles: {
             donacion: {
-              carta: req.detalles.donacion.carta,
-              estado: req.detalles.donacion.estado,
+              carta: req.body.detalles.donacion.carta,
               acta: {
-                fecha: req.detalles.donacion.act.fecha,
-                origen: req.detalles.donacion.act.origen,
-                destino: req.detalles.donacion.act.destino,
-                observaciones: req.detalles.donacion.act.observaciones,
+                fecha: req.body.detalles.donacion.acta.fecha,
+                origen: req.body.detalles.donacion.acta.origen,
+                destino: req.body.detalles.donacion.acta.destino,
+                observaciones: req.body.detalles.donacion.acta.observaciones,
                 documentacion: {
-                  act_del_estado: req.detalles.donacion.act.documentacion.act_del_estado,
-                  doc_legal_origen: req.detalles.donacion.act.documentacion.doc_legal_origen,
-                  doc_legal_destino: req.detalles.donacion.act.documentacion.doc_legal_destino,
-                  docs_responsables: req.detalles.donacion.act.documentacion.docs_responsables,
+                  act_del_estado: req.body.detalles.donacion.acta.documentacion.act_del_estado,
+                  doc_legal_origen: req.body.detalles.donacion.acta.documentacion.doc_legal_origen,
+                  doc_legal_destino: req.body.detalles.donacion.acta.documentacion.doc_legal_destino,
+                  docs_responsables: req.body.detalles.donacion.acta.documentacion.docs_responsables,
                 },
               },
-              fecha_translado: req.detalles.donacion.fecha_translado,
-              estado: req.detalles.donacion.estado,
-              observaciones: req.detalles.donacion.observaciones
+              fecha_translado: req.body.detalles.donacion.fecha_translado,
+              estado: req.body.detalles.donacion.estado,
+              observaciones: req.body.detalles.donacion.observaciones.filter(data => data.fecha) 
+              .map((data) => {
+                try {
+                  return { fecha: new Date(data.fecha), detalle: data.detalle }
+                } catch (error) {
+                  return { fecha: new Date(), detalle: data.detalle }
+                }
+              })
             },
           },
         }
 
-        return res.status(200).json(data)
+        console.log(data.detalles.donacion.acta);
+        console.log(data.detalles.donacion);
+
+        const query = await Animal.bajaAnimalDeDonacion(data)
+
+        return res.status(200).json(query)
       }
       res.send({ errors: result.array()});
     } catch (error) {

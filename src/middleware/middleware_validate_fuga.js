@@ -1,7 +1,5 @@
 import { body } from "express-validator";
 
-// "tipo_adquisicion", "fecha_adquisicion", "detalles"
-
 import { mongoConn, getDB } from "../config/connection.js";
 import { ObjectId } from 'mongodb';
 

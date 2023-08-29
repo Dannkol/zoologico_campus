@@ -1200,7 +1200,6 @@ db.bajas.insertMany([
     detalles: {
       donacion: {
         carta: "url_carta",
-        estado: 2,
         acta: {
           fecha: ISODate("2023-08-10"),
           origen: "universidad nacional",
