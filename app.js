@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import routesVersioning from 'express-routes-versioning'
 import configureApp from './src/config/configExpress.js'
 import { routes as routes_habitat_js } from './src/routes/v1/habitat.routes.js'
+import { routes as routes_personal_js } from './src/routes/v1/personal.routes.js'
 
 dotenv.config()
 
@@ -12,8 +13,12 @@ const version = routesVersioning()
 // Configurar la aplicación Express
 configureApp(app)
 
-// Definir las rutas
-
+// Definir las rutasres
+app.use('/personal',
+  version({
+    '1.0.0': routes_personal_js
+  })
+)
 app.use('/habitat',
   version({
     '1.0.0': routes_habitat_js
@@ -28,5 +33,5 @@ const HOST = JSON.parse(process.env.SERVER)
 const PORT = HOST.PORT || 8080
 
 app.listen(PORT, async () => {
-    console.log(`listening at http://${HOST.HOSTNAME}:${PORT}`)
-  })
+  console.log(`Example app listening at http://${HOST.HOSTNAME}:${PORT}`)
+})
