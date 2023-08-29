@@ -10,8 +10,8 @@ export const validarPersonal = [
   body('puesto')
     .notEmpty()
     .withMessage('El puesto es obligatorio')
-    .isString()
-    .withMessage('El puesto debe ser una cadena de texto'),
+    .isInt()
+    .withMessage('el puesto debe ser un entero el cual representa un cargo'),
 
   body('doc_id')
     .notEmpty()
@@ -34,8 +34,7 @@ export const validarPersonal = [
   body('habilidades')
     .isArray()
     .withMessage('Las habilidades deben ser un arreglo')
-    .notEmpty()
-    .withMessage('Las habilidades son obligatorias')
+    .optional()
     .custom(values => values.every(value => typeof value === 'string'))
     .withMessage('Cada habilidad debe ser una cadena de texto'),
 
@@ -90,6 +89,7 @@ export const validarPersonal = [
 
   body('observaciones')
     .isArray()
+    .optional()
     .withMessage('Las observaciones deben ser un arreglo')
     .custom(values => {
       return values.every(observation => {
@@ -123,6 +123,16 @@ export const validarPersonal = [
     .withMessage('El tipo de observación es obligatorio')
     .isInt()
     .withMessage('El tipo de observación debe ser un número entero'),
+  body('areas_investigacion')
+    .isArray()
+    .optional()
+    .custom(values => values.every(value => typeof value === 'string'))
+    .withMessage('Cada id debe ser una cadena de texto'),
+  body('habitats_a_cargo')
+    .isArray()
+    .optional()
+    .custom(values => values.every(value => typeof value === 'string'))
+    .withMessage('Cada id debe ser una cadena de texto'),
   body('estado')
     .notEmpty()
     .withMessage('El estado de contratacion de obligatorio')
