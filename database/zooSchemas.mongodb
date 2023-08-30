@@ -1099,12 +1099,10 @@ db.createCollection('usuario', {
           bsonType: 'string',
           description: 'La contraseña es obligatoria'
         },
-        rol: {
-          bsonType: 'array',
-          description: 'El rol es obligatorio',
-          items: {
-            bsonType: 'objectId'
-          }
+        rol: {   
+            bsonType: 'int',
+            enum: [1, 2, 3,4],
+            description:'1:invitado, 2:empleado, 3:investigacion, 4:admin'   
         },
         permisos: {
           bsonType: 'array',
@@ -1118,23 +1116,7 @@ db.createCollection('usuario', {
   }
 })
 
-use('db_zoo_campus')
-db.createCollection('rol', {
-  validator: {
-    $jsonSchema: {
-      bsonType: 'object',
-      required: ['nombre'],
-      properties: {
-        nombre: {
-          bsonType: 'string',
-          enum: ['empleado', 'admin'],
-          description: '{"status": "402", "message": "El nombre_rol es obligatorio y solo recibe letras"}',
-          pattern: '^[a-zA-Z ]+$'
-        }
-      }
-    }
-  }
-})
+
 
 use('db_zoo_campus')
 db.evento.insertMany([
