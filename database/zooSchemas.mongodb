@@ -258,18 +258,18 @@ use('db_zoo_campus')
 db.createCollection('bajas', {
   validator: {
     $jsonSchema: {
-      bsonType: "object",
-      title: "bajas object validation",
-      required: ["id_animal", "tipo_baja", "fecha_baja", "detalles"],
+      bsonType: 'object',
+      title: 'bajas object validation',
+      required: ['id_animal', 'tipo_baja', 'fecha_baja', 'detalles'],
       properties: {
         id_animal: {
-          bsonType: "objectId",
-          description: "animal es requerido"
+          bsonType: 'objectId',
+          description: 'animal es requerido'
         },
         tipo_baja: {
-          bsonType: "number",
+          bsonType: 'number',
           enum: [0, 1, 2],
-          description: "Tipo de baja, debe ser obligatorio y de tipo number y es 0: fuga , 1: donacion , 2: defuncion",
+          description: 'Tipo de baja, debe ser obligatorio y de tipo number y es 0: fuga , 1: donacion , 2: defuncion'
         },
         fecha_baja: {
           bsonType: 'date',
@@ -469,17 +469,17 @@ db.createCollection('bajas', {
   }
 })
 
-use("db_zoo_campus");
-db.createCollection("historial", {
+use('db_zoo_campus')
+db.createCollection('historial', {
   validator: {
     $jsonSchema: {
-      bsonType: "object",
-      title: "object historial",
-      required: ["fecha", "responsables", "detalles"],
+      bsonType: 'object',
+      title: 'object historial',
+      required: ['fecha', 'responsables', 'detalles'],
       properties: {
         fecha: {
-          bsonType: "date",
-          description: "fecha en la que ocurrio el movimiento",
+          bsonType: 'date',
+          description: 'fecha en la que ocurrio el movimiento'
         },
         responsables: {
           bsonType: 'array',
@@ -1081,31 +1081,82 @@ db.createCollection('evento', {
       }
     }
   }
-});
+})
 
+use('db_zoo_campus')
+db.createCollection('usuario', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['nombre', 'password', 'rol'],
+      properties: {
+        nombre: {
+          bsonType: 'string',
+          description: 'El nombre es obligatorio y solo recibe letras',
+          pattern: '^[a-zA-Z ]+$'
+        },
+        password: {
+          bsonType: 'string',
+          description: 'La contraseña es obligatoria'
+        },
+        rol: {
+          bsonType: 'array',
+          description: 'El rol es obligatorio',
+          items: {
+            bsonType: 'objectId'
+          }
+        },
+        permisos: {
+          bsonType: 'array',
+          description: 'Los permisos son obligatorios',
+          items: {
+            bsonType: 'string'
+          }
+        }
+      }
+    }
+  }
+})
+
+use('db_zoo_campus')
+db.createCollection('rol', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['nombre'],
+      properties: {
+        nombre: {
+          bsonType: 'string',
+          enum: ['empleado', 'admin'],
+          description: '{"status": "402", "message": "El nombre_rol es obligatorio y solo recibe letras"}',
+          pattern: '^[a-zA-Z ]+$'
+        }
+      }
+    }
+  }
+})
 
 use('db_zoo_campus')
 db.evento.insertMany([
   {
-    "titulo": "Concierto de Rock",
-    "descripcion": "Un emocionante concierto de rock con bandas locales.",
-    "fecha": ISODate("2023-09-15T20:00:00Z"),
-    "precio": 25.99
+    titulo: 'Concierto de Rock',
+    descripcion: 'Un emocionante concierto de rock con bandas locales.',
+    fecha: ISODate('2023-09-15T20:00:00Z'),
+    precio: 25.99
   },
   {
-    "titulo": "Taller de Arte",
-    "descripcion": "Un taller de arte interactivo para niños y adultos.",
-    "fecha": ISODate("2023-09-20T15:30:00Z"),
-    "precio": 10.5
+    titulo: 'Taller de Arte',
+    descripcion: 'Un taller de arte interactivo para niños y adultos.',
+    fecha: ISODate('2023-09-20T15:30:00Z'),
+    precio: 10.5
   },
   {
-    "titulo": "Feria de Comida",
-    "descripcion": "Una feria gastronómica con los mejores platillos de la región.",
-    "fecha": ISODate("2023-10-05T18:00:00Z"),
-    "precio": 5.75
+    titulo: 'Feria de Comida',
+    descripcion: 'Una feria gastronómica con los mejores platillos de la región.',
+    fecha: ISODate('2023-10-05T18:00:00Z'),
+    precio: 5.75
   }
-]);
-
+])
 
 use('db_zoo_campus')
 db.habitat.insertMany([
@@ -1308,7 +1359,7 @@ db.bajas.insertMany([
   {
     id_animal: animal,
     tipo_baja: 0,
-    fecha_baja: ISODate("2023-08-10"),
+    fecha_baja: ISODate('2023-08-10'),
     detalles: {
       fuga: {
         lugar: ObjectId('6122427c8b7d571850c3b2c3'),
@@ -1321,40 +1372,40 @@ db.bajas.insertMany([
             doc_legal_zoo: 'url_doc_legal',
             informe_opinion_publica: 'url_informe_opinion'
           },
-          observaciones: [],
-        },
-      },
-    },
+          observaciones: []
+        }
+      }
+    }
   },
   {
     id_animal: animal,
     tipo_baja: 1,
-    fecha_baja: ISODate("2023-08-10"),
+    fecha_baja: ISODate('2023-08-10'),
     detalles: {
       donacion: {
-        carta: "url_carta",
+        carta: 'url_carta',
         acta: {
-          fecha: ISODate("2023-08-10"),
-          origen: "universidad nacional",
-          destino: "zoologico de new york",
-          observaciones: "fasfsas",
+          fecha: ISODate('2023-08-10'),
+          origen: 'universidad nacional',
+          destino: 'zoologico de new york',
+          observaciones: 'fasfsas',
           documentacion: {
-            act_del_estado: "URL del documento del estado",
-            doc_legal_origen: "URL del documento que permite la salida",
-            doc_legal_destino: "URL del documento que permite la entrada",
-            docs_responsables: ["URL del documento del estado"],
-          },
+            act_del_estado: 'URL del documento del estado',
+            doc_legal_origen: 'URL del documento que permite la salida',
+            doc_legal_destino: 'URL del documento que permite la entrada',
+            docs_responsables: ['URL del documento del estado']
+          }
         },
-        fecha_translado: ISODate("2023-08-10"),
+        fecha_translado: ISODate('2023-08-10'),
         estado: 1,
         observaciones: [
           {
-            fecha: ISODate("2023-08-12"),
-            detalle: "dsdsad",
+            fecha: ISODate('2023-08-12'),
+            detalle: 'dsdsad'
           }
         ]
-      },
-    },
+      }
+    }
   }
 ])
 
