@@ -16,16 +16,14 @@ export const validateInfo = [
     .withMessage('La contraseña debe ser una cadena de texto'),
 
   body('rol')
-    .isArray()
-    .withMessage('El rol es obligatorio')
     .notEmpty()
-    .withMessage('El rol es obligatorio')
-    .custom(values => values.every(value => typeof value === 'string'))
-    .withMessage('Cada elemento del rol debe ser una cadena de texto'),
+    .isInt()
+    .withMessage('El rol es obligatorio'),
   body('permisos')
     .isArray()
-    .optional()
-    .custom(values => values.every(value => typeof value === 'string'))
+    .optional(),
+  body('permisos.*')
+    .isString()
     .withMessage('Los permisos deben ser una cadena')
 
 ]
