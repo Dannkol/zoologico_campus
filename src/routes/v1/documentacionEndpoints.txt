@@ -50,6 +50,76 @@ DATOS DE ENTRADA:
     ]
 }
 
+
+============================================================================================================
+                                    GESTION HABITATS
+============================================================================================================
+
+CREAR HABITATS => POST http://localhost:1234/habitat/createHabitat
+
+DATOS DE ENTRADA:
+
+{
+    "nombre": "Hábitat de Tigres Siberianos",
+    "tipo_habitat": "Reserva de Montaña",
+    "descripcion_ambiente": "Entorno natural en las montañas para tigres siberianos",
+    "dimensiones": { "area": 1000, "volumen": 500 },
+    "caracteristicas_ambientales": {
+      "temperatura_promedio": -10,
+      "humedad_relativa": 80,
+      "tipo_sustrato": "Nieve y rocas",
+      "vegetacion": "Bosques de coníferas"
+    },
+    "refugio_descanso": "Cuevas naturales y áreas con sombra de árboles",
+    "instalaciones_equipos": {
+      "elementos": ["Estanque con peces", "Rocas para trepar", "Plataformas de observación"],
+      "equipos": "Sistemas de calefacción y monitoreo de movimiento"
+    },
+    "seguridad_barreras": "Vallas electrificadas y fosos naturales",
+    "notas_observaciones": "Se mantiene un ambiente lo más natural posible para los tigres siberianos"
+}
+
+
+TRAER HABITATS => GET http://localhost:1234/habitat/
+
 ============================================================================================================
                                     GESTION AREAS_INVESTIGACION
 ============================================================================================================
+
+TRAER INVESTIGACIONES => GET http://localhost:1234/investigaciones/
+
+
+CREAR UNA INVESTIGACION => POST http://localhost:1234/investigaciones/createInvestigacion
+
+datos de entrada:
+{
+    "area": "Investigacion general",
+    "responsables": [
+        "64d1b044068a2499b7107064",
+        "64d1b044068a2499b7107065"
+    ],
+    "fecha_creacion": "2023-09-01",
+    "investigaciones": [
+        {
+            "id_investigacion": "64d1b044068a2499b7107066",
+            "responsables": [
+                "64d1b044068a2499b7107064",
+                "64d1b044068a2499b7107064"
+            ],
+            "id_animal": ["64d1b044068a2499b7107067"],
+            "nombre": "Investigación sobre nuevas enfermedades",
+            "fecha_inicio": "2022-11-01",
+            "fecha_fin": "2023-09-01",
+            "doc": [
+                {
+                    "fecha": "2023-09-01",
+                    "responsables": ["64d1b044068a2499b7107068"],
+                    "id_animal": ["64d1b044068a2499b7107067"],
+                    "url": "nueva_url_articulo",
+                    "resumen": "Resumen del nuevo artículo"
+                }
+            ]
+        }
+    ],
+    "descripcion": "Nueva descripción del área de investigación"
+}
