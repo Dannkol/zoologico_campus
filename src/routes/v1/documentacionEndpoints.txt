@@ -86,6 +86,7 @@ TRAER HABITATS => GET http://localhost:1234/habitat/
                                     GESTION AREAS_INVESTIGACION
 ============================================================================================================
 
+
 TRAER INVESTIGACIONES => GET http://localhost:1234/investigaciones/
 
 
@@ -122,4 +123,23 @@ datos de entrada:
         }
     ],
     "descripcion": "Nueva descripción del área de investigación"
+=======
+
+============================================================================================================
+                                    GESTION AUTH
+============================================================================================================
+
+REGISTRO DE USUARIOS => POST http://localhost:1234/auth/registro
+{
+  "nombre":"Ivanchin",
+  "password":"prueba",
+  "rol":["64df609af27d047f4e0a99ad"],
+  "permisos":["1.0.0", "3.5.5"]
+}
+
+INICIO DE SESION => POST http://localhost:1234/auth/inicioSesion
+
+{
+  "nombre":"Ivanchin",
+  "password":"prueba"
 }

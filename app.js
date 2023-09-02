@@ -9,6 +9,8 @@ import { routes as routes_animal_v1 } from './src/routes/v1/animal.routes.js'
 import { routes as routes_visitas_v1 } from './src/routes/v1/visitas.routes.js'
 import { routes as routes_investigaciones_v1 } from './src/routes/v1/investigaciones.routes.js'
 
+import { routes as routes_auth_v1 } from './src/routes/v1/auth.routes.js'
+
 // Rutas version 1
 
 dotenv.config()
@@ -48,6 +50,11 @@ app.use('/visitas',
 app.use('/investigaciones',
   version({
     '1.0.0': routes_investigaciones_v1
+  })
+)
+app.use('/auth',
+  version({
+    '1.0.0': routes_auth_v1
   })
 )
 
