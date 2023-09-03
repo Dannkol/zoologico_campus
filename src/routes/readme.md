@@ -565,3 +565,211 @@ Request
   "estado": 1
 }
 ```
+
+#### POST DE TODAS LAS PERSONAS Version 2.0.0
+
+```http
+  POST /personal/darBajaPersonal
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `personal_id` | `string` | **Required**. id de la persona |
+| `motivo` | `string`Motivo de la baja | **Required**.   | 
+| `fecha` | `date` | **Opcional**. fecha de la baja |
+| `documentacion` | `date` | **Opcional**. lista de url de documentos relacionados |
+
+Request
+
+```JSON
+{
+  "personal_id": "64ed2efe52d469bcd005ee81",
+  "motivo": "Fallecimiento",
+  "fecha": "2023-08-25",
+  "tipo": "muerte",
+  "documentacion": [
+    "url_documento_3",
+    "url_documento_4"
+  ]
+}
+
+```
+
+
+# API Reference HABITATS
+
+#### GET DE TODAS LOS HABITATS Version ^1.0.0
+
+```http
+  GET /habitat
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `/` | `/` | **/**. |
+
+#### GET DE TODAS LOS HABITATS Version ^2.0.0
+
+```http
+  GET /habitat
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `api_key` | `string` | **Required**. |
+
+#### POST HABITATS Version ^2.0.0
+
+```http
+  GET /habitat/createHabitat
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `api_key` | `string` | **Required**. |
+| `nombre` | `string` | **Required**. |
+| `tipo_habitat` | `string` | **Required**. |
+| `descripcion_ambiente` | `string` | **Required**. |
+| `dimensiones` | `object` | **Required**. |
+| `refugio_descanso` | `string` | **Required**. |
+| `instalaciones_equipos` | `object` | **Required**. |
+| `seguridad_barreras` | `string` | **Required**. |
+| `notas_observaciones` | `string` | **Required**. |
+
+* dimensiones
+
+  | Parametro | Type     |Descripción            |
+  | :--------: | :-------: | :------------------------- |
+  | `area` | `number` | **Required**. |
+  | `volumen` | `string` | **Required**. |
+
+* caracteristicas_ambientales
+
+  | Parametro | Type     |Descripción            |
+  | :--------: | :-------: | :------------------------- |
+  | `temperatura_promedio` | `number` | **Required**. |
+  | `humedad_relativa` | `number` | **Required**. |
+  | `tipo_sustrato` | `string` | **Required**. |
+  | `vegetacion` | `string` | **Required**. |
+
+* instalaciones_equipos
+
+  | Parametro | Type     |Descripción            |
+  | :--------: | :-------: | :------------------------- |
+  | `elementos` | `number` | **Required**. lista de elementos |
+  | `equipos` | `string` | **Required**. |
+
+Request
+
+```JSON
+{
+  "nombre": "Hábitat de Tigres Siberianos",
+  "tipo_habitat": "Reserva de Montaña",
+  "descripcion_ambiente": "Entorno natural en las montañas para tigres siberianos",
+  "dimensiones": { "area": 1000, "volumen": 500 },
+  "caracteristicas_ambientales": {
+    "temperatura_promedio": -10,
+    "humedad_relativa": 80,
+    "tipo_sustrato": "Nieve y rocas",
+    "vegetacion": "Bosques de coníferas"
+  },
+  "refugio_descanso": "Cuevas naturales y áreas con sombra de árboles",
+  "instalaciones_equipos": {
+    "elementos": ["Estanque con peces", "Rocas para trepar", "Plataformas de observación"],
+    "equipos": "Sistemas de calefacción y monitoreo de movimiento"
+  },
+  "seguridad_barreras": "Vallas electrificadas y fosos naturales",
+  "notas_observaciones": "Se mantiene un ambiente lo más natural posible para los tigres siberianos"
+}
+```
+
+# API Reference AREAS_INVESTIGACION
+
+#### GET DE TODAS LAS AREAS_INVESTIGACION Version ^1.0.0
+
+```http
+  GET /investigaciones
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `/` | `/` | **/**. |
+
+#### POST DE TODAS LAS AREAS_INVESTIGACION Version ^2.0.0
+
+```http
+  POST /investigaciones/createInvestigacion
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `api_key` | `string` | **Required**. |
+| `area` | `string` | **Required**.             Cuarentena, Morgue, Radiologia, Quirofano, Microbiologia, Botanica, Investigacion general |
+| `responsables` | `string` | **Required**. Lista de id los empleados responsables del area |
+| `fecha_creacion` | `date` | **Required**. |
+| `investigaciones` | `Array` | **Required**. Lista de investigaciones del area|
+| `descripcion` | `Array` | **Required**.|
+
+* investigaciones
+
+  | Parametro | Type     |Descripción            |
+  | :--------: | :-------: | :------------------------- |
+  | `id_investigacion` | `string` | **Required**. ID de la investigación |
+  | `responsables` | `array` | **Required**. lista de Responsables de la investigación |
+  | `id_animal` | `array` | **Required**. Lista de id los animales participantes en la investigacion |
+  | `nombre` | `string` | **Required** Nombre de la investigacion |
+  | `fecha_inicio` | `date` | **Required** |
+  | `fecha_fin` | `date` | **Required**|
+  | `doc` | `array` | **Required** lista de Artículos o documentos publicados por el área de investigación|
+
+  * doc
+
+    | Parametro | Type     |Descripción            |
+    | :--------: | :-------: | :------------------------- |
+    | `fecha` | `date` | **Required**. |
+    | `responsables` | `array` | **Required**. lista de Responsables de la investigación |
+    | `id_animal` | `array` | **Required**. Lista de id los animales participantes en la investigacion |
+    | `url` | `string` | **Required**. url del doc o articulo |
+    | `resumen` | `string` | **Required**. Resumen del nuevo artículo |
+
+Request
+
+```JSON
+{
+  "area": "Investigacion general",
+  "responsables": [
+      "64d1b044068a2499b7107064",
+      "64d1b044068a2499b7107065"
+  ],
+  "fecha_creacion": "2023-09-01",
+  "investigaciones": [
+      {
+          "id_investigacion": "64d1b044068a2499b7107066",
+          "responsables": [
+              "64d1b044068a2499b7107064",
+              "64d1b044068a2499b7107064"
+          ],
+          "id_animal": ["64d1b044068a2499b7107067"],
+          "nombre": "Investigación sobre nuevas enfermedades",
+          "fecha_inicio": "2022-11-01",
+          "fecha_fin": "2023-09-01",
+          "doc": [
+              {
+                  "fecha": "2023-09-01",
+                  "responsables": ["64d1b044068a2499b7107068"],
+                  "id_animal": ["64d1b044068a2499b7107067"],
+                  "url": "nueva_url_articulo",
+                  "resumen": "Resumen del nuevo artículo"
+              }
+          ]
+      }
+    ],
+  "descripcion": "Nueva descripción del área de investigación"
+}
+```
+
+
+
+
+
+
