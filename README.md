@@ -10,6 +10,55 @@ La metodolodogia se llevara acabo por springs y utilizaremos [notion](https://ww
 * Investigacion : Rama donde se subiran las investigacion y documentacion necesarias
 * Desarrolo : Rama donde se realizaran pruebas y desarrollos antes de publicar en la rama main
 
+
+# Ejecucion local
+
+`Nota : usar nodejs en la version ^v18.17.1`
+
+Clonar el repositorio
+
+```bash
+  git clone https://github.com/Dannkol/zoologico_campus
+```
+
+Ir al directorio
+
+```bash
+  cd zoologico_campus
+```
+
+Install dependencias
+
+```bash
+  npm install
+```
+
+Start
+
+```bash
+  npm run dev
+```
+
+Endpoint
+
+La documentacion de los endpoints la puedes encontrar en el siguiente archivo [src/routes/readme.md](src/routes/readme.md)
+
+# Instalacion base de datos
+
+* Base de datos : MongoDB
+* Cliente : Atlas
+* Documentacion : [Documentacion](docs/database/readme.md)
+
+* Instalacion 
+  
+  * Ve al archivo [database/zooSchemas.mongodb](database/zooSchemas.mongodb)
+  * Ejecuta la creacion de colleciones
+  * Ejecuta la innsercion de datos
+  * Si tienes problemas prueba con ejecutar una por una las consulta y no todas de golpe
+
+
+# Investigacion
+
 Un zoológico es una instalación diseñada para albergar y exhibir una variedad de especies animales, con el propósito de educar, conservar y entretener al público. Los zoológicos pueden tener diferentes enfoques, como la conservación de especies en peligro de extinción, la investigación científica, la educación ambiental y la recreación.
 
 Los parques zoológicos son instalaciones compuestas por recintos cercados en los que se exhiben animales a un público interesado. Más allá de cumplir una función de entretenimiento, hoy día, los zoos sirven sobre todo para el estudio de los animales y la conservación de especies en peligro de extinción.
@@ -198,7 +247,6 @@ El presente análisis tiene como objetivo comprender las necesidades y metas par
 
 
 Este sistema de gestión integral ayudará a optimizar la operación del zoológico al proporcionar herramientas para administrar animales, visitantes, hábitats, personal e investigación de manera eficiente. La implementación de estos requisitos contribuirá a la mejora de la experiencia tanto para los visitantes como para el personal involucrado en la gestión del zoológico.
-
 
 # Bibliografias
 
