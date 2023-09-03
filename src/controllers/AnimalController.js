@@ -34,7 +34,7 @@ export class AnimalController extends Animal {
     try {
       const result = await Animal.getAllAdmin();
       res.status(200).json({
-        message: "Animales para administration,m,m",
+        message: "Animales para administration",
         data: result,
       });
     } catch (error) { }
@@ -137,7 +137,7 @@ export class AnimalController extends Animal {
         const result = await Animal.createAnimal(data)
         return res.json(result);
       }
-      res.send({ errors: result.array()[0].msg });
+      res.send({ errors: result.array() });
     } catch (error) {
       console.error(error);
     } finally {

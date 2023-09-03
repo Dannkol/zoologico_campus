@@ -102,9 +102,13 @@ export class Animal {
   static async createAnimal(data) {
     await this.initialize(db.ATLAS_DATABASE, "animales");
     try {
+      console.log('crearAnimal');
       const query = await this.collection.insertOne(data);
       console.log(query);
-      return `Se insertro exitosamente`
+      return {
+        message:`Se insertro exitosamente`,
+        data : data
+      }
     } catch (error) {
       console.error(error.errInfo.details.schemaRulesNotSatisfied[0]);
     } finally {
@@ -120,7 +124,8 @@ export class Animal {
       console.log(query_baja);
       console.log(query_animal);
       return {
-        message : `Se creo la baja exitosamente`
+        message : `Se creo la baja exitosamente`,
+        data : data
       }
     } catch (error) {
       console.error(error.errInfo.details);
