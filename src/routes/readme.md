@@ -36,40 +36,36 @@ Request
 }
 ```
 
-  * rol administrativo 4
+* rol administrativo 4
+```JSON
+ {
+  "nombre": "usuarioAdmin", 
+  "password": "password789",
+  "rol": 4,
+  "permisos": ["1.0.0", "2.0.0"]
+}
+```
 
-  ```JSON
-   {
-    "nombre": "usuarioAdmin", 
-    "password": "password789",
-    "rol": 4,
-    "permisos": ["1.0.0", "2.0.0"]
-  }
-  ```
+* rol visitante 1
+```JSON
+{
+  "nombre": "UsuarioVisitante",
+  "password": "contrasena123",
+  "rol": 1,
+  "permisos": ["1.0.0", "2.0.0"]
+}
   
-  * rol visitante 1
+```
 
-  ```JSON
-  {
-    "nombre": "UsuarioVisitante",
-    "password": "contrasena123",
-    "rol": 1,
-    "permisos": ["1.0.0", "2.0.0"]
-  }
-    
-  ```
-
-  
-  * rol investigativo 3
-
-  ```JSON
-  {
-    "nombre": "UsuarioInvestigador",
-    "password": "clave456",
-    "rol": 3,
-    "permisos": ["1.0.0", "^2.0.0"]
-  }
-  ```
+* rol investigativo 3
+```JSON
+{
+  "nombre": "UsuarioInvestigador",
+  "password": "clave456",
+  "rol": 3,
+  "permisos": ["1.0.0", "^2.0.0"]
+}
+```
 
 #### Post Login Version 1.0.0
 
@@ -210,7 +206,7 @@ Request
 | :-------- | :------- | :---------------------------------|
 | `Authorization` | `string` | **Opcional**. bearer api_key |
 
-#### Post baja Animal Fuga Version ^2.0.0
+#### Post baja Animal Fuga Version ^2.0.0 y rol 2
 
 ```http
   POST /animal/admin/baja/fuga
@@ -281,7 +277,7 @@ Request
 }
 ```
 
-#### Post baja Animal defuncion Version ^2.0.0
+#### Post baja Animal defuncion Version ^2.0.0 y rol 2
 
 ```http
   POST /animal/admin/baja/defuncion
@@ -319,7 +315,8 @@ Request
 }
 ```
 
-#### Post baja Animal donacion Version ^2.0.0
+#### Post baja Animal donacion Version ^2.0.0 y rol 2
+
 
 ```http
   POST /animal/admin/baja/donacion
@@ -552,14 +549,14 @@ Request para visita no investigativa
 | :-------- | :------- | :---------------------------------|
 | `Authorization` | `string` | **Requerido**. bearer api_key |
 
-#### GET DE TODAS LAS PERSONAS Version 2.0.0
+#### GET DE TODAS LAS PERSONAS Version 2.0.0 y rol 4
 
 ```http
   GET /personal/
 ```
 
 
-#### POST DE TODAS LAS PERSONAS Version 2.0.0
+#### POST DE TODAS LAS PERSONAS Version 2.0.0 y rol 4
 
 ```http
   POST /personal/contratarPersonal
@@ -625,7 +622,7 @@ Request
 }
 ```
 
-#### POST DE TODAS LAS PERSONAS Version 2.0.0
+#### POST DE TODAS LAS PERSONAS Version 2.0.0 y rol 4
 
 ```http
   POST /personal/darBajaPersonal
@@ -657,7 +654,7 @@ Request
 
 # API Reference HABITATS
 
-#### GET DE TODAS LOS HABITATS Version ^1.0.0
+#### GET DE TODAS LOS HABITATS Version ^1.0.0 
 
 ```http
   GET /habitat
@@ -783,7 +780,7 @@ Request
   GET /investigaciones
 ```
 
-#### POST DE TODAS LAS AREAS_INVESTIGACION Version ^2.0.0
+#### POST DE TODAS LAS AREAS_INVESTIGACION Version ^2.0.0 y rol 3
 
   | Parametro | Type     |Descripción            |
 | :--------: | :-------: | :------------------------- |

@@ -102,9 +102,7 @@ export class Animal {
   static async createAnimal(data) {
     await this.initialize(db.ATLAS_DATABASE, "animales");
     try {
-      console.log('crearAnimal');
       const query = await this.collection.insertOne(data);
-      console.log(query);
       return {
         message:`Se insertro exitosamente`,
         data : data
