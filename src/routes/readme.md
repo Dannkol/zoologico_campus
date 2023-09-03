@@ -1,10 +1,36 @@
 # API Reference
 
 * Parametros Headers
+
   | Parameter | Type     | Description                |
   | :-------- | :------- | :------------------------- |
   | `api_key` | `string` | **Opcional**.|
   | `accept-version` | `string` | **Required** Version del endpoint.|
+
+* Usuarios default
+
+  * rol administrativo 4
+    ```JSON
+
+    ```
+  
+  * rol visitante 1
+
+  ```JSON
+  
+  ```
+  
+  * rol empleado 2
+
+  ```JSON
+  
+  ```
+  
+  * rol investigativo 3
+
+  ```JSON
+
+  ```
 
 # API Reference Auth
 
@@ -33,6 +59,10 @@ Request
 
 #### Post Login
 
+```http
+  POST /auth/inicioSesion
+```
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `nombre` | `string` | **Required**.|
@@ -49,7 +79,7 @@ Request
 
 # API Reference Animales
 
-#### Get All admin Animal Version ^2.0.0
+#### Get All admin Animal Version ^2.0.0 y rol 2
 
 ```http
   GET /animal/admin
@@ -59,7 +89,7 @@ Request
 | :-------- | :------- | :------------------------- |
 | `api_key` | `string` | **Required**. Your API key |
 
-#### Get public Animal Version 1.0.0
+#### Get public Animal Version 1.0.0 
 
 ```http
   GET /animal
@@ -69,7 +99,7 @@ Request
 | :--------: | :-------: | :------------------------- |
 | `/` | `/` | **/**. |
 
-#### post adquicision Animal Version ^2.0.0
+#### post adquicision Animal Version ^2.0.0 y rol 2
 
 ```http
   POST /animal
