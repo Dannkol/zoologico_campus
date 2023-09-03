@@ -258,18 +258,18 @@ use('db_zoo_campus')
 db.createCollection('bajas', {
   validator: {
     $jsonSchema: {
-      bsonType: "object",
-      title: "bajas object validation",
-      required: ["id_animal", "tipo_baja", "fecha_baja", "detalles"],
+      bsonType: 'object',
+      title: 'bajas object validation',
+      required: ['id_animal', 'tipo_baja', 'fecha_baja', 'detalles'],
       properties: {
         id_animal: {
-          bsonType: "objectId",
-          description: "animal es requerido"
+          bsonType: 'objectId',
+          description: 'animal es requerido'
         },
         tipo_baja: {
-          bsonType: "number",
+          bsonType: 'number',
           enum: [0, 1, 2],
-          description: "Tipo de baja, debe ser obligatorio y de tipo number y es 0: fuga , 1: donacion , 2: defuncion",
+          description: 'Tipo de baja, debe ser obligatorio y de tipo number y es 0: fuga , 1: donacion , 2: defuncion'
         },
         fecha_baja: {
           bsonType: 'date',
@@ -469,17 +469,17 @@ db.createCollection('bajas', {
   }
 })
 
-use("db_zoo_campus");
-db.createCollection("historial", {
+use('db_zoo_campus')
+db.createCollection('historial', {
   validator: {
     $jsonSchema: {
-      bsonType: "object",
-      title: "object historial",
-      required: ["fecha", "responsables", "detalles"],
+      bsonType: 'object',
+      title: 'object historial',
+      required: ['fecha', 'responsables', 'detalles'],
       properties: {
         fecha: {
-          bsonType: "date",
-          description: "fecha en la que ocurrio el movimiento",
+          bsonType: 'date',
+          description: 'fecha en la que ocurrio el movimiento'
         },
         responsables: {
           bsonType: 'array',
@@ -1052,14 +1052,14 @@ db.createCollection('visitantes', {
   }
 })
 
-use('db_zoo_compus')
+use('db_zoo_campus')
 
 db.createCollection('evento', {
   validator: {
     $jsonSchema: {
       bsonType: 'object',
       title: 'registro visitantes object validation',
-      required: ['titulo', 'description', 'fecha', 'precio'],
+      required: ['titulo', 'descripcion', 'fecha', 'precio'],
       properties: {
         titulo: {
           bsonType: 'string',
@@ -1075,37 +1075,75 @@ db.createCollection('evento', {
           description: 'Fecha del evento'
         },
         precio: {
-          bsonType: 'double',
+          bsonType: 'number',
           description: 'Precio del evento'
         }
       }
     }
   }
-});
+})
 
+use('db_zoo_campus')
+db.createCollection('usuario', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['nombre', 'password', 'rol'],
+      properties: {
+        nombre: {
+          bsonType: 'string',
+          description: 'El nombre es obligatorio y solo recibe letras',
+          pattern: '^[a-zA-Z ]+$'
+        },
+        password: {
+          bsonType: 'string',
+          description: 'La contraseña es obligatoria'
+        },
+        rol: {   
+            bsonType: 'int',
+            enum: [1, 2, 3,4],
+            description:'1:invitado, 2:empleado, 3:investigacion, 4:admin'   
+        },
+        permisos: {
+          bsonType: 'array',
+          description: 'Los permisos son obligatorios',
+          items: {
+            bsonType: 'string'
+          }
+        },
+        personal : {
+          bsonType : 'objectId',
+          description : 'Pesonal relacionado'
+        }
+      }
+    }
+  }
+})
+
+use('db_zoo_campus')
+db.usuario.createIndex({ nombre: 1 }, { unique: true })
 
 use('db_zoo_campus')
 db.evento.insertMany([
   {
-    "titulo": "Concierto de Rock",
-    "descripcion": "Un emocionante concierto de rock con bandas locales.",
-    "fecha": ISODate("2023-09-15T20:00:00Z"),
-    "precio": 25.99
+    titulo: 'Concierto de Rock',
+    descripcion: 'Un emocionante concierto de rock con bandas locales.',
+    fecha: ISODate('2023-09-15T20:00:00Z'),
+    precio: 25.99
   },
   {
-    "titulo": "Taller de Arte",
-    "descripcion": "Un taller de arte interactivo para niños y adultos.",
-    "fecha": ISODate("2023-09-20T15:30:00Z"),
-    "precio": 10.5
+    titulo: 'Taller de Arte',
+    descripcion: 'Un taller de arte interactivo para niños y adultos.',
+    fecha: ISODate('2023-09-20'),
+    precio: 10.52
   },
   {
-    "titulo": "Feria de Comida",
-    "descripcion": "Una feria gastronómica con los mejores platillos de la región.",
-    "fecha": ISODate("2023-10-05T18:00:00Z"),
-    "precio": 5.75
+    titulo: 'Feria de Comida',
+    descripcion: 'Una feria gastronómica con los mejores platillos de la región.',
+    fecha: ISODate('2023-10-05'),
+    precio: 5.75
   }
-]);
-
+])
 
 use('db_zoo_campus')
 db.habitat.insertMany([
@@ -1301,14 +1339,14 @@ db.animales.insertMany([
 use('db_zoo_campus')
 const empleado3 = db.personal.findOne({ nombre: 'Ana Lopez' })._id
 const empleado4 = db.personal.findOne({ nombre: 'Carlos Ramirez' })._id
-const animal = db.animales.findOne({ _id: ObjectId('64e977165c79c2c2a0792952') })._id
+const animal = db.animales.findOne({ "detalles.animal.nombre": "Nanook"  })._id
 
 use('db_zoo_campus')
 db.bajas.insertMany([
   {
     id_animal: animal,
     tipo_baja: 0,
-    fecha_baja: ISODate("2023-08-10"),
+    fecha_baja: ISODate('2023-08-10'),
     detalles: {
       fuga: {
         lugar: ObjectId('6122427c8b7d571850c3b2c3'),
@@ -1321,46 +1359,46 @@ db.bajas.insertMany([
             doc_legal_zoo: 'url_doc_legal',
             informe_opinion_publica: 'url_informe_opinion'
           },
-          observaciones: [],
-        },
-      },
-    },
+          observaciones: []
+        }
+      }
+    }
   },
   {
     id_animal: animal,
     tipo_baja: 1,
-    fecha_baja: ISODate("2023-08-10"),
+    fecha_baja: ISODate('2023-08-10'),
     detalles: {
       donacion: {
-        carta: "url_carta",
+        carta: 'url_carta',
         acta: {
-          fecha: ISODate("2023-08-10"),
-          origen: "universidad nacional",
-          destino: "zoologico de new york",
-          observaciones: "fasfsas",
+          fecha: ISODate('2023-08-10'),
+          origen: 'universidad nacional',
+          destino: 'zoologico de new york',
+          observaciones: 'fasfsas',
           documentacion: {
-            act_del_estado: "URL del documento del estado",
-            doc_legal_origen: "URL del documento que permite la salida",
-            doc_legal_destino: "URL del documento que permite la entrada",
-            docs_responsables: ["URL del documento del estado"],
-          },
+            act_del_estado: 'URL del documento del estado',
+            doc_legal_origen: 'URL del documento que permite la salida',
+            doc_legal_destino: 'URL del documento que permite la entrada',
+            docs_responsables: ['URL del documento del estado']
+          }
         },
-        fecha_translado: ISODate("2023-08-10"),
+        fecha_translado: ISODate('2023-08-10'),
         estado: 1,
         observaciones: [
           {
-            fecha: ISODate("2023-08-12"),
-            detalle: "dsdsad",
+            fecha: ISODate('2023-08-12'),
+            detalle: 'dsdsad'
           }
         ]
-      },
-    },
+      }
+    }
   }
 ])
 
 use('db_zoo_campus')
 const movimiento1 = db.bajas.findOne({ fecha_baja: ISODate('2023-08-10') })._id
-const movimiento2 = db.animales.findOne({ _id: ObjectId('64e977165c79c2c2a0792953') })._id
+const movimiento2 = db.animales.findOne({ "detalles.animal.nombre": "Simba"  })._id
 
 empleado3 = db.personal.findOne({ nombre: 'Ana Lopez' })._id
 empleado4 = db.personal.findOne({ nombre: 'Carlos Ramirez' })._id
@@ -1382,64 +1420,6 @@ db.historial.insertMany([
         origen: 'selva',
         destino: 'sabana'
       }
-    }
-  }
-])
-
-use('db_zoo_campus')
-db.visitantes.insertMany([
-  {
-    informacion_personal: {
-      identificacion: '123456789',
-      nombre: 'María',
-      apellido: 'González',
-      edad: 30,
-      genero: 'Femenino',
-      direccion: 'Calle 123',
-      numero_telefono: '987654321',
-      correo_electronico: 'maria@example.com'
-    },
-    fecha_inicio: ISODate('2023-08-10'),
-    fecha_fin: ISODate('2023-08-11'),
-    tipo_entrada: 'Adulto',
-    numero_boleto: 'T12345',
-    tipo_boleto: 'Entrada general',
-    precio_boleto: 20.5,
-    grupos: {
-      numero_personas: 11,
-      relacion_miembros: 'Evento Universitario'
-    },
-    exhibiciones_actividades: ['Leones', 'Pinguinos'],
-    contacto_emergencia: {
-      nombre_contacto: 'Juan Pérez',
-      numero_telefono_contacto: '876543210'
-    }
-  },
-  {
-    informacion_personal: {
-      identificacion: '987654321',
-      nombre: 'Pedro',
-      apellido: 'Sánchez',
-      edad: 12,
-      genero: 'Masculino',
-      direccion: 'Avenida 456',
-      numero_telefono: '123456789',
-      correo_electronico: 'pedro@example.com'
-    },
-    fecha_inicio: ISODate('2023-08-12'),
-    fecha_fin: ISODate('2023-08-12'),
-    tipo_entrada: 'Niño',
-    numero_boleto: 'N54321',
-    tipo_boleto: 'Entrada para niños',
-    precio_boleto: 10.0,
-    grupos: {
-      numero_personas: 4,
-      relacion_miembros: 'Familia'
-    },
-    exhibiciones_actividades: ['Osos polares', 'Aves exóticas'],
-    contacto_emergencia: {
-      nombre_contacto: 'Ana Rodríguez',
-      numero_telefono_contacto: '567890123'
     }
   }
 ])

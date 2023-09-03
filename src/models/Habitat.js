@@ -34,6 +34,20 @@ export class Habitat {
     }
   }
 
+  static async getHabitatsAdmin () {
+    // llama la funcion y pasa como parametro la base de datos y el nombre de la collecion
+    await this.initialize(db.ATLAS_DATABASE, 'habitat')
+    try {
+      const result = await this.collection.find({}, { }).toArray()
+      return result
+    } catch (error) {
+      console.error('error al traer las habitast' + error.message)
+      throw Error('error al traer las habitast')
+    } finally {
+      await this.clints.close()
+    }
+  }
+
   static async createHabitat ({ habitat }) {
     await this.initialize(db.ATLAS_DATABASE, 'habitat')
     try {

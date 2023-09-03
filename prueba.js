@@ -13,57 +13,33 @@ const dbName = "db_zoo_campus";
 
     const query = [
       {
-        nombre: "Ana Lopez",
-        puesto: "Cuidador de animales",
-        doc_id: "url_documento_identidad",
-        experiencia: {
-          years: 3,
-          descripcion: "Experiencia en manejo de felinos",
-        },
-        habilidades: ["Cuidado animal", "Alimentación", "Seguridad"],
-        arl: [
-          {
-            eps: "SURA",
-            pensiones: "url_pensiones",
-            caja_de_compensacion_familiar: "url_caja_compensacion",
-            contrato: "Indefinido",
-            doc_id: "url_documento_identidad", // Reemplaza con la URL válida
-          },
-        ],
-        contrato: {
-          fecha: new Date("2023-08-01"),
-          url: "url_contrato",
-          sueldo: 1500,
-        },
-        observaciones: [],
-        estado: 1,
+        titulo: 'Concierto de Rock',
+        descripcion: 'Un emocionante concierto de rock con bandas locales.',
+        fecha: new Date('2023-09-15'),
+        precio: 25.99
       },
       {
-        nombre: "Carlos Ramirez",
-        puesto: "Veterinario",
-        doc_id: "url_documento_identidad",
-        experiencia: {
-          years: 8,
-          descripcion: "Especializado en fauna exótica",
-        },
-        habilidades: ["Diagnóstico médico", "Cirugía", "Tratamientos"],
-        arl: [],
-        contrato: {
-          fecha: new Date("2023-07-15"),
-          url: "url_contrato",
-          sueldo: 2500,
-        },
-        observaciones: [],
-        estado: 1,
+        titulo: 'Taller de Arte',
+        descripcion: 'Un taller de arte interactivo para niños y adultos.',
+        fecha: new Date('2023-09-20'),
+        precio: 10.52
       },
+      {
+        titulo: 'Feria de Comida',
+        descripcion: 'Una feria gastronómica con los mejores platillos de la región.',
+        fecha: new Date('2023-10-05'),
+        precio: 5.75
+      }
     ];
 
-    const result = await db.collection("personal").insertMany(query);
-    console.log("Documentos insertados:", result.insertedCount);
+    const result = await db.collection("habitat").find({}, {}).toArray();
+
+    console.log(result);
+
   } catch (error) {
     console.error(
       "Error:",
-      error
+      error.writeErrors[0].err.errInfo.details.schemaRulesNotSatisfied[0].specifiedAs.r
     );
   } finally {
     client.close();
