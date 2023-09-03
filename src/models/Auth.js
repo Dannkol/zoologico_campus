@@ -1,14 +1,14 @@
 import { mongoConn, getDB } from '../config/connection.js'
 import { generateAccessToken } from '../helpers/jwt.js'
 import { config } from 'dotenv'
-import { compare } from '../helpers/handlebcrypt.js'
+import { compare , encrypt} from '../helpers/handlebcrypt.js'
 
 config()
 
 const db = JSON.parse(process.env.DB)
 
 export class Auth {
-  static async initialize (Db, collection = null) {
+  static async initialize(Db, collection = null) {
     try {
       this.clints = await mongoConn()
       this.db = getDB(Db)
@@ -18,21 +18,21 @@ export class Auth {
     }
   }
 
-  static async manejadorRegistro ({ usuario }) {
+  static async manejadorRegistro({ usuario }) {
     try {
       await this.initialize(db.ATLAS_DATABASE, 'usuario')
       const { insertedId } = await this.collection.insertOne(usuario)
       return insertedId
     } catch (error) {
-      throw Error('error al crear el usuario')
+      throw Error(`error al crear el usuario, probablemente el usuario ${usuario.nombre} ya existe`)
     }
   }
 
-  static async manejadorInicioSesion ({ usuario }) {
+  static async manejadorInicioSesion({ usuario }) {
     try {
       await this.initialize(db.ATLAS_DATABASE, 'usuario')
       const { nombre, password } = usuario
-      const result = await this.collection.findOne({ nombre })
+      const result = await this.collection.findOne({ nombre: nombre })
       if (!result) return 'Usuario no encontrado'
       const checkPassword = await compare(password, result.password)
 

@@ -1,6 +1,55 @@
+# API Reference
+
+* Parametros Headers
+  | Parameter | Type     | Description                |
+  | :-------- | :------- | :------------------------- |
+  | `api_key` | `string` | **Opcional**.|
+  | `accept-version` | `string` | **Required** Version del endpoint.|
+
+# API Reference Auth
+
+#### Post Rquister
+
+```http
+  POST /auth/registro
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `nombre` | `string` | **Required**. Unique|
+| `password` | `string` | **Required**. |
+| `rol` | `number` | **Required**. rol del usuario 1:invitado, 2:empleado, 3:investigacion, 4:admin |
+| `permisos` | `array` | **Required**. permisos de versiones |
+
+Request
+
+```JSON
+{
+  "nombre":"Ivanchin",
+  "password":"prueba",
+  "rol":1,
+  "permisos":["1.0.0", "2.0.0"]
+}
+```
+
+#### Post Login
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `nombre` | `string` | **Required**.|
+| `password` | `string` | **Required**. |
+
+Request
+
+```JSON
+{
+  "nombre":"Ivanchin",
+  "password":"prueba"
+}
+```
+
 # API Reference Animales
 
-#### Get All admin Animal
+#### Get All admin Animal Version ^2.0.0
 
 ```http
   GET /animal/admin
@@ -10,7 +59,17 @@
 | :-------- | :------- | :------------------------- |
 | `api_key` | `string` | **Required**. Your API key |
 
-#### post adquicision Animal
+#### Get public Animal Version 1.0.0
+
+```http
+  GET /animal
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `/` | `/` | **/**. |
+
+#### post adquicision Animal Version ^2.0.0
 
 ```http
   POST /animal
@@ -105,7 +164,7 @@ Request
 
 ## Endpoint de baja de animal
 
-#### Post baja Animal Fuga
+#### Post baja Animal Fuga Version ^2.0.0
 
 ```http
   POST /animal/admin/baja/fuga
@@ -176,7 +235,7 @@ Request
 }
 ```
 
-#### Post baja Animal defuncion
+#### Post baja Animal defuncion Version ^2.0.0
 
 ```http
   POST /animal/admin/baja/fuga
@@ -214,7 +273,7 @@ Request
 }
 ```
 
-#### Post baja Animal donacion
+#### Post baja Animal donacion Version ^2.0.0
 
 ```http
   POST /animal/admin/baja/donacion
@@ -289,7 +348,7 @@ Request
 # API Reference Visitas
 
 
-#### Post nueva visita
+#### Post nueva visita Version 2.0.0
 
 ```http
   POST /visitas/
@@ -418,7 +477,7 @@ Request para visita no investigativa
 }
 ```
 
-#### Get all eventos
+#### Get all eventos Version 1.0.0
 
 ```http
   POST /visitas/eventos
@@ -427,3 +486,82 @@ Request para visita no investigativa
 | Parametro | Type     |Descripción            |
 | :--------: | :-------: | :------------------------- |
 | `/` | `/` | **/**. |
+
+
+# API Reference Persona
+
+#### GET DE TODAS LAS PERSONAS Version 2.0.0
+
+```http
+  GET /personal/
+```
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `/` | `/` | **/**. |
+
+
+#### POST DE TODAS LAS PERSONAS Version 2.0.0
+
+```http
+  POST /personal/contratarPersonal
+```
+
+| Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
+| `nombre` | `string` | **Required**.  | 
+| `puesto` | `number` | **Opcional**. 0:empleado, 1:admin, 2:guia, 3:investigador |
+| `doc_id` | `String` | **Opcional**. razon de la visista  |
+| `experiencia` | `Object` | **Required**.   |
+| `habilidades` | `Array` | **Opcional**. lista de habilidades  |
+| `arl` | `Object` | **Opcional**. Doc de la arl  |
+| `contrato` | `Object` | **Required**. Doc del contrato |
+| `habitats_a_cargo` | `array` | **Opcional**. lista referencia de habitas  |
+| `estado` | `number` | **Opcional**. Esta activo o no el trabajador  |
+
+* arl
+
+  | Parametro | Type     |Descripción            |
+  | :--------: | :-------: | :------------------------- |
+  | `eps` | `string` | **Required**. nombre de la aps |
+  | `pensiones` | `string` | **Required**.  | 
+  | `caja_de_compensacion_familiar` | `string` | **Opcional**. |
+  | `contrato` | `string` | **Opcional**. |  
+  | `doc_id` | `string` | **Opcional**. |  
+
+* contrato
+
+  | Parametro | Type     |Descripción            |
+  | :--------: | :-------: | :------------------------- |
+  | `fecha` | `date` | **Required**. fecha del contrato |
+  | `url` | `string` | **Required**.  url del contrato | 
+  | `sueldo` | `number` | **Opcional**. |
+
+
+Request
+
+```JSON
+{
+  "nombre": "Ana Lopez",
+  "puesto": 0,
+  "doc_id": "url_documento_identidad",
+  "experiencia": { "years": 3, "descripcion": "Experiencia en manejo de felinos" },
+  "habilidades": ["Cuidado animal", "Alimentación", "Seguridad"],
+  "arl": [
+    {
+      "eps": "SURA",
+      "pensiones": "url_pensiones",
+      "caja_de_compensacion_familiar": "url_caja_compensacion",
+      "contrato": "Indefinido",
+      "doc_id": "url_documento_identidad" 
+    }
+  ],
+  "contrato": {
+    "fecha": "2023-08-01",
+    "url": "url_contrato",
+    "sueldo": 1500
+  },
+  "habitats_a_cargo":["64e977165c79c2c2a0792952", "64e977165c79c2c2a0792952"],
+  "estado": 1
+}
+```

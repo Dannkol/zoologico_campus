@@ -9,9 +9,6 @@ export class AuthController {
       const errors = validationResult(req)
       if (!errors.isEmpty()) return res.status(400).json(errors)
       const data = req.body
-      if (data.rol && Array.isArray(data.rol)) {
-        data.rol = data.rol.map(id => new ObjectId(id))
-      }
       const passwordHash = await encrypt(data.password)
       data.password = passwordHash
       const result = await Auth.manejadorRegistro({ usuario: data })

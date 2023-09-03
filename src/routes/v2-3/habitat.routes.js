@@ -6,5 +6,5 @@ import { rol } from '../../middleware/verifyRol.js'
 
 export const routes = Router()
 
-routes.get('/', [passport.authenticate('bearer', { session: false }), rol.verifyInvestigador], HabitatController.getAllHabitats)
+routes.get('/', [passport.authenticate('bearer', { session: false }), rol.verifyEmpleado], HabitatController.getAllHabitatsadmin)
 routes.post('/createHabitat', createHabitat, HabitatController.createHabitat)
