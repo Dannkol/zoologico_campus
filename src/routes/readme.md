@@ -4,37 +4,14 @@
 
   | Parameter | Type     | Description                |
   | :-------- | :------- | :------------------------- |
-  | `api_key` | `string` | **Opcional**.|
+  | `Authorization` | `string` | **Opcional**. bearer api_key|
   | `accept-version` | `string` | **Required** Version del endpoint.|
 
-* Usuarios default
 
-  * rol administrativo 4
-    ```JSON
-
-    ```
-  
-  * rol visitante 1
-
-  ```JSON
-  
-  ```
-  
-  * rol empleado 2
-
-  ```JSON
-  
-  ```
-  
-  * rol investigativo 3
-
-  ```JSON
-
-  ```
 
 # API Reference Auth
 
-#### Post Rquister
+#### Post Rquister Version 1.0.0
 
 ```http
   POST /auth/registro
@@ -48,16 +25,53 @@
 
 Request
 
+* rol empleado 2
+
 ```JSON
 {
   "nombre":"Ivanchin",
   "password":"prueba",
-  "rol":1,
-  "permisos":["1.0.0", "2.0.0"]
+  "rol":2,
+  "permisos":["1.0.0", "^2.0.0"]
 }
 ```
 
-#### Post Login
+  * rol administrativo 4
+
+  ```JSON
+   {
+    "nombre": "usuarioAdmin", 
+    "password": "password789",
+    "rol": 4,
+    "permisos": ["1.0.0", "2.0.0"]
+  }
+  ```
+  
+  * rol visitante 1
+
+  ```JSON
+  {
+    "nombre": "UsuarioVisitante",
+    "password": "contrasena123",
+    "rol": 1,
+    "permisos": ["1.0.0", "2.0.0"]
+  }
+    
+  ```
+
+  
+  * rol investigativo 3
+
+  ```JSON
+  {
+    "nombre": "UsuarioInvestigador",
+    "password": "clave456",
+    "rol": 3,
+    "permisos": ["1.0.0", "^2.0.0"]
+  }
+  ```
+
+#### Post Login Version 1.0.0
 
 ```http
   POST /auth/inicioSesion
@@ -82,17 +96,17 @@ Request
 #### Get All admin Animal Version ^2.0.0 y rol 2
 
 ```http
-  GET /animal/admin
+  GET /animal/
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :---------------------------------|
+| `Authorization` | `string` | **Opcional**. bearer api_key |
 
 #### Get public Animal Version 1.0.0 
 
 ```http
-  GET /animal
+  GET /animal/
 ```
 
 | Parametro | Type     |Descripción            |
@@ -101,16 +115,14 @@ Request
 
 #### post adquicision Animal Version ^2.0.0 y rol 2
 
-```http
-  POST /animal
-```
+
 
 | Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `/`      | `/` | **/**. |
+| :-------- | :------- | :---------------------------------|
+| `Authorization` | `string` | **Required**. bearer api_key |
 
 ```http
-  POST /equipo/admin
+  POST /animal
 ```
 
 | Parameter | Type     | Description                |
@@ -156,43 +168,47 @@ Request
 
 ```json
 {
-  tipo_adquisicion: "Compra",
-  fecha_adquisicion: "2023-08-20",
-  detalles: {
-    descripcion: "Adquisición de un león",
-    animal: {
-      nombre: "Simba",
-      especie: "León",
-      familia: "Felidae",
-      genero: "Panthera",
-      edad: 3,
-      dimensiones: {
-        altura: { fecha: "2023-08-20", valor: 120 },
-        peso: { fecha: "2023-08-20", valor: 180 },
+  "tipo_adquisicion": "compra",
+  "fecha_adquisicion": "2023-08-20",
+  "detalles": {
+    "descripcion": "Adquisición de un león",
+    "animal": {
+      "nombre": "Simba",
+      "especie": "León",
+      "familia": "Felidae",
+      "genero": "Panthera",
+      "edad": 3,
+      "dimensiones": {
+        "altura": { "fecha": "2023-08-20", "valor": 120 },
+        "peso": { "fecha": "2023-08-20", "valor": 180 }
       },
-      historial_medico: [
+      "historial_medico": [
         {
-          id_responsable: empleado2,
-          fecha: "2023-08-20",
-          observacion: "Examen médico inicial",
-        },
+          "id_responsable": cambiarIdValido,
+          "fecha": "2023-08-20",
+          "observacion": "Examen médico inicial"
+        }
       ],
-      historial_animal: [
+      "historial_animal": [
         {
-          id_responsable: ObjectId,
-          fecha: "2023-08-20",
-          observacion: "Registro de llegada al zoológico",
-        },
+          "id_responsable": cambiarIdValido,
+          "fecha": "2023-08-20",
+          "observacion": "Registro de llegada al zoológico"
+        }
       ],
-      origen: "Cautiverio",
-      estado: 1,
+      "origen": "Cautiverio",
+      "estado": 1
     },
-    id_habitad: ObjectId
+    "id_habitad": idHabitatValido
   }
 }
 ```
 
 ## Endpoint de baja de animal
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :---------------------------------|
+| `Authorization` | `string` | **Opcional**. bearer api_key |
 
 #### Post baja Animal Fuga Version ^2.0.0
 
@@ -236,17 +252,17 @@ Request
 
 ```json
 {
-  "animal": "64e977165c79c2c2a0792952",
+  "animal": idAnimalValido,
   "tipo": "0",
   "fecha": "2023-03-12",
   "detalles": {
     "fuga": {
-      "lugar": "64e9749fabecf5d8f35f2086",
+      "lugar": idHabitatValido,
       "estado": "2",
       "acta": {
         "fecha": "2023-03-12",
         "responsables": [
-          "64e976e27813506a7af9f705"
+          idPersonalvalido
         ],
         "documentacion": {
           "doc_reporte_autoridades": "URL",
@@ -268,7 +284,7 @@ Request
 #### Post baja Animal defuncion Version ^2.0.0
 
 ```http
-  POST /animal/admin/baja/fuga
+  POST /animal/admin/baja/defuncion
 ```
 
 | Parameter | Type     | Description                |
@@ -288,14 +304,14 @@ Request
 
 ```json
 {
-  "animal": "64e9c4b2986703ce048da465",
+  "animal": idValidoAnimal,
   "tipo": 2,
   "fecha": "2023-08-18",
   "detalles": {
     "defuncion": {
       "analisis": [
-        "64ed512750945d36d8b17caf",
-        "64ed512750945d36d8b17cb0"
+        idAnalisisValido,
+        idAnalisisValido
       ],
       "fecha_inhumacion": "2003-10-10T00:00:00"
     }
@@ -344,7 +360,7 @@ Request
 
 ```json
 {
-  "animal": "64e9c4b2986703ce048da465",
+  "animal": idAnimalValido,
   "tipo": 2,
   "fecha": "2023-08-18",
   "detalles": {
@@ -378,11 +394,23 @@ Request
 # API Reference Visitas
 
 
-#### Post nueva visita Version 2.0.0
+#### Post nueva visita Version 2.0.0 y rol 4
+
+* Ingrese como rol administrativo => POST /auth/inicioSesion Version 1.0.0
+
+  ```JSON
+  {
+    "nombre": "usuarioAdmin", 
+    "password": "password789"
+  }
+  ```
 
 ```http
   POST /visitas/
 ```
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :---------------------------------|
+| `Authorization` | `string` | **Opcional**. bearer api_key |
 
 | Parametro | Type     |Descripción            |
 | :--------: | :-------: | :------------------------- |
@@ -417,18 +445,18 @@ Request para visita de investigacion
   "detalle": {
     "institucion": "Escuela Primaria ABC",
     "responsables": [
-      "64e976e27813506a7af9f705",
-      "64e976e27813506a7af9f705"
+      idpersonalValido,
+      idpersonalValido
     ],
     "fecha_inicio": "2023-08-01",
     "fecha_fin": "2023-08-02",
     "areas": [
-      "64e9749fabecf5d8f35f2086",
-      "64e9749fabecf5d8f35f2086"
+      idHabitatValido,
+      "idHabitatValido"
     ],
     "observaciones": [
       {
-        "responsable": "64e976e27813506a7af9f705",
+        "responsable": idpersonalValido,
         "observacion": "Los estudiantes mostraron mucho interés en los animales",
         "fecha": "2023-08-01T10:00:00Z"
       }
@@ -463,7 +491,7 @@ Request para visita de investigacion
   },
   "investigaciones": [
     {
-      "area": "64ed512750945d36d8b17caf",
+      "area": idInvestigacionValida,
       "id_investigacion": [
         "64d1b044068a2499b7107062"
       ],
@@ -489,7 +517,7 @@ Request para visita no investigativa
   "tipo": 6,
   "nombre_evento": "Visita general",
   "detalle": {
-    "responsables": ["64e976e27813506a7af9f705"],
+    "responsables": ["idPersonalValido"],
     "fecha_inicio": "2023-09-15",
     "documentos": {
       "acta": {
@@ -520,14 +548,15 @@ Request para visita no investigativa
 
 # API Reference Persona
 
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :---------------------------------|
+| `Authorization` | `string` | **Requerido**. bearer api_key |
+
 #### GET DE TODAS LAS PERSONAS Version 2.0.0
 
 ```http
   GET /personal/
 ```
-| Parametro | Type     |Descripción            |
-| :--------: | :-------: | :------------------------- |
-| `/` | `/` | **/**. |
 
 
 #### POST DE TODAS LAS PERSONAS Version 2.0.0
@@ -591,7 +620,7 @@ Request
     "url": "url_contrato",
     "sueldo": 1500
   },
-  "habitats_a_cargo":["64e977165c79c2c2a0792952", "64e977165c79c2c2a0792952"],
+  "habitats_a_cargo":["idHabitatValido", "idHabitatValido"],
   "estado": 1
 }
 ```
@@ -613,7 +642,7 @@ Request
 
 ```JSON
 {
-  "personal_id": "64ed2efe52d469bcd005ee81",
+  "personal_id": "idValidoPersonal",
   "motivo": "Fallecimiento",
   "fecha": "2023-08-25",
   "tipo": "muerte",
@@ -638,15 +667,22 @@ Request
 | :--------: | :-------: | :------------------------- |
 | `/` | `/` | **/**. |
 
-#### GET DE TODAS LOS HABITATS Version ^2.0.0
+#### GET DE TODAS LOS HABITATS Version ^2.0.0 y rol 2 (empleado)
 
-```http
-  GET /habitat
+```JSON
+{
+  "nombre":"Ivanchin",
+  "password":"prueba"
+}
 ```
 
 | Parametro | Type     |Descripción            |
 | :--------: | :-------: | :------------------------- |
 | `api_key` | `string` | **Required**. |
+
+```http
+  GET /habitat
+```
 
 #### POST HABITATS Version ^2.0.0
 
@@ -715,7 +751,7 @@ Request
 
 # API Reference AREAS_INVESTIGACION
 
-#### GET DE TODAS LAS AREAS_INVESTIGACION Version ^1.0.0
+#### GET DE TODAS LAS AREAS_INVESTIGACION Version ^1.0.0 
 
 ```http
   GET /investigaciones
@@ -725,7 +761,33 @@ Request
 | :--------: | :-------: | :------------------------- |
 | `/` | `/` | **/**. |
 
+
+
+#### GET DE TODAS LAS AREAS_INVESTIGACION Version ^2.0.0 y rol 3 
+
+* Ingrese como rol investigador => POST /auth/inicioSesion Version 1.0.0
+
+  ```JSON
+  {
+    "nombre": "UsuarioInvestigador",
+    "password": "clave456"
+  }
+  ```
+
+  | Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `Authorization` | `string` | **Required**. berar your api_key|
+
+
+```http
+  GET /investigaciones
+```
+
 #### POST DE TODAS LAS AREAS_INVESTIGACION Version ^2.0.0
+
+  | Parametro | Type     |Descripción            |
+| :--------: | :-------: | :------------------------- |
+| `Authorization` | `string` | **Required**. berar your api_key|
 
 ```http
   POST /investigaciones/createInvestigacion
