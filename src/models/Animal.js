@@ -104,7 +104,10 @@ export class Animal {
     try {
       const query = await this.collection.insertOne(data);
       console.log(query);
-      return `Se insertro exitosamente`
+      return {
+        message:`Se inserto exitosamente`,
+        data : data
+      }
     } catch (error) {
       console.error(error.errInfo.details.schemaRulesNotSatisfied[0]);
     } finally {
@@ -120,7 +123,8 @@ export class Animal {
       console.log(query_baja);
       console.log(query_animal);
       return {
-        message : `Se creo la baja exitosamente`
+        message : `Se creo la baja exitosamente`,
+        data : data
       }
     } catch (error) {
       console.error(error.errInfo.details);

@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 const findEmployees = async (id) => {
   const client = await mongoConn();
   try {
-    console.log("fias");
+
     const db = getDB("db_zoo_campus");
     const collection = db.collection("personal");
     const responsable = await collection.findOne({
@@ -16,7 +16,7 @@ const findEmployees = async (id) => {
     });
     return responsable;
   } catch (error) {
-    console.error(error);
+    console.error('persona' ,error);
     return null;
   } finally {
     await client.close();
@@ -26,15 +26,15 @@ const findEmployees = async (id) => {
 const findHabitat = async (id) => {
   const client = await mongoConn();
   try {
-    console.log("fias");
     const db = getDB("db_zoo_campus");
     const collection = db.collection("habitat");
     const habitat = await collection.findOne({
       _id: new ObjectId(id),
     });
+    console.log(habitat);
     return habitat;
   } catch (error) {
-    console.error(error);
+    console.error('habitas' ,error);
     return null;
   } finally {
     await client.close();
@@ -45,10 +45,12 @@ const createAniaml = [
   body("tipo_adquisicion")
     .notEmpty()
     .withMessage("El tipo de aquisicion es obligatorio")
-    .isString()
     .custom((value) => {
+      console.log(value);
       if (!["regular", "decomiso", "compra", "donacion"].includes(value)) {
         throw new Error("Tipo de adquisicion no permitida");
+      }else {
+        return true;
       }
     }),
   body("fecha_adquisicion")
