@@ -38,7 +38,7 @@ app.use('/personal',
 )
 app.use('/habitat',
   version({
-    '^1.0.0' : routes_habitat_js_v1,
+    '^1.0.0': routes_habitat_js_v1,
     '^2.0.0': routes_habitat_js,
     '^3.0.0': defaul_route
   })
@@ -66,7 +66,7 @@ app.use('/visitas',
 
 app.use('/investigaciones',
   version({
-    '1.0.0' : routes_investigaciones_v1,
+    '1.0.0': routes_investigaciones_v1,
     '2.0.0': routes_investigaciones_v2,
     '~1.0.0': defaul_route,
     '~2.0.0': defaul_route,
@@ -76,9 +76,7 @@ app.use('/investigaciones',
 )
 app.use('/auth',
   version({
-    '1.0.0': routes_auth_v1,
-    '~1.0.0': defaul_route,
-    '^1.0.0': defaul_route
+    '1.0.0': routes_auth_v1
   })
 )
 
