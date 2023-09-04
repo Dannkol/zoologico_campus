@@ -669,6 +669,8 @@ Request
 
 #### GET DE TODAS LOS HABITATS Version ^2.0.0 y rol 2 (empleado)
 
+* Ingrese como rol empleado nuevamente => POST /auth/inicioSesion Version 1.0.0
+
 ```JSON
 {
   "nombre":"Ivanchin",

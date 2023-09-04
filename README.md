@@ -15,23 +15,27 @@ La metodolodogia se llevara acabo por springs y utilizaremos [notion](https://ww
 
 `Nota : usar nodejs en la version ^v18.17.1`
 
-Clonar el repositorio
+-Clonar el repositorio O descargar en .ZIP
 
 ```bash
   git clone https://github.com/Dannkol/zoologico_campus
 ```
 
-Ir al directorio
+-Ir al directorio
 
 ```bash
   cd zoologico_campus
 ```
 
-Install dependencias
+-Install dependencias
 
 ```bash
   npm install
 ```
+
+-Crear archivo .env  siguiendo la guia del  .env_example
+
+-Configurar la cadena de  conexion a mongodb reemplazar la uri actual con la suya en el archivo src/config/connection.js
 
 Start
 
